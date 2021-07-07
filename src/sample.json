@@ -1,0 +1,14 @@
+{
+    "key": 1,
+    "name": "apple",
+    "pricePerOz": 0.2,
+    "type": "fruit",
+    "facts": {
+        "Vitamin A": 0.5,
+        "Vitamin B": 0.4
+    },
+    "benefits": [
+        "Good to keep the doctor away",
+        "Good for the heart"
+    ]
+}
