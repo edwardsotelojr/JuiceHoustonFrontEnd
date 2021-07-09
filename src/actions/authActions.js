@@ -75,19 +75,19 @@ import {
     history.push('/')
   };
 
-  export const userEdited = () => {
+  export const userEdited = (updatedUser) => {
     return {
+      payload: updatedUser,
       type: USER_EDITED
     };
   };
 
   export const editUser = (user) => dispatch => {
-
+    console.log("sending: ", user)
      axios.patch('http://localhost:8000/users/edit/' + user._id, user)
     .then((res) => {
-      console.log(res.data)
-      console.log('User successfully updated')
-      dispatch(userEdited())
+      console.log('User successfully updated', res.data)
+      dispatch(userEdited(res.data))
     }).catch((error) => {
       console.log(error)
     })

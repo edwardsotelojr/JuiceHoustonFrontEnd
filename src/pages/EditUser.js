@@ -1,9 +1,13 @@
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import React from "react";
 
 class EditUser extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      user: this.props.user,
+      showAlert: false
+    }
   }
   componentDidMount(){
     this.setState({user: this.props.user})
@@ -20,14 +24,20 @@ class EditUser extends React.Component {
   };
 
   onSave = () => {
-    this.props.editUser(this.state.user)
-    console.log("onSave ", this.state.user._id)
-
-  }
+    this.setState((prevState) => ({
+      user: {
+        ...prevState.user,
+        zipcode: parseInt(prevState.user.zipcode),
+      },
+    }), () => {
+      this.props.editUser(this.state.user);
+      console.log("onSave: ", this.state.user);
+    }
+  );
+}
 
   render() {
-    const user = this.props.user;
-    console.log(user);
+    const user = this.state.user;
 
     return (
       <Container>
@@ -69,9 +79,16 @@ class EditUser extends React.Component {
                onChange={this.onChange}
             ></Form.Control>
           </Form.Group>
+          <Row>
+            <Col>
           <Button variant="primary" onClick={this.onSave}>
             Submit
           </Button>
+          </Col>
+          <Col>
+          <Alert show={this.state.showAlert} variant={'success'}>Updated</Alert>
+          </Col>
+          </Row>
         </Form>
       </Container>
     );

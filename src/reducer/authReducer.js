@@ -25,6 +25,7 @@ import {
           loading: true
         };
         case USER_EDITED:
+          console.log('act ', action.payload)
           return {
             ...state,
             user: action.payload
