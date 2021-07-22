@@ -4,7 +4,8 @@ import { signin, logoutUser } from '../actions/authActions';
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    user: state.auth.user
+    user: state.auth.user,
+    error: state.auth.error
 });
 
 const mapDispatchToProps = (dispatch) => {

@@ -90,11 +90,12 @@ class Checkout extends React.Component {
   render() {
     return (
       <Container fluid style={{ marginTop: "60px" }}>
-        <Row>
+        <Row>{!this.props.user ?
           <Col>
-            <button>Login </button>
-            <p>Sign Up for future quicker checkout</p>
-          </Col>
+          <button>Login </button>
+          <p>Sign Up for future quicker checkout</p>
+        </Col> : null}
+        
         </Row>
         <Row>
           {this.state.data.drinks
@@ -132,15 +133,15 @@ class Checkout extends React.Component {
           <Col sm={4}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Name</Form.Label>
-            <Form.Control onChange={this.onChange} name="name" type="name" placeholder="Enter name" />
+            <Form.Control onChange={this.onChange} defaultValue={this.props.user.name} name="name" type="name" placeholder="Enter name" />
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" name="email" placeholder="Enter email" />
+            <Form.Control type="email" defaultValue={this.props.user.email} name="email" placeholder="Enter email" />
             <Form.Label>Phone</Form.Label>
-            <Form.Control type="tel" name="phone" placeholder="Enter phone" />
+            <Form.Control type="tel" defaultValue={this.props.user.phone} name="phone" placeholder="Enter phone" />
             <Form.Label>Address</Form.Label>
-            <Form.Control type="text" name="address" placeholder="Enter address" />
+            <Form.Control type="text" defaultValue={this.props.user.address} name="address" placeholder="Enter address" />
             <Form.Label>zipcode</Form.Label>
-            <Form.Control type="number" name="zipcode" placeholder="Enter zipcode" />
+            <Form.Control type="number" name="zipcode" defaultValue={this.props.user.zipcode} placeholder="Enter zipcode" />
           </Form.Group>
           </Col>
           {/*     <div className="things_to_drag">

@@ -20,8 +20,13 @@ class EditUser extends React.Component {
         ...prevState.user,
         [e.target.name]: e.target.value,
       },
-    }));
+    }),  this.validation);
   };
+
+  validation = () => {
+    console.log('phon')
+   
+  }
 
   onSave = () => {
     this.setState((prevState) => ({

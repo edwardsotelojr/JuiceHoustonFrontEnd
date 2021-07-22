@@ -1,5 +1,6 @@
 import {
-    GET_ERRORS,
+    LOGIN_ERROR,
+    SIGNUP_ERROR,
     SET_CURRENT_USER,
     USER_LOADING,
     USER_EDITED
@@ -9,7 +10,6 @@ import {
   import jwt_decode from 'jwt-decode';
   import history from "../history";
 
-
   // Register User
   export const signup = (userData, history) => dispatch => {
     axios
@@ -17,7 +17,7 @@ import {
       .then(res => history.push("/login")) // re-direct to login on successful register
       .catch(err =>
         dispatch({
-          type: GET_ERRORS,
+          type: SIGNUP_ERROR,
           payload: err.response.data
         })
       );
@@ -41,13 +41,15 @@ import {
         console.log("decoded ",decoded)
         // Set current user
         dispatch(setCurrentUser(decoded));
+        document.querySelector(".dropdown-menu.show").classList.remove('show')
         history.push('/')
       })
-      .catch(err =>
+      .catch(err =>{
+        console.log('error ', err)
         dispatch({
-          type: GET_ERRORS,
+          type: LOGIN_ERROR,
           payload: err
-        })
+        })}
       );
   };
   // Set logged in user

@@ -130,25 +130,16 @@ class Header extends Component {
       title = 'user'
       dropdown = (
         <div>
-            <Dropdown.Header><Link to="/User">{this.props.user.name}</Link></Dropdown.Header>
+            <Dropdown.Header><Link to="/User" onClick={ () =>
+                      document.querySelector(".dropdown-menu.show").classList.remove('show')
+            } >{this.props.user.name}</Link></Dropdown.Header>
             <Dropdown.Item><Button onClick={this.props.logout}>Logout</Button></Dropdown.Item>
         </div>
       );
     } else {
       title = 'Sign in'
       dropdown = (
-        <div>
-              <Login login={this.props.login} />
-            <Link
-              to="/Signup"
-              onClick={() =>
-                (document.querySelector(".dropdown-menu.show").style.display =
-                  "none")
-              }
-            >
-              signup
-            </Link>
-        </div>
+              <Login login={this.props.login} error={this.props.error}/>
       );
     }
     const { navCollapsed } = this.state;
@@ -164,6 +155,9 @@ class Header extends Component {
               </NavItem>
               <NavItem>
                 <NavLink href="/Menu">Menu</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/Order">Order</NavLink>
               </NavItem>
               <NavItem>
                 <Dropdown>

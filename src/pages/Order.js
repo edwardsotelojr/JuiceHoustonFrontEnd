@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import list from "../MenuList";
 import mlist from "../madeDrinks";
 import {
+  Button,
   Container,
   Row,
   Col,
@@ -11,21 +12,21 @@ import {
 } from "react-bootstrap";
 import { Spring } from "react-spring";
 import mixColors from "mix-colors";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import listo from "../listo.js";
 
 class Order extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sizeOfOrder: 3, // number of drinks
-      drinks: [listo, listo, listo, listo, listo],
+      sizeOfOrder: this.props.sizeOfOrder, // number of drinks
+      drinks: this.props.drinks,
       ounces: [0, 0, 0, 0, 0], // max is 18  oz
       size: 20, // sm: 16, md: 20, lg: 24
       currentDrink: 0,
-      percentages: [0, 0, 0, 0, 0],
-      colors: ["", "", "", "", ""],
-      cost: [0, 0, 0, 0, 0],
+      percentages: this.props.percentages,
+      colors: this.props.colors,
+      cost: this.props.cost,
       vitamins: [{}, {}, {}, {}, {}],
       calories: [0, 0, 0, 0, 0],
       nextPageReady: false,
@@ -42,11 +43,14 @@ class Order extends Component {
     this.madeDrinkSelected = this.madeDrinkSelected.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.clearDrink = this.clearDrink.bind(this);
+    this.checkout = this.checkout.bind(this);
   }
 
-  checkout(){
+  checkout() {
     //window.location.href='/checkout'
-    this.props.history.push({
+    const {drinks, cost, sizeOfOrder, colors, percentages} = this.state;
+    this.props.setOrder(drinks, cost, sizeOfOrder, colors, percentages);
+     this.props.history.push({
       pathname:"/checkout",
       state:{
           drinks: this.state.drinks,
@@ -54,12 +58,12 @@ class Order extends Component {
           sizeOfOrder: this.state.sizeOfOrder,
           color: this.state.colors
        }
-     });
+     }); 
   }
-  
-  clearDrink(){
+
+  clearDrink() {
     var drinks = [...this.state.drinks];
-    var drink = {...drinks[this.state.currentDrink]}
+    var drink = { ...drinks[this.state.currentDrink] };
     for (var p in drink) {
       drink[p] = 0;
     }
@@ -67,7 +71,8 @@ class Order extends Component {
     this.setState(
       {
         drinks: drinks,
-      },() => {
+      },
+      () => {
         this.getPercentage();
         this.color();
         this.getVitamins();
@@ -79,7 +84,7 @@ class Order extends Component {
 
   madeDrinkSelected(content) {
     var drinks = [...this.state.drinks];
-    var drink = {...drinks[this.state.currentDrink]}
+    var drink = { ...drinks[this.state.currentDrink] };
     var contentArray = {};
     var contentOunces = 0;
     for (var p in drink) {
@@ -93,7 +98,8 @@ class Order extends Component {
     this.setState(
       {
         drinks: drinks,
-      },() => {
+      },
+      () => {
         this.getPercentage();
         this.color();
         this.getVitamins();
@@ -101,22 +107,23 @@ class Order extends Component {
         this.getCalories();
       }
     );
-   
   }
 
   nextPage(percentages) {
     console.log("nextpage");
     const sizeOfOrder = this.state.sizeOfOrder;
     const slicedDrinksPercentage = percentages.slice(0, sizeOfOrder);
-    console.log(slicedDrinksPercentage, " ", slicedDrinksPercentage.some(p => p < 100))
+    console.log(
+      slicedDrinksPercentage,
+      " ",
+      slicedDrinksPercentage.some((p) => p < 100)
+    );
 
-    if(  slicedDrinksPercentage.some(p => p < 100)){
-        return this.setState({ nextPageReady: false });
-      }
-      else{
-        return this.setState({ nextPageReady: true });
-
-      }
+    if (slicedDrinksPercentage.some((p) => p < 100)) {
+      return this.setState({ nextPageReady: false });
+    } else {
+      return this.setState({ nextPageReady: true });
+    }
   }
 
   getCost() {
@@ -209,7 +216,9 @@ class Order extends Component {
     const copyOfPercent = this.state.percentages.slice();
     let percent = (num / this.state.size) * 100;
     copyOfPercent[this.state.currentDrink] = percent; // new percentage of drink
-    this.setState({ ounces: newOunces, percentages: copyOfPercent },() => this.nextPage(copyOfPercent)); //set the new state
+    this.setState({ ounces: newOunces, percentages: copyOfPercent }, () =>
+      this.nextPage(copyOfPercent)
+    ); //set the new state
   }
 
   // Set color of cup fluid
@@ -253,22 +262,20 @@ class Order extends Component {
         ...st[this.state.currentDrink],
         [e.target.name]: 0,
       };
-      return this.setState({ drinks: st },() => {
+      return this.setState({ drinks: st }, () => {
         this.getPercentage();
         this.color();
         this.getVitamins();
         this.getCost();
         this.getCalories();
       });
-    }
-    else if (
+    } else if (
       this.state.percentages[this.state.currentDrink] == 100 && // if drink is full
       value > this.state.drinks[this.state.currentDrink][e.target.name]
     ) {
       // and value is higher than previous value
       return;
-    }
-    else if (value >= 0 && value <= this.state.size) {
+    } else if (value >= 0 && value <= this.state.size) {
       // between range
       st[this.state.currentDrink] = {
         ...st[this.state.currentDrink],
@@ -339,6 +346,7 @@ class Order extends Component {
     const drinkButtons = () => {
       const colors = this.state.colors;
       const percentages = this.state.percentages;
+      console.log('percentages ', this.props.percentages)
       const l = percentages.slice(0, this.state.sizeOfOrder);
       var i = 0;
       const listItems = l.map((percent, index) => (
@@ -525,11 +533,11 @@ class Order extends Component {
             <Container>
               <Row>
                 <Col>
-                Remaining Ounces:{" "}
-                {this.state.size - this.state.ounces[this.state.currentDrink]}
+                  Remaining Ounces:{" "}
+                  {this.state.size - this.state.ounces[this.state.currentDrink]}
                 </Col>
                 <Col>
-                <button onClick={this.clearDrink}>Clear</button>
+                  <button onClick={this.clearDrink}>Clear</button>
                 </Col>
               </Row>
               {listItems(this.state.currentDrink)}
@@ -575,20 +583,29 @@ class Order extends Component {
                 </p>
                 <br />
                 <p>
-                  Calories for Drink: 
-                  {" "+this.state.calories[this.state.currentDrink]}
+                  Calories for Drink:
+                  {" " + this.state.calories[this.state.currentDrink]}
                 </p>
               </Col>
             </Row>
-            <Row>{this.state.nextPageReady && <Link
-  to={{
-    pathname: "/checkout",
-    state: { drinks: this.state.drinks,
-      cost: this.state.cost,
-      sizeOfOrder: this.state.sizeOfOrder,
-      color: this.state.colors }
-  }}
->Next Page</Link>}</Row>
+            <Row>
+              {this.state.nextPageReady && (
+                <Button
+                onClick={this.checkout}
+                  /* to={{
+                    pathname: "/checkout",
+                    state: {
+                      drinks: this.state.drinks,
+                      cost: this.state.cost,
+                      sizeOfOrder: this.state.sizeOfOrder,
+                      color: this.state.colors,
+                    },
+                  }} */
+                >
+                  Next Page
+                </Button>
+              )}
+            </Row>
           </Col>
         </Row>
       </Container>
