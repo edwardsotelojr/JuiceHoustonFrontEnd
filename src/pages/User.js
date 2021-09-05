@@ -6,35 +6,55 @@ class User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: this.props.user,
+      user: this.props.user.user
     };
   }
+
+  componentDidMount(){
+    this.props.getUserOrders(this.state.user._id);
+  }
+   orders(){ 
+     this.props.orders.map((o, index) => 
+      
+        <p key={index}> pp</p>
+      )
+   }
+
   render() {
-    const user = this.props.user;
-    console.log(user)
-    
-      if(user){ 
-      return(<Jumbotron>
+    const { loading, userOrders } = this.props;
+    if (loading) {
+      return <div>Loading...</div>;
+    }
+    const user = this.props.user.user;
+    if (user) {
+      return (
         <Container>
-          <h1>{user.name}</h1>
-          <h2>{user.address}</h2>
-          <h2>{user.zipcode}</h2>
-          <Link
-            to={{
-              pathname: "/edit",
-              state: {user: user},
-            }}
-          >
-            Edit
-          </Link>
+        <Jumbotron>
+          <Container>
+            <h1>{user.name}</h1>
+            <h2>{user.address}</h2>
+            <h2>{user.zipcode}</h2>
+            <Link
+              to={{
+                pathname: "/edit",
+                state: { user: user },
+              }}
+            >
+              Edit
+            </Link>
+          </Container>
+        </Jumbotron>
+        <Row>
+          {userOrders.map((o, index) => 
+      
+      <p key={index}>pp</p>
+    )}
+        </Row>
         </Container>
-      </Jumbotron>
-      )}
-      else
-      {
-        return(
-            <p>nope</p>
-        )}
+      );
+    } else {
+      return <p>nope</p>;
+    }
   }
 }
 

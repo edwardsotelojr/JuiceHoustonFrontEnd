@@ -22,7 +22,7 @@ class Order extends Component {
       sizeOfOrder: this.props.sizeOfOrder, // number of drinks
       drinks: this.props.drinks,
       ounces: [0, 0, 0, 0, 0], // max is 18  oz
-      size: 20, // sm: 16, md: 20, lg: 24
+      size: 16, // sm: 16, md: 20, lg: 24
       currentDrink: 0,
       percentages: this.props.percentages,
       colors: this.props.colors,
@@ -401,7 +401,7 @@ class Order extends Component {
               id={item.name}
               name={item.name}
               style={{ width: "50px", float: "right", borderRadius: "5px" }}
-              value={this.state.drinks[curentDrink][item.name]}
+              value={this.state.drinks[curentDrink][item.name] ? this.state.drinks[curentDrink][item.name] : 0}
               onChange={this.onChange}
               onKeyDown={this.handleKeyPress}
             ></input>

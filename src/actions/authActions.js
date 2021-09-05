@@ -25,11 +25,11 @@ import {
   // Login - get user token
   export const signin = userData => dispatch => {
     console.log("signin func");
-    console.log(userData)
+    console.log("userData: ", userData)
     axios
-      .post("http://localhost:8000/users/signin", userData)
+      .post("http://localhost:8000/login", userData)
       .then(res => {
-        console.log(res.data);
+        console.log("res.data", res.data);
         // Save to localStorage
   // Set token to localStorage
         const { token } = res.data;
@@ -38,17 +38,21 @@ import {
         setAuthToken(token);
         // Decode token to get user data
         const decoded = jwt_decode(token);
-        console.log("decoded ",decoded)
+        console.log("decoded ",decoded.user)
         // Set current user
-        dispatch(setCurrentUser(decoded));
+        dispatch(setCurrentUser(decoded.user));
+        dispatch({
+          type: LOGIN_ERROR,
+          payload: null
+        });
         document.querySelector(".dropdown-menu.show").classList.remove('show')
         history.push('/')
       })
-      .catch(err =>{
-        console.log('error ', err)
+      .catch(error =>{
+        console.log('error ', error.response.data.msg)
         dispatch({
           type: LOGIN_ERROR,
-          payload: err
+          payload: error
         })}
       );
   };

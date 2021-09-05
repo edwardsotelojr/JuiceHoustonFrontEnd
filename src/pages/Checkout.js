@@ -10,14 +10,14 @@ class Checkout extends React.Component {
     super(props);
     this.state = {
       data: this.props.location.state,
-      selectedDates: [],
+      selectedDates: ["","","","",""],
       name: "",
       email: "",
       phone: 0,
       address: "",
       zipcode: 0,
     };
-    this.selectDay = this.selectDay.bind(this);
+    this.selectedDay = this.selectedDay.bind(this);
     this.daysAvailable = this.daysAvailable.bind(this);
     this.onChange = this.onChange.bind(this)
   }
@@ -69,16 +69,22 @@ class Checkout extends React.Component {
     return list;
   }
 
-  selectDay(event) {
-    console.log(event.target);
+  selectedDay(event) {
+    // if date is already in array, return
+
+    if(this.state.selectedDates.includes(event.target.value)){
+      return;
+    }
+    
     let selectedDates = [...this.state.selectedDates];
     // 2. Make a shallow copy of the item you want to mutate
-    let index = parseInt(event.target.name);
+    let index = parseInt(event.target.id);
     // 3. Replace the property you're intested in
     // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
     selectedDates[index] = event.target.value;
+
     // 5. Set the state to our new copy
-    this.setState({ selectedDates });
+    this.setState({ selectedDates});
   }
 
   onChange(e){
@@ -108,14 +114,15 @@ class Checkout extends React.Component {
                 <p>Drink {index + 1}</p>
                 {this.listIngredients(drink)}
                 <select
-                  name={index}
+                id={index}
                   value={this.state.selectedDates[index]}
-                  onChange={this.selectDay}
+                  onChange={this.selectedDay}
                 >
+                  <option>select day</option>
                   {this.state.arrayOfDays ? (
-                    this.state.arrayOfDays.map((date, index) => (
-                      <option key={index} value={date}>
-                        {date}
+                    this.state.arrayOfDays.map((date, i) => (
+                      <option key={i} value={date} id={index}> 
+                      {date}
                       </option>
                     ))
                   ) : (
@@ -128,7 +135,12 @@ class Checkout extends React.Component {
               </div>
             ))}
         </Row>
-
+        <Row>
+            <Form>
+              <Form.Check name={"cup"} type={'radio'} label={"glass"}/>
+              <Form.Check name={"cup"} type={'radio'} label={"plastic"}/>
+            </Form>
+        </Row> 
         <Row>
           <Col sm={4}>
           <Form.Group controlId="formBasicEmail">

@@ -8,15 +8,48 @@ const dailyRecommendation = {
 };
 const list = [
     {
-        'name': 'Red Delicious Apple',
-        'calories': 17,
-        'protein': '0.1g',
-        'vitamin': {
+        name: 'Fiji Apple',
+        calories: 17,
+        protein: '0.1g',
+        vitamin: {
                 'vitamin A': 0.02,
                 'vitamin B6': 0.0003
         },
         'unit': 'micrograms',
-        'facts':["good for skin", "heart health thesine"],
+        facts:["sweet flavor", "Heart and liver health", 
+        "antioxidant and anti-inflammatory properties", "Improve insulin resistance"],
+        "minerals": {
+            magnesium: 0.06
+        },
+        'color': "#ff0000",
+        'costPerOunce': 0.30
+    }, 
+    {
+        name: 'Gala Apple',
+        calories: 17,
+        protein: '0.1g',
+        vitamin: {
+                'vitamin A': 0.02,
+                'vitamin B6': 0.0003
+        },
+        'unit': 'micrograms',
+        facts:["Great source of vitamin C.", "antioxidant and anti-inflammatory properties"],
+        "minerals": {
+            magnesium: 0.06
+        },
+        'color': "#ff0000",
+        'costPerOunce': 0.30
+    },
+    {
+        name: 'Golden Delicious Apple',
+        calories: 17,
+        protein: '0.1g',
+        vitamin: {
+                'vitamin A': 0.02,
+                'vitamin B6': 0.0003
+        },
+        'unit': 'micrograms',
+        facts:["Great source of vitamin C.", "antioxidant and anti-inflammatory properties"],
         "minerals": {
             magnesium: 0.06
         },
@@ -32,10 +65,71 @@ const list = [
             'vitamin B6': 0.0003
         },
         'unit': 'micrograms',
-        'facts':[],
-        "minerals": {},
+        facts:["good for skin", "heart health thesine"],
+                "minerals": {},
         'color': "#f2f285",
         'costPerOunce': 0.20
+    },
+    {
+        name: 'Red Delicious Apple',
+        calories: 17,
+        protein: '0.1g',
+        vitamin: {
+                'vitamin A': 0.02,
+                'vitamin B6': 0.0003
+        },
+        'unit': 'micrograms',
+        facts:["Great source of vitamin C.", "antioxidant and anti-inflammatory properties"],
+        "minerals": {
+            magnesium: 0.06
+        },
+        'color': "#ff0000",
+        'costPerOunce': 0.30
+    },
+    {
+        'name': 'Beets',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Broccoli',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Cantaloupe',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
     },
     {
         'name': 'Carrot',
@@ -46,12 +140,11 @@ const list = [
             'vitamin B6': 0.09
         },
 
-        'facts':[],
+        facts:[],
         "minerals": {},
         'unit': 'micrograms',
         'color': "#ffbf00",
         'costPerOunce': 0.40,
-
     },
     {
         'name': 'Celery',
@@ -62,7 +155,7 @@ const list = [
             'vitamin B6': 0.09
         },
 
-        'facts':[],
+        facts:[],
         "minerals": {},
         'unit': 'micrograms',
         'color': "green",
@@ -78,14 +171,345 @@ const list = [
             'vitamin B6': 0.09
         },
 
-        'facts':[],
+        facts:[],
+
         "minerals": {},
         'unit': 'micrograms',
         'color': "green",
         'costPerOunce': 0.40,
 
     },
+    {
+        'name': 'Ginger',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
 
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Green Grapes',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Purple Grapes',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Red Grapes',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Grapefruit',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Honeydew Melon',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Kale',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Kiwi',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Lemons',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Iceberg Lettuce',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+
+    {
+        'name': 'Romaine Lettuce',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Lime',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Iceberg Lettuce',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    }, 
+    {
+        'name': 'Oranges',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:["Source of vitamin A. lol"],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Parsley',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Pineapple',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Peaches',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Pears',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Strawberries',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Tomatoes',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': "Turmeric",
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
+    {
+        'name': 'Watermelon',
+        'calories': 17,
+        'protein': '0.1g',
+        'vitamin': {
+            'vitamin A': 0.1,
+            'vitamin B6': 0.09
+        },
+
+        facts:[],
+        "minerals": {},
+        'unit': 'micrograms',
+        'color': "#ffbf00",
+        'costPerOunce': 0.40,
+    },
 ];
 
 

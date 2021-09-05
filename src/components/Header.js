@@ -88,6 +88,7 @@ lol                            </NavDropdown.Item>
 
 export default Header;
  */
+import "./Header.css";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Login from "./Login";
@@ -116,6 +117,9 @@ class Header extends Component {
       showNavbar: false,
     };
   }
+
+  componentDidMount() {}
+
   toggle() {
     console.log("toggle");
     this.setState({
@@ -127,52 +131,57 @@ class Header extends Component {
     let title;
     if (this.props.auth.isAuthenticated) {
       //logged in
-      title = 'user'
+      title = "user";
       dropdown = (
         <div>
-            <Dropdown.Header><Link to="/User" onClick={ () =>
-                      document.querySelector(".dropdown-menu.show").classList.remove('show')
-            } >{this.props.user.name}</Link></Dropdown.Header>
-            <Dropdown.Item><Button onClick={this.props.logout}>Logout</Button></Dropdown.Item>
+          <Dropdown.Header>
+            <Link
+              to="/User"
+              onClick={() =>
+                document
+                  .querySelector(".dropdown-menu.show")
+                  .classList.remove("show")
+              }
+            >
+              {this.props.auth.user.name}
+            </Link>
+          </Dropdown.Header>
+          <Dropdown.Item>
+            <Button onClick={this.props.logout}>Logout</Button>
+          </Dropdown.Item>
         </div>
       );
     } else {
-      title = 'Sign in'
-      dropdown = (
-              <Login login={this.props.login} error={this.props.error}/>
-      );
+      title = "Sign in";
+      dropdown = <Login login={this.props.login} error={this.props.error} />;
     }
     const { navCollapsed } = this.state;
     return (
-      <div>
-        <Navbar color="light" light expand="xs">
-          <NavbarBrand href="/">JuicedHouston</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/AboutUs">About Us</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/Menu">Menu</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/Order">Order</NavLink>
-              </NavItem>
-              <NavItem>
-                <Dropdown>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    {title}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {dropdown}
-                  </Dropdown.Menu>
-                </Dropdown>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
+      <Navbar color="light" light expand="xs" fixed='top'>
+        <NavbarBrand href="/">JuicedHouston</NavbarBrand>
+        <NavbarToggler onClick={this.toggle} />
+        <Collapse isOpen={this.state.isOpen} navbar>
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink href="/AboutUs">About Us</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/Menu">Menu</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/Order">Order</NavLink>
+            </NavItem>
+            <NavItem>
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  {title}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>{dropdown}</Dropdown.Menu>
+              </Dropdown>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Navbar>
     );
   }
 }

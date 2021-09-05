@@ -23,14 +23,14 @@ import history from "../history";
 
 //const store = makeStore();
 // Check for token to keep user logged in
-if (localStorage.jwtToken) {
-  console.log("token founded");
+if (localStorage.jwtToken != undefined) {
+  console.log("token founded: ", localStorage.jwtToken);
   // Set auth token header auth
-  //const token = localStorage.jwtToken;
-  //setAuthToken(token);
+  const token = localStorage.jwtToken;
+  setAuthToken(token);
   // Decode token and get user info and exp
   const decoded = jwt_decode(localStorage.jwtToken);
-  //console.log('decoded ', decoded)
+  console.log('decoded ', decoded)
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
   // Check for expired token
@@ -48,6 +48,7 @@ class App extends Component {
     return (
       <Router history={history}>
         <Header />
+        <div style={{marginTop: '56px'}}>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/signin" component={Signin} />
@@ -58,6 +59,8 @@ class App extends Component {
           <Route path="/edit" component={EditUser} />
           <Route path="/checkout" component={Checkout}></Route>
         </Switch>
+        
+        </div>
         <footer>
           <hr></hr>
           <center>

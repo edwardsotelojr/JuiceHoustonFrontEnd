@@ -52,7 +52,7 @@ function Home() {
             getOptionLabel={(option) => option.toString()}
             style={{ width: 300, }}
             renderInput={(params) => (
-              <TextField {...params}  margin="normal" label="Avialable location for delivery" variant="outlined" 
+              <TextField {...params}  margin="normal" label="Available location for delivery" variant="outlined" 
               />
             )}
           />
