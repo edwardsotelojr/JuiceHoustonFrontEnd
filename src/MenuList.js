@@ -8,7 +8,7 @@ const dailyRecommendation = {
 };
 const list = [
     {
-        name: 'Fiji Apple',
+        name: 'Fuji Apple',
         calories: 17,
         protein: '0.1g',
         vitamin: {
@@ -18,6 +18,7 @@ const list = [
         'unit': 'micrograms',
         facts:["sweet flavor", "Heart and liver health", 
         "antioxidant and anti-inflammatory properties", "Improve insulin resistance"],
+        shortFacts: ["Source of stuff", "Good for this and that, that, and this.", 'It taste good!'],
         "minerals": {
             magnesium: 0.06
         },
@@ -34,6 +35,7 @@ const list = [
         },
         'unit': 'micrograms',
         facts:["Great source of vitamin C.", "antioxidant and anti-inflammatory properties"],
+        shortFacts: ["Source of stuff","Good for this and that, that, and this.", 'It taste good!'],
         "minerals": {
             magnesium: 0.06
         },
@@ -50,6 +52,7 @@ const list = [
         },
         'unit': 'micrograms',
         facts:["Great source of vitamin C.", "antioxidant and anti-inflammatory properties"],
+        shortFacts: ["Source of stuff","Good for this and that, that, and this.", 'It taste good!'],
         "minerals": {
             magnesium: 0.06
         },
@@ -66,6 +69,7 @@ const list = [
         },
         'unit': 'micrograms',
         facts:["good for skin", "heart health thesine"],
+        shortFacts: ["Source of stuff","Good for this and that, that, and this.", 'It taste good!'],
                 "minerals": {},
         'color': "#f2f285",
         'costPerOunce': 0.20
@@ -80,6 +84,7 @@ const list = [
         },
         'unit': 'micrograms',
         facts:["Great source of vitamin C.", "antioxidant and anti-inflammatory properties"],
+        shortFacts: ["Source of stuff","Good for this and that, that, and this.", 'It taste good!'],
         "minerals": {
             magnesium: 0.06
         },
@@ -96,6 +101,7 @@ const list = [
         },
 
         facts:[],
+        shortFacts: ["Source of stuff","Good for this and that, that, and this.", 'It taste good!'],
         "minerals": {},
         'unit': 'micrograms',
         'color': "#ffbf00",
@@ -111,6 +117,7 @@ const list = [
         },
 
         facts:[],
+        shortFacts: ["","", ''],
         "minerals": {},
         'unit': 'micrograms',
         'color': "#ffbf00",
@@ -124,8 +131,8 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
         facts:[],
+        shortFacts: ["","", ''],
         "minerals": {},
         'unit': 'micrograms',
         'color': "#ffbf00",
@@ -139,8 +146,8 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
         facts:[],
+        shortFacts: ["","", ''],
         "minerals": {},
         'unit': 'micrograms',
         'color': "#ffbf00",
@@ -154,7 +161,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -170,7 +177,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
 
         "minerals": {},
@@ -187,7 +194,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -202,7 +209,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -217,7 +224,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -232,7 +239,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -247,7 +254,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -262,7 +269,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -277,7 +284,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -292,7 +299,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -307,7 +314,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -322,7 +329,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -338,7 +345,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -353,7 +360,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -368,7 +375,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -383,7 +390,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:["Source of vitamin A. lol"],
         "minerals": {},
         'unit': 'micrograms',
@@ -398,7 +405,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -413,7 +420,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -428,7 +435,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -443,7 +450,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -458,7 +465,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -473,7 +480,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -488,7 +495,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',
@@ -503,7 +510,7 @@ const list = [
             'vitamin A': 0.1,
             'vitamin B6': 0.09
         },
-
+        shortFacts: ["","", ''],
         facts:[],
         "minerals": {},
         'unit': 'micrograms',

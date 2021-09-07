@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import list from "../MenuList";
+import fuji from "../assets/fuji-apple.jpg";
 import mlist from "../madeDrinks";
 import {
   Button,
@@ -48,17 +49,17 @@ class Order extends Component {
 
   checkout() {
     //window.location.href='/checkout'
-    const {drinks, cost, sizeOfOrder, colors, percentages} = this.state;
+    const { drinks, cost, sizeOfOrder, colors, percentages } = this.state;
     this.props.setOrder(drinks, cost, sizeOfOrder, colors, percentages);
-     this.props.history.push({
-      pathname:"/checkout",
-      state:{
-          drinks: this.state.drinks,
-          cost: this.state.cost,
-          sizeOfOrder: this.state.sizeOfOrder,
-          color: this.state.colors
-       }
-     }); 
+    this.props.history.push({
+      pathname: "/checkout",
+      state: {
+        drinks: this.state.drinks,
+        cost: this.state.cost,
+        sizeOfOrder: this.state.sizeOfOrder,
+        color: this.state.colors,
+      },
+    });
   }
 
   clearDrink() {
@@ -313,9 +314,10 @@ class Order extends Component {
         }
       }
     }
+    console.log(content);
     const dr = produceInDrink.map((item, index) => (
       <p key={index} style={{ marginBottom: 0 }}>
-        {item.name} {drinksPercentage[index]}%
+        {item.name} {content[item.name]}%
       </p>
     ));
     return <div>{dr}</div>;
@@ -324,15 +326,27 @@ class Order extends Component {
   madeDrinks = () => {
     // var calorie = produceInDrink[0].calories * this.state.size * (50/100)
     return mlist.map((drink, index) => (
-      <Row key="d" style={{ borderColor: "light green", borderStyle: "solid" }}>
+      <Row
+        key="d"
+        style={{
+          borderColor: "white",
+          borderStyle: "solid",
+          borderWidth: "3px",
+          borderRadius: "6px",
+          backgroundColor: drink.color,
+        }}
+      >
         <Col>
           <h1>{drink.name}</h1>
           {this.getIngredients(drink.content)}
         </Col>
-        <Col sm={1}>
-          <button
+        <Col xs={3} sm={3} md={3} lg={2} className="align-self-center">
+          <Button
+            variant="light"
             onClick={() => this.madeDrinkSelected(drink.content)}
-          ></button>
+          >
+            Select
+          </Button>
         </Col>
       </Row>
     ));
@@ -346,7 +360,7 @@ class Order extends Component {
     const drinkButtons = () => {
       const colors = this.state.colors;
       const percentages = this.state.percentages;
-      console.log('percentages ', this.props.percentages)
+      //log("percentages ", this.props.percentages);
       const l = percentages.slice(0, this.state.sizeOfOrder);
       var i = 0;
       const listItems = l.map((percent, index) => (
@@ -379,45 +393,74 @@ class Order extends Component {
       return <div>{listItems}</div>;
     };
     const produceFacts = (facts) => {
-      facts.map((fact) => <h1>{fact}</h1>);
+      return facts.map((fact) => <p>{fact}</p>);
     };
 
     var listItems = (curentDrink) =>
       list.map((item, index) => (
-        <Row
-          className="d-flex align-items-center justify-content-between"
+        <Col
+          lg={4}
+          md={6}
+          //className="d-flex align-items-center justify-content-between"
           key={index}
-          style={{ borderColor: "red", borderStyle: "solid" }}
+          style={{
+            borderColor: "white",
+            borderWidth: "thin",
+            borderStyle: "solid",
+            borderRadius: "25px",
+            padding: "12px",
+            backgroundColor: item.color + "80",
+          }}
         >
-          <Col>
-            <h3>{item.name}</h3>
-            {produceFacts(item.facts)}
-          </Col>
-          <Col sm={3} className="col-auto">
-            <input
-              type="number"
-              min={0}
-              max={this.state.size}
-              id={item.name}
-              name={item.name}
-              style={{ width: "50px", float: "right", borderRadius: "5px" }}
-              value={this.state.drinks[curentDrink][item.name] ? this.state.drinks[curentDrink][item.name] : 0}
-              onChange={this.onChange}
-              onKeyDown={this.handleKeyPress}
-            ></input>
-            <p
-              style={{
-                float: "right",
-              }}
+          <Row style={{ margin: 0 }}>
+            <Col style={{ padding: 0 }}>
+              <Row style={{ margin: 0 }}>
+                <Col style={{ maxWidth: "min-content", padding: 0 }}>
+                  <img
+                    src={fuji}
+                    style={{ borderRadius: "10px" }}
+                    width="30px"
+                    height="30px"
+                  />
+                </Col>
+                <Col>
+                  <h4 style={{ paddingLeft: "5px", marginTop: "-2px" }}>
+                    {item.name}
+                  </h4>
+                </Col>
+              </Row>
+              <Row>
+                <Col>{produceFacts(item.shortFacts)}</Col>
+              </Row>
+            </Col>
+            <Col
+              className="col-auto"
+              style={{ paddingLeft: 0, paddingRight: 0 }}
             >
-              {item.costPerOunce * 100}¢/oz.
-            </p>
-          </Col>
-        </Row>
+              <input
+                type="number"
+                min={0}
+                max={this.state.size}
+                id={item.name}
+                name={item.name}
+                style={{ width: "60px", float: "right", borderRadius: "5px" }}
+                value={
+                  this.state.drinks[curentDrink][item.name]
+                    ? this.state.drinks[curentDrink][item.name]
+                    : 0
+                }
+                onChange={this.onChange}
+                onKeyDown={this.handleKeyPress}
+              ></input>
+              <p>{item.costPerOunce * 100}¢/oz.</p>
+            </Col>
+          </Row>
+        </Col>
       ));
 
     return (
-      <Container fluid style={{ marginTop: "60px", backgroundColor: "grey" }}>
+      <Container fluid style={{ backgroundColor: "#fffff0" }}>
+        <br />
         <Row className="justify-content-md-center">
           <Col
             sm={4}
@@ -429,12 +472,12 @@ class Order extends Component {
               name="d"
               toggle
               aria-label="First group"
-              size="sm"
-              style={{ height: "30px", marginLeft: "5px" }}
+              size="md"
+              style={{ height: "34px", marginLeft: "5px" }}
             >
               <ToggleButton
                 name="3"
-                variant="secondary"
+                variant="info"
                 value={3}
                 checked={this.state.sizeOfOrder == 3}
                 onClick={() =>
@@ -446,7 +489,7 @@ class Order extends Component {
               </ToggleButton>
               <ToggleButton
                 name="4"
-                variant="secondary"
+                variant="info"
                 type="radio"
                 value={4}
                 checked={this.state.sizeOfOrder == 4}
@@ -458,7 +501,7 @@ class Order extends Component {
               </ToggleButton>
               <ToggleButton
                 name="5"
-                variant="secondary"
+                variant="info"
                 type="radio"
                 value={5}
                 checked={this.state.sizeOfOrder == 5}
@@ -475,7 +518,8 @@ class Order extends Component {
             style={{ display: "flex" }}
             className="justify-content-md-center"
           >
-            <p style={{ fontSize: "larger" }}>Size:</p>
+            <p style={{ fontSize: "larger" }}>Size: 16oz</p>
+            {/*
             <ButtonGroup
               toggle
               size="sm"
@@ -521,7 +565,7 @@ class Order extends Component {
               >
                 Large
               </ToggleButton>
-            </ButtonGroup>
+            </ButtonGroup> */}
           </Col>
         </Row>
         <Row className="justify-content-md-center">
@@ -531,19 +575,24 @@ class Order extends Component {
         <Row className="justify-content-center ">
           <Col>
             <Container>
-              <Row>
-                <Col>
+              <Row className="row justify-content-between">
+                <Col style={{ paddingTop: "5px" }}>
                   Remaining Ounces:{" "}
                   {this.state.size - this.state.ounces[this.state.currentDrink]}
                 </Col>
-                <Col>
-                  <button onClick={this.clearDrink}>Clear</button>
+                <Col className="col-2">
+                  <Button
+                    style={{ padding: ".205rem .45rem", float: "right" }}
+                    onClick={this.clearDrink}
+                  >
+                    Clear
+                  </Button>
                 </Col>
               </Row>
-              {listItems(this.state.currentDrink)}
+              <Row>{listItems(this.state.currentDrink)}</Row>
             </Container>
-
-            {this.madeDrinks()}
+            <br />
+            <Container fluid="md">{this.madeDrinks()}</Container>
           </Col>
           <Col sm={4} xs={12}>
             <Row className="justify-content-center">
@@ -575,10 +624,10 @@ class Order extends Component {
               </Spring>
             </Row>
 
-            <Row className="justify-content-center">
-              <Col style={{ borderRadius: "3px", borderStyle: "solid" }}>
+            <Row className="justify-content-center" style={{ margin: 0 }}>
+              <Col className="col-lg-9 col-md-10 col-sm-12" style={{ borderRadius: "6px", borderStyle: "solid" }}>
                 <p>
-                  Cost for Drink: $
+                  Cost of Drink: $
                   {this.state.cost[this.state.currentDrink].toPrecision(2)}
                 </p>
                 <br />
@@ -588,10 +637,12 @@ class Order extends Component {
                 </p>
               </Col>
             </Row>
-            <Row>
+            <br/>
+            <Row  className="justify-content-center" >
+              <Col className="col-auto">
               {this.state.nextPageReady && (
-                <Button
-                onClick={this.checkout}
+                <Button variant="success"
+                  onClick={this.checkout}
                   /* to={{
                     pathname: "/checkout",
                     state: {
@@ -602,9 +653,10 @@ class Order extends Component {
                     },
                   }} */
                 >
-                  Next Page
+                  Checkout
                 </Button>
-              )}
+              )} 
+              </Col>
             </Row>
           </Col>
         </Row>

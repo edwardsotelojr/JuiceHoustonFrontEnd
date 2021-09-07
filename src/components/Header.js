@@ -157,7 +157,8 @@ class Header extends Component {
     }
     const { navCollapsed } = this.state;
     return (
-      <Navbar color="light" light expand="xs" fixed='top'>
+      <Navbar  light expand="xs" fixed='top'  style={{backgroundColor: "#e8ffe8", 
+      borderBottom: "3px solid #e8f9ff"}}>
         <NavbarBrand href="/">JuicedHouston</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
