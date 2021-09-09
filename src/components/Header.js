@@ -157,27 +157,24 @@ class Header extends Component {
     }
     const { navCollapsed } = this.state;
     return (
-      <Navbar  light expand="xs" fixed='top'  style={{backgroundColor: "#e8ffe8", 
+      <Navbar  light expand="xs" fixed='top'  style={{backgroundColor: "#e8ffe8", padding: "0.3rem 0.6rem 0.3rem 0.6rem",
       borderBottom: "3px solid #e8f9ff"}}>
         <NavbarBrand href="/">JuicedHouston</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="/AboutUs">About Us</NavLink>
-            </NavItem>
-            <NavItem>
               <NavLink href="/Menu">Menu</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/Order">Order</NavLink>
             </NavItem>
-            <NavItem>
+            <NavItem style={{alignSelf: 'center'}}>
               <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                <Dropdown.Toggle className="btn-sm"  style={{backgroundColor: "#9bd16e", borderColor: "#fff"}} id="dropdown-basic">
                   {title}
                 </Dropdown.Toggle>
-                <Dropdown.Menu>{dropdown}</Dropdown.Menu>
+                <Dropdown.Menu style={{marginTop: '20px'}}>{dropdown}</Dropdown.Menu>
               </Dropdown>
             </NavItem>
           </Nav>

@@ -48,7 +48,7 @@ class App extends Component {
     return (
       <Router history={history}>
         <Header />
-        <div style={{marginTop: '56px'}}>
+        <div style={{marginTop: '52px'}}>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/signin" component={Signin} />

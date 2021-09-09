@@ -47,7 +47,7 @@ class Login extends Component {
           />
         </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
+        <Form.Group controlId="formBasicPassword" style={{marginBottom: '0.5rem'}}>
           <Form.Label>Password</Form.Label>
           <Form.Control
             value={this.state.password}
@@ -56,9 +56,9 @@ class Login extends Component {
             placeholder="Password"
           />
         </Form.Group>
-        <input type="submit" value="Submit" style={{ borderRadius: "4px" }} />
+        <input type="submit" value="Submit" style={{ borderRadius: "4px", padding: "7px", backgroundColor: "#9bd16e" }} />
         <Link
-          style={{ paddingLeft: "10px" }}
+          style={{ paddingLeft: "10px", color: "#9bd16e"}}
           to="/Signup"
           onClick={() =>
             (document.querySelector(".dropdown-menu.show").style.display =

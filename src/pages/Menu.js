@@ -131,7 +131,7 @@ class Menu extends Component {
   
 
     return (
-      <Container fluid style={{backgroundColor: 'grey', paddingLeft: "30px"
+      <Container fluid style={{backgroundColor: 'rgb(255, 255 ,240)', paddingLeft: "30px"
         , paddingRight: "30px"}}>
         <Row style={{ display: "block", textAlign: "center" }}>
           <h1>Menu</h1>
@@ -187,9 +187,9 @@ class Menu extends Component {
                     <Col xs={5}>
                       <Card.Img
                         variant="top"
-                        //src={item.img}
+                        src={item.img}
                         alt=""
-                        style={{ marginLeft: '-10px' ,width: "70px", height: "70px" }}
+                        style={{ marginLeft: '-10px' ,width: "60px", height: "60px", borderRadius: "18px" }}
                       />
                     </Col>
                     <Col xs={7} style={{paddingLeft: '0'}}>
@@ -273,10 +273,13 @@ class Menu extends Component {
           ))}
         </Row>
         <Row>
-          <p style={{ marginLeft: "10px", fontSize: "15px", width: "100%", marginBottom: "0.4rem"}}>
-            references: School of Public Health at Harvard.{" "}
+        <u style={{ marginLeft: "10px", fontSize: "12px", width: "100%", marginBottom: 0}}>
+            references
+          </u>
+          <p style={{ marginLeft: "10px", fontSize: "12px", width: "100%", marginBottom: "0.3rem"}}>
+             School of Public Health at Harvard.{" "}
           </p>
-          <p style={{ marginLeft: "10px", fontSize: "15px", width: "100%"}}>
+          <p style={{ marginLeft: "10px", fontSize: "12px", width: "100%"}}>
              National Institutes of Health, Office of Dietary Supplements.{" "}
           </p>
         </Row>

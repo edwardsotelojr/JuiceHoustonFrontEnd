@@ -415,18 +415,18 @@ class Order extends Component {
           <Row style={{ margin: 0 }}>
             <Col style={{ padding: 0 }}>
               <Row style={{ margin: 0 }}>
-                <Col style={{ maxWidth: "min-content", padding: 0 }}>
+                <Col sm={"auto"} style={{ maxWidth: "min-content", padding: 0 }}>
                   <img
-                    src={fuji}
+                    src={item.img}
                     style={{ borderRadius: "10px" }}
                     width="30px"
                     height="30px"
                   />
                 </Col>
-                <Col>
-                  <h4 style={{ paddingLeft: "5px", marginTop: "-2px" }}>
+                <Col sm={'auto'} xs={"auto"} md="9" style={{ paddingLeft: 0, paddingRight: 0}}>
+                  <h5 style={{ paddingLeft: "5px", marginTop: "2px" }}>
                     {item.name}
-                  </h4>
+                  </h5>
                 </Col>
               </Row>
               <Row>
