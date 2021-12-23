@@ -1,17 +1,14 @@
 import React from "react";
-//import * as serviceWorker from "./serviceWorker";
-import { Provider } from "react-redux";
 import "../index.css";
 import Home from "../pages/Home";
 import { Link, Router, Route, Switch } from "react-router-dom";
 import EditUser from "../containers/editUser";
 import Signin from "../pages/Signin";
-import Signup from "../pages/Signup";
+import Verify from "../pages/Verify"
+import Signup from "../containers/newUser";
 import Order from "../containers/Order";
 import User from "../containers/User";
 import Checkout from "../containers/Checkout";
-import PrivateRoute from "./PrivateRoute";
-import Dashboard from "./Dashboard";
 import Menu from "../pages/Menu";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../utils/setAuthToken";
@@ -51,6 +48,7 @@ class App extends Component {
         <div style={{marginTop: '52px'}}>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route path="/verify" component={Verify} />
           <Route path="/signin" component={Signin} />
           <Route path="/signup" component={Signup} />
           <Route path="/menu" component={Menu} />
@@ -61,12 +59,12 @@ class App extends Component {
         </Switch>
         
         </div>
-        <footer>
+   {/*      <footer style={{marginTop: "-15px", marginBottom: "", backgroundColor: "rgb(255, 255, 240)"}}>
           <hr></hr>
-          <center>
-            <Link to="/">home</Link>
+          <center style={{height: "40px"}}>
+            <Link to="/" style={{color: "black"}}>home</Link>
           </center>
-        </footer>
+        </footer> */}
       </Router>
     );
   }

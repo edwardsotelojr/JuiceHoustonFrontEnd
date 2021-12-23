@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import {
   Container,
   Card,
+  Col,
   Form,
   Button,
   Row,
   Popover,
   Overlay,
-  Tooltip,
   Fade,
 } from "react-bootstrap";
 import geocoder from "google-geocoder";
@@ -15,12 +15,8 @@ import zipcodes from "../zipcode";
 import {
   Radio,
   RadioGroup,
-  FormControlLabel,
-  FormControl,
-  FormLabel,
+  FormControlLabel
 } from "@material-ui/core";
-
-import validator from "validator";
 
 class Signup extends Component {
   constructor() {
@@ -36,7 +32,6 @@ class Signup extends Component {
       suiteNumber: "",
       gateCode: "",
       instruction: "",
-
       nameValid: false,
       emailValid: false,
       passwordValid: false,
@@ -79,19 +74,11 @@ class Signup extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { name, email, password, passwordMatch } = this.state;
+    const { name, email, password, phone, address, zipcode, gatecode, suiteNumber, instructions, checkBoxValid } = this.state;
     const newUser = {
-      name: name,
-      email: email,
-      password: password,
-      passwordMatch: passwordMatch,
+      name, email, password, phone, address, zipcode, gatecode, suiteNumber, instructions, termsOfAgreement: checkBoxValid
     };
-    this.props.signup(newUser, this.props.history);
-  };
-
-  aa = () => {
-    console.log("aa");
-    this.setState({ a: true });
+    this.props.signup(newUser);
   };
 
   validation(e) {
@@ -112,7 +99,7 @@ class Signup extends Component {
         }
         break;
       case "password":
-        valid = value.length > 6 && value.length < 20;
+        valid = value.length >= 6 && value.length <= 20;
         if (valid) border = {};
         break;
       case "passwordMatch":
@@ -135,6 +122,7 @@ class Signup extends Component {
         const geo = geocoder({
           key: "AIzaSyAqBlhajPerTHQOCOLdB8p8C1JF7w3Yc4Q",
         });
+        if(value.length != 0){
         var myPromise = new Promise((resolve, reject) => {
           geo.find(value + " texas", function (err, res) {
             if (err) {
@@ -159,7 +147,7 @@ class Signup extends Component {
           (zip) => {
             this.setState({
               zipcode: zip,
-            });
+            }, function () {this.validateForm()});
           },
           function (error) {
             console.log(error);
@@ -167,6 +155,7 @@ class Signup extends Component {
         );
         valid = true;
         border = {};
+        }
         break;
       case "zipcode":
         for (var z in zipcodes) {
@@ -229,7 +218,7 @@ class Signup extends Component {
       });
     }
   }
-
+//TODO: fix zipcode validation. in range for delievry.
   validateForm() {
     const {
       nameValid,
@@ -244,6 +233,7 @@ class Signup extends Component {
       instructionValid,
       checkBoxValid,
     } = this.state;
+    console.log('checkbox ', checkBoxValid)
     const formValid =
       nameValid &&
       emailValid &&
@@ -256,6 +246,7 @@ class Signup extends Component {
       gateCodeValid &&
       instructionValid &&
       checkBoxValid;
+      console.log('formValid ', formValid)
     this.setState({ formValid: formValid });
   }
 
@@ -266,11 +257,14 @@ class Signup extends Component {
     //   new LatLng({latitude: 29.960267, longitude: -95.223487}));
 
     return (
-      <Container>
-        <Form onSubmit={this.onSubmit}>
+      <Container >
+        <Row>
+          <Col>
+        <Form onSubmit={this.onSubmit}  style={{marginTop: '10px'}}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
             <Form.Control
+              autoFocus
               type="text"
               name="name"
               onBlur={this.validation}
@@ -419,7 +413,7 @@ class Signup extends Component {
                 id="popover-contained"
                 style={{ padding: "5px 5px 0px 5px" }}
               >
-                <p> password does not match </p>
+                <p> address is not valid. </p>
               </Popover>
             </Overlay>
           </Form.Group>
@@ -446,7 +440,7 @@ class Signup extends Component {
                 id="popover-contained"
                 style={{ padding: "5px 5px 0px 5px" }}
               >
-                <p> password does not match </p>
+                <p> zipcode not in range for delivery. </p>
               </Popover>
             </Overlay>
           </Form.Group>
@@ -532,9 +526,10 @@ class Signup extends Component {
               type="checkbox"
               style={{ marginTop: "5px" }}
               label="I agree to the terms of agreements."
-              onChange={() => {console.log('lo');this.setState({
+              onChange={() => {
+              this.setState({
                 checkBoxValid: !this.state.checkBoxValid
-              })}}
+              }, function () {this.validateForm(); })}}
             />
           </Card>
           {this.state.formValid && (
@@ -543,6 +538,8 @@ class Signup extends Component {
             </Button>
           )}
         </Form>
+        </Col>
+        </Row>
         <div style={{ height: "10px" }}></div>
       </Container>
     );

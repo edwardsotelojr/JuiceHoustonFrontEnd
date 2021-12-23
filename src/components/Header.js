@@ -115,10 +115,13 @@ class Header extends Component {
       isOpen: false,
       navCollapsed: true,
       showNavbar: false,
+      user: {user:{name:  "mom"}}
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.setState({ user: this.props.auth.user})
+  }
 
   toggle() {
     console.log("toggle");
@@ -129,25 +132,26 @@ class Header extends Component {
   render() {
     let dropdown;
     let title;
+    console.log("user ", this.state.user.user)
     if (this.props.auth.isAuthenticated) {
       //logged in
       title = "user";
       dropdown = (
         <div>
-          <Dropdown.Header>
+          <Dropdown.Item>
             <Link
-              to="/User"
+              to="/user"
               onClick={() =>
                 document
                   .querySelector(".dropdown-menu.show")
                   .classList.remove("show")
               }
             >
-              {this.props.auth.user.name}
-            </Link>
-          </Dropdown.Header>
+              {this.state.user.user.name}
+                    </Link>
+          </Dropdown.Item>
           <Dropdown.Item>
-            <Button onClick={this.props.logout}>Logout</Button>
+            <Link onClick={this.props.logout}>Logout</Link>
           </Dropdown.Item>
         </div>
       );
@@ -159,7 +163,7 @@ class Header extends Component {
     return (
       <Navbar  light expand="xs" fixed='top'  style={{backgroundColor: "#e8ffe8", padding: "0.3rem 0.6rem 0.3rem 0.6rem",
       borderBottom: "3px solid #e8f9ff"}}>
-        <NavbarBrand href="/">JuicedHouston</NavbarBrand>
+        <NavbarBrand href="/">Juice Houston</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>

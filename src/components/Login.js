@@ -56,7 +56,7 @@ class Login extends Component {
             placeholder="Password"
           />
         </Form.Group>
-        <input type="submit" value="Submit" style={{ borderRadius: "4px", padding: "7px", backgroundColor: "#9bd16e" }} />
+        <input type="submit" value="login" style={{ borderRadius: "4px", padding: "7px", backgroundColor: "#9bd16e" }} />
         <Link
           style={{ paddingLeft: "10px", color: "#9bd16e"}}
           to="/Signup"

@@ -11,17 +11,39 @@ import {
   import history from "../history";
 
   // Register User
-  export const signup = (userData, history) => dispatch => {
+  export const signup = (userData) => dispatch => {
     axios
-      .post("http://localhost:8000/users/signup", userData)
-      .then(res => history.push("/login")) // re-direct to login on successful register
+      .post("http://localhost:8000/signup", userData)
+      .then(res => { if(res.data.msg == "success"){console.log("go to verify"); history.push("/verify")}
+      else if(res.data.msg == "Authenticate"){console.log("error with twilio")}{
+
+      }
+
+    }) // re-direct to login on successful register
       .catch(err =>
         dispatch({
           type: SIGNUP_ERROR,
-          payload: err.response.data
+          payload: err.response
         })
       );
   };
+
+  // Verify new user code
+  export const verify = (data) => dispatch => {
+    // data = { email, pin }
+    axios
+    .patch("http://localhost:8000/verify", data)
+    .then(res => {
+      if(res.msg == "pin matched"){
+         const user = res.data.user
+         this.signin(user)
+      }
+    })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   // Login - get user token
   export const signin = userData => dispatch => {
     console.log("signin func");

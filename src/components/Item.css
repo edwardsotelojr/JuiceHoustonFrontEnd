@@ -1,4 +1,4 @@
-.itemm {
+.item {
     height: 100vh;
     width: 100vw;
     background-position: center;
@@ -17,7 +17,6 @@
 }
 
 .item_text {
-    margin-top: 100px;
     display: flex;
     flex-direction: column;
     font-size: 34px;

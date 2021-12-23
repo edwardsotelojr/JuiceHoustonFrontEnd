@@ -10,5 +10,5 @@ const facts = {
     "Produced in the pancreas", "Regulates the amount of glucose in the blood"]
 }
 
-export const keywords = ['vitamin a', "vitamin c", 'vitamin e', 'insulin']
+export const keywords = ['vitamin a', "vitamin c", 'vitamin e', 'insulin', 'antioxidant']
 export default facts;

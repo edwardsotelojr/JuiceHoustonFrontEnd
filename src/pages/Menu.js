@@ -1,19 +1,8 @@
 import React, { Component } from "react";
-import Item from "../components/Item";
-import list from "../MenuList";
+import list, { dailyRecommendation, minerals } from "../MenuList";
 import ReactDOM from "react-dom";
 import facts, { keywords } from "../Facts";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Tooltip,
-  Overlay,
-  OverlayTrigger,
-  Popover,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import "./Menu.css";
 import ReactCardFlip from "react-card-flip";
 import "../styles/Card.css";
@@ -36,6 +25,31 @@ class Menu extends Component {
     };
     this.flipCard = this.flipCard.bind(this);
   }
+ 
+  getDailyValue(mineral, itemValue){
+    let percentage = parseFloat(itemValue.replace(/[^\d.-]/g,''))/parseFloat(dailyRecommendation[mineral].replace(/[^\d.-]/g,''))
+    return Math.round(percentage * 100)
+  }
+  
+  //get vitamins and minerals that are high in daily recommendation value
+  getTopVitaminsNMinerals(obj) {
+    var result = [];
+    var top3 = new Array(3);
+    for(const property in obj.vitamins){
+    for (const value in dailyRecommendation) {
+      if (value == property){
+        //console.log(parseFloat(obj.vitamins[property].replace(/[^\d.-]/g,''))/parseFloat(dailyRecommendation[value].replace(/[^\d.-]/g,'')))
+        result.push({name: property, amount: obj.vitamins[property], percent: parseFloat(obj.vitamins[property].replace(/[^\d.-]/g,''))/parseFloat(dailyRecommendation[value].replace(/[^\d.-]/g,''))})
+      }
+    }
+  }
+  top3 = result.sort(function(a, b) {
+    return b.percent - a.percent;
+  });
+
+  console.log('top 3: ', top3[0], " ", top3[1], " ", top3[2]);
+  return top3.slice(0,3);
+}
 
   flipCard = (index) => {
     let isFlipped = [...this.state.isFlipped];
@@ -43,100 +57,51 @@ class Menu extends Component {
     this.setState({ isFlipped });
   };
 
-  w(arrayy){
-    console.log(typeof(arrayy))
-    var text = ""
-    arrayy.forEach(element => {
-      console.log(element)
-      text = text + "<p style=\"width: 100%\">" + element + "<OverlayTrigger placement='auto' flip={true} delay={{ show: 250, hide: 400 }} overlay={<Tooltip id='button-tooltip'>Simple tooltip</Tooltip>}> <Button variant='success'>Auto Placement</Button></OverlayTrigger>" + "</p>"
-    })
-    return 
-  }
+  componentDidMount() {}
 
-  ww(){
-    var words = ['vitamin A', 'vitamin C'];
-    // create a regular expression matching any of these words, using 'g' flag to match all instances
-    var regexp = new RegExp('(' + words.join('|') + ')', 'ig');
-/* 
-    document.getElementsByClassName("infoText").each(function(num, elem) {
-        var text = $(elem).text();
-        // use string.replace with $& notation to indicate whatever was matched
-        text = text.replace(regexp, '<span>lmao</span>');
-        $(elem).html(text);
-    }); */
-  }
+  addHyperText(text, key) {
+    var updatedText = (
+      <p>
+        {text}
+        <a href={"d"}>lol</a>
+      </p>
+    );
+    //console.log(updatedText.props.children);
 
-  componentDidMount() {
-    this.ww();
-   /*  const ok = document.querySelectorAll("p.infoText");
-    console.log(ok)
-    var text = "";
-    var index;
-    var span1,
-      span2,
-      span3,
-      span4 = "";
-     for (var i = 0; i < ok.length; i++) {
-      text = ok[i].childNodes[0].data;
-      keywords.forEach((keyword) => {
-        if (text.includes(keyword)) {
-        }
-        if (text.toLowerCase().includes(keyword)) {
-          console.log(ok[i]);
-          var tempText = text.toLowerCase();
-          //index = tempText.indexOf(keyword);
-         // var splitText = text.html().replace(" ", "<span>lololol</span>)
-          //console.log(index);
-          var keywordd = text.substring(index, index+keyword.length);
-          console.log(keywordd);
-          index = text.indexOf(keywordd);
-          console.log(index)
-          //text = text.replace(keywordd, 
-          //ok[i].innerHTML = text.replace(keywordd, `<div class="tooltipp">${keywordd}<span class="tooltipptext" id="${keyword}">${this.w(facts[keyword])}</span></div>`);
-         /*  ok[i].innerHTML = text.replace(keywordd, `<OverlayTrigger placement="auto"
-          flip={true}
-          delay={{ show: 250, hide: 400 }}
-          overlay={<Tooltip id='button-tooltip'>Simple tooltip</Tooltip>}
-        >
-          <Button variant="success">Auto Placement</Button>
-        </OverlayTrigger>`) 
-        //ok[i].innerHTML = y.substring(0,1).toUpperCase() + y.substring(1).toLowerCase();
-        }
-        if (text.includes(keyword)) {
-          index = text.indexOf(keyword);
-          text = text.replace(keyword, "");
-          console.log(index);
-          var keywordd = text.substring(index, index+keyword.length);
-          console.log(keywordd);
-          index = text.indexOf(keywordd);
-          //text = text.replace(keywordd, 
-          //ok[i].innerHTML = text.replace(keyword, `<div class="tooltipp">${keywordd}<span class="tooltipptext" id="${keyword}">${this.w(facts[keyword])}</span></div>`);
-         /*  ok[i].innerHTML = text.replace(keywordd, `<OverlayTrigger
-          placement="auto"
-          flip={true}
-          delay={{ show: 250, hide: 400 }}
-          overlay={<Tooltip id="button-tooltip">Simple tooltip</Tooltip>}
-        >
-          <Button variant="success">Auto Placement</Button>
-        </OverlayTrigger>`) 
+    for (var i = 0; i < keywords.length; i++) {
+      if (text.includes(keywords[i])) {
+        //console.log(keywords[i]);
+      }
+    }
 
-        }
-        //ok[i].childNodes[0].data = text;
-      });
-    }  */
+    return <p key={key}>{text}</p>;
   }
 
   render() {
     const veggies = new Array(list);
-  
-
+    let ee = {};
+    for (var i=0; i<list.length; i++) {
+       if (list[i].name == "Beets"){
+        ee = list[i];
+       }
+    }
+    this.getTopVitaminsNMinerals(ee);
     return (
-      <Container fluid style={{backgroundColor: 'rgb(255, 255 ,240)', paddingLeft: "30px"
-        , paddingRight: "30px"}}>
+      <Container
+        fluid
+        style={{
+          backgroundColor: "rgb(255, 255 ,240)",
+          paddingLeft: "30px",
+          paddingRight: "30px",
+        }}
+      >
         <Row style={{ display: "block", textAlign: "center" }}>
           <h1>Menu</h1>
         </Row>
-        <Row className="justify-content-md-center" style={{marginBottom: "5px"}}>
+        <Row
+          className="justify-content-md-center"
+          style={{ marginBottom: "5px" }}
+        >
           <Col
             style={{
               padding: "8px",
@@ -147,7 +112,7 @@ class Menu extends Component {
               borderColor: "red",
               borderStyle: "solid",
               margin: "0 auto",
-              backgroundColor: "white"
+              backgroundColor: "white",
             }}
           >
             Fiber is very important to your diet and juice does not have any.
@@ -159,8 +124,8 @@ class Menu extends Component {
           }
           {this.state.list.map((item, index) => (
             <Col
-              xs={8}
-              sm={5}
+              xs={11}
+              sm={6}
               md={4}
               lg={3}
               key={index}
@@ -170,7 +135,7 @@ class Menu extends Component {
             >
               <ReactCardFlip
                 //onClick={() => this.cardFlip(index)}
-                isFlipped={ this.state.isFlipped[index]}
+            isFlipped={this.state.isFlipped[index]}
                 flipDirection="horizontal"
                 containerStyle={{
                   zIndex: 1,
@@ -181,18 +146,29 @@ class Menu extends Component {
                   //backgroundColor: item.color,
                 }}
               >
-                <Container style={{padding: "11px", backgroundColor: item.color,
-                border: "solid #eeeeee" , borderRadius: "15px"}}>
+                <Container
+                  style={{
+                    padding: "11px",
+                    backgroundColor: item.color,
+                    border: "solid #eeeeee",
+                    borderRadius: "15px",
+                  }}
+                >
                   <Row style={{ margin: "0px 0px 10px 0px" }}>
                     <Col xs={5}>
                       <Card.Img
                         variant="top"
                         src={item.img}
                         alt=""
-                        style={{ marginLeft: '-10px' ,width: "60px", height: "60px", borderRadius: "18px" }}
+                        style={{
+                          marginLeft: "-10px",
+                          width: "60px",
+                          height: "60px",
+                          borderRadius: "18px",
+                        }}
                       />
                     </Col>
-                    <Col xs={7} style={{paddingLeft: '0'}}>
+                    <Col xs={7} style={{ paddingLeft: "0" }}>
                       <Card.Title style={{ fontSize: "1.1rem" }}>
                         {item.name}
                       </Card.Title>
@@ -206,9 +182,16 @@ class Menu extends Component {
                       ${item.costPerOunce} / oz.
                     </Card.Subtitle>
                   </Row>
-                  <Row style={{ margin: "0px 0px 0px 0px", paddingBottom: "0px" }}>
+                  <Row
+                    style={{
+                      margin: "0px 0px 0px 0px",
+                      paddingBottom: "0px",
+                      height: "170px",
+                      overflow: "scroll",
+                    }}
+                  >
                     {item.facts.map((fact, index) => {
-                      return <p className="infoText" key={index}>{fact}</p>;
+                      return this.addHyperText(fact, index);
                     })}
                   </Row>
                   <button
@@ -220,39 +203,224 @@ class Menu extends Component {
                     }}
                     onClick={() => this.flipCard(index)}
                   >
-                    <img width="30px" height="30px" src={flip}></img>
+                    <img width="40px" height="40px" src={flip}></img>
                   </button>
                   {/* size for the button being absolute in position*/}
-                  <Row style={{height: "32px"}}>
-
-                    </Row>
+                  <Row style={{ height: "32px" }}></Row>
                 </Container>
 
-                <div style={{padding: "0 0 0 4px", backgroundColor: "white",
-                   border: "solid #eeeeee" , borderRadius: "15px", borderColor: 'black'}}>
-                  <h3 style={{fontWeight: 'bold', marginBottom: '-8px'}}>Nutrition Facts</h3>
-                  <p style={{marginBottom: 0, fontSize: 'small'}}>2 servings per container</p>
-
-                  <div style={{display: 'block ruby', marginTop: '-8px', height: '22px'}}>
-                  <p style={{ padding: 0,  fontSize: 'small', width: '90px'}}>Serving Size</p>
-                  <p style={{width: '36px', float: 'right', fontSize: 'small'}}>8 oz.</p>
+                <div
+                 onClick={() => this.flipCard(index)}
+                  style={{
+                    padding: "0 0 0 4px",
+                    backgroundColor: "white",
+                    border: "solid #eeeeee",
+                    borderRadius: "15px",
+                    borderColor: "black",
+                    height: "auto",
+                  }}
+                >
                   
-                  </div>
-                  <hr style={{marginTop: 0, marginBottom: 0, backgroundColor: 'black',
-                      width: "98%", height: "5px"}}>
-                  </hr>
-                  <p style={{fontWeight: "bold", margin: 0}}>Amount per serving</p>  
-                  <div style={{ margin: 0,display: 'flow-root'}}>
-                  <h4 style={{fontWeight: 'bold', marginTop: "-8px", width: "max-content", float: "left",
-                    marginBottom: 0}}>Calories</h4>
-                  <h3 style={{fontWeight: 'bold', width: "max-content", float: "right",
-                    marginRight: '5px', marginTop: '-12px', marginBottom: 0}}>230</h3>
-                  </div>
-                  <hr style={{marginTop: 0, marginBottom: 0, backgroundColor: 'black',
-                      width: "98%", height: "3px"}}>
+                  <h3 style={{ fontWeight: "bold", marginBottom: "-8px" }}>
+                    Nutrition Facts
+                  </h3>
+                  <p style={{ marginBottom: 0, fontSize: "small" }}>
+                    1 servings per ounce
+                  </p>
 
-                  </hr>
-                  <div style={{height: "40px"}}></div>
+                  <div
+                    style={{
+                      display: "block ruby",
+                      marginTop: "-8px",
+                      height: "22px",
+                    }}
+                  >
+                    <p style={{ marginBottom: 0, padding: 0, float: 'left', fontSize: "small", width: "90px" }}>
+                      Serving Size
+                    </p>
+                    <p
+                      style={{
+                        marginBottom: 0,
+                        width: "36px",
+                        float: "right",
+                        fontSize: "small",
+                      }}
+                    >
+                      1 oz.
+                    </p>
+                  </div>
+                  <hr
+                    style={{
+                      marginTop: 0,
+                      marginBottom: 0,
+                      backgroundColor: "black",
+                      width: "98%",
+                      height: "5px",
+                    }}
+                  ></hr>
+                  <p style={{ fontWeight: "bold", margin: 0 }}>
+                    Amount per serving
+                  </p>
+                  <div style={{ margin: 0, display: "flow-root" }}>
+                    <h4
+                      style={{
+                        fontWeight: "bold",
+                        marginTop: "-8px",
+                        width: "max-content",
+                        float: "left",
+                        marginBottom: 0,
+                      }}
+                    >
+                      Calories
+                    </h4>
+                    <h3
+                      style={{
+                        fontWeight: "bold",
+                        width: "max-content",
+                        float: "right",
+                        marginRight: "5px",
+                        marginTop: "-12px",
+                        marginBottom: 0,
+                      }}
+                    >
+                      {item.calories}
+                    </h3>
+                  </div>
+
+                  <hr
+                    style={{
+                      marginRight: "6px",
+                      marginTop: 0,
+                      marginBottom: 0,
+                      backgroundColor: "black",
+                      width: "98%",
+                      height: "3px",
+                    }}
+                  ></hr>
+                  <div style={{ display: "flow-root", marginRight: "8px" }}>
+                    <b style={{ float: "right" }}>% Daily Value</b>
+                  </div>
+                  <hr
+                    style={{
+                      marginRight: "6px",
+                      marginTop: 0,
+                      marginBottom: 0,
+                      backgroundColor: "black",
+                      width: "98%",
+                      height: "1px",
+                    }}
+                  />
+                  <div style={{ display: "flow-root" }}>
+                    <b>Total Fat</b> {item.totalFat}{" "}
+                    <b style={{ float: "right", marginRight: "8px" }}>{this.getDailyValue('totalFat', item.totalFat)}%</b>
+                  </div>
+                  <hr
+                    style={{
+                      marginRight: "6px",
+                      marginTop: 0,
+                      marginBottom: 0,
+                      backgroundColor: "black",
+                      width: "98%",
+                      height: "1px",
+                    }}
+                  />
+                  <div style={{ display: "flow-root" }}>
+                    <b>Total Carbohydrate</b> {item.totalCarbohydrate}{" "}
+                    <b style={{ float: "right", marginRight: "8px" }}>{this.getDailyValue('totalCarbohydrate', item.totalCarbohydrate)}%</b>
+                  </div>
+                  <hr
+                    style={{
+                      marginRight: "6px",
+                      marginTop: 0,
+                      marginBottom: 0,
+                      backgroundColor: "black",
+                      width: "98%",
+                      height: "1px",
+                    }}
+                  />
+                  <div style={{ display: "flow-root" }}>
+                    <p
+                      style={{
+                        float: "left",
+                        marginLeft: "25px",
+                        marginRight:"4px",
+                        marginBottom: 0,
+                      }}
+                    >
+                      Dietary Fiber
+                    </p>{" "}
+                    0g
+                    <b style={{ float: "right", marginRight: "8px" }}>0%</b>
+                  </div>
+                  <hr
+                    style={{
+                      marginRight: "6px",
+                      marginTop: 0,
+                      marginBottom: 0,
+                      backgroundColor: "black",
+                      width: "98%",
+                      height: "1px",
+                    }}
+                  />
+                  <div style={{ display: "flow-root" }}>
+                    <p
+                      style={{
+                        float: "left",
+                        marginLeft: "25px",
+                        marginRight:"4px",
+                        marginBottom: 0,
+                      }}
+                    >
+                      Sugar 
+                    </p>
+                    {item.sugar}
+                  </div>
+                  <hr
+                    style={{
+                      marginRight: "6px",
+                      marginTop: 0,
+                      marginBottom: 0,
+                      backgroundColor: "black",
+                      width: "98%",
+                      height: "1px",
+                    }}
+                  />
+                  <div style={{ display: "flow-root" }}>
+                    <b>Protein</b> {item.protein}
+                  </div>
+                  <hr
+                    style={{
+                      marginRight: "6px",
+                      marginTop: 0,
+                      marginBottom: 0,
+                      backgroundColor: "black",
+                      width: "98%",
+                      height: "8px",
+                    }}
+                  />
+                  {this.getTopVitaminsNMinerals(item).map((mineral)=> (
+                    
+                    <div style={{ display: "flow-root" }}>
+                    <p
+                      style={{
+                        float: "left",
+                        marginLeft: "1px",
+                        marginBottom: 0,
+                      }}
+                    >
+                      {minerals[mineral.name]} {mineral.amount}
+                    </p>
+                    <p
+                      style={{
+                        float: "right",
+                        marginRight: "8px",
+                        marginBottom: 0,
+                      }}
+                    >
+                      {Math.round(mineral.percent*100)}%
+                    </p>
+                  </div>
+                  ))}
                   <button
                     style={{
                       position: "absolute",
@@ -260,27 +428,40 @@ class Menu extends Component {
                       backgroundColor: "transparent",
                       border: "transparent",
                     }}
-                    onClick={() => this.flipCard(index)}
+                   // onClick={() => this.flipCard(index)}
                   >
-                    <img width="30px" height="30px" src={flip}></img>
+                    {/*<img width="40px" height="40px" src={flip}></img>*/}
                   </button>
-                   {/* size for the button being absolute in position*/}
-                   <Row style={{height: "32px"}}>
-                  </Row>
+                  {/* size for the button being absolute in position*/}
+                 
                 </div>
               </ReactCardFlip>
             </Col>
           ))}
         </Row>
         <Row>
-        <u style={{ marginLeft: "10px", fontSize: "12px", width: "100%", marginBottom: 0}}>
+          <u
+            style={{
+              marginLeft: "10px",
+              fontSize: "12px",
+              width: "100%",
+              marginBottom: 0,
+            }}
+          >
             references
           </u>
-          <p style={{ marginLeft: "10px", fontSize: "12px", width: "100%", marginBottom: "0.3rem"}}>
-             School of Public Health at Harvard.{" "}
+          <p
+            style={{
+              marginLeft: "10px",
+              fontSize: "12px",
+              width: "100%",
+              marginBottom: "0.3rem",
+            }}
+          >
+            School of Public Health at Harvard.{" "}
           </p>
-          <p style={{ marginLeft: "10px", fontSize: "12px", width: "100%"}}>
-             National Institutes of Health, Office of Dietary Supplements.{" "}
+          <p style={{ marginLeft: "10px", fontSize: "12px", width: "100%" }}>
+            National Institutes of Health, Office of Dietary Supplements.{" "}
           </p>
         </Row>
       </Container>

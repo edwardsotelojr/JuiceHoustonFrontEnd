@@ -1,16 +1,24 @@
 import { Check } from "@material-ui/icons";
 import { arrayOf } from "prop-types";
 import React from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Boxable from "../components/Boxable";
 import Box from "../components/Box";
 import "./DragThingsToBoxesDemo.css";
+import StripeCheckout from "react-stripe-checkout";
+import {
+  CardElement,
+  Elements,
+  ElementsConsumer,
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
 class Checkout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: this.props.location.state,
-      selectedDates: ["","","","",""],
+      selectedDates: ["", "", "", "", ""],
       name: "",
       email: "",
       phone: 0,
@@ -19,7 +27,7 @@ class Checkout extends React.Component {
     };
     this.selectedDay = this.selectedDay.bind(this);
     this.daysAvailable = this.daysAvailable.bind(this);
-    this.onChange = this.onChange.bind(this)
+    this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
@@ -58,11 +66,9 @@ class Checkout extends React.Component {
     const list = Object.keys(drink).map((p, index) => {
       if (drink[p] > 0) {
         return (
-          <div key={index}>
-            <p key={index}>
-              {p}: {drink[p]}oz.
-            </p>
-          </div>
+          <p key={index} style={{ marginBottom: ".3rem" }} key={index}>
+            {p}: {drink[p]}oz.
+          </p>
         );
       }
     });
@@ -72,10 +78,10 @@ class Checkout extends React.Component {
   selectedDay(event) {
     // if date is already in array, return
 
-    if(this.state.selectedDates.includes(event.target.value)){
+    if (this.state.selectedDates.includes(event.target.value)) {
       return;
     }
-    
+
     let selectedDates = [...this.state.selectedDates];
     // 2. Make a shallow copy of the item you want to mutate
     let index = parseInt(event.target.id);
@@ -84,77 +90,149 @@ class Checkout extends React.Component {
     selectedDates[index] = event.target.value;
 
     // 5. Set the state to our new copy
-    this.setState({ selectedDates});
+    this.setState({ selectedDates });
   }
 
-  onChange(e){
+  onChange(e) {
     this.setState({
-      [e.target.name]: e.target.value
-    })
+      [e.target.name]: e.target.value,
+    });
   }
 
   render() {
+    const stripePromise = loadStripe(
+      "pk_test_51JdrbbJhLWcBt73zLaa0UNkmKAAonyh9sRyrmkaMUgufzOeuvL4Vu9cNJcfdGykBSxkQPJOWkICvYoqw3r7q0AzD00Trf0E3aP"
+    );
+
+    const amount =
+      this.props.location.state.cost[0] +
+      this.props.location.state.cost[1] +
+      this.props.location.state.cost[2];
     return (
-      <Container fluid style={{ marginTop: "60px" }}>
-        <Row>{!this.props.user ?
-          <Col>
-          <button>Login </button>
-          <p>Sign Up for future quicker checkout</p>
-        </Col> : null}
-        
-        </Row>
+      <Container
+        fluid
+        style={{ marginTop: "50px", backgroundColor: "rgb(255, 255, 240)" }}
+      >
+        <br />
         <Row>
+          {Object.keys(this.props.user).length == 0 ? (
+            <Col>
+              <Button>Login </Button>
+              <p>Login for quicker checkout</p>
+            </Col>
+          ) : null}
+        </Row>
+        <Row
+          style={{
+            margin: 0,
+            whiteSpace: "nowrap",
+            overflowX: "scroll",
+            flexWrap: "nowrap",
+            scrollbarWidth: "none",
+          }}
+        >
           {this.state.data.drinks
             .slice(0, this.state.data.sizeOfOrder)
             .map((drink, index) => (
-              <div
+              <Col
                 key={index}
-                style={{ borderStyle: "solid", borderRadius: "20px" }}
+                style={{
+                  backgroundColor: this.state.data.color[index],
+                  borderStyle: "solid",
+                  borderRadius: "20px",
+                  margin: "0px 7px 0px 0px",
+                  width: "max-content",
+                }}
               >
-                <p>Drink {index + 1}</p>
-                {this.listIngredients(drink)}
+                <h3>Drink {index + 1}</h3>
+                <div style={{ marginBottom: "40px" }}>
+                  {this.listIngredients(drink)}
+                </div>
                 <select
-                id={index}
+                  style={{ marginTop: "10px", marginBottom: "5px" }}
+                  id={index}
                   value={this.state.selectedDates[index]}
                   onChange={this.selectedDay}
                 >
                   <option>select day</option>
                   {this.state.arrayOfDays ? (
                     this.state.arrayOfDays.map((date, i) => (
-                      <option key={i} value={date} id={index}> 
-                      {date}
+                      <option key={i} value={date} id={index}>
+                        {date}
                       </option>
                     ))
                   ) : (
                     <></>
                   )}
                 </select>
-                <div>
+                <div style={{ textAlign: "center" }}>
                   {this.state.selectedDates[index]} {/* date selected */}
                 </div>
-              </div>
+              </Col>
             ))}
         </Row>
         <Row>
-            <Form>
-              <Form.Check name={"cup"} type={'radio'} label={"glass"}/>
-              <Form.Check name={"cup"} type={'radio'} label={"plastic"}/>
-            </Form>
-        </Row> 
+          <Form>
+            <Form.Label style={{marginTop: "10px", marginLeft: "20px", marginRight: "10px"}}>Cup Option:
+              </Form.Label>
+            <Form.Check inline name={"cup"} type={"radio"} label={"glass"} />
+            <Form.Check inline name={"cup"} type={"radio"} label={"plastic"} />
+          </Form>
+        </Row>
         <Row>
           <Col sm={4}>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Name</Form.Label>
-            <Form.Control onChange={this.onChange} defaultValue={this.props.user.name} name="name" type="name" placeholder="Enter name" />
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" defaultValue={this.props.user.email} name="email" placeholder="Enter email" />
-            <Form.Label>Phone</Form.Label>
-            <Form.Control type="tel" defaultValue={this.props.user.phone} name="phone" placeholder="Enter phone" />
-            <Form.Label>Address</Form.Label>
-            <Form.Control type="text" defaultValue={this.props.user.address} name="address" placeholder="Enter address" />
-            <Form.Label>zipcode</Form.Label>
-            <Form.Control type="number" name="zipcode" defaultValue={this.props.user.zipcode} placeholder="Enter zipcode" />
-          </Form.Group>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                onChange={this.onChange}
+                defaultValue={this.props.user.name}
+                name="name"
+                type="name"
+                placeholder="Enter name"
+              />
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                defaultValue={this.props.user.email}
+                name="email"
+                placeholder="Enter email"
+              />
+              <Form.Label>Phone</Form.Label>
+              <Form.Control
+                type="tel"
+                defaultValue={this.props.user.phone}
+                name="phone"
+                placeholder="Enter phone"
+              />
+              <Form.Label>Address</Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={this.props.user.address}
+                name="address"
+                placeholder="Enter address"
+              />
+              <Form.Label>Zipcode</Form.Label>
+              <Form.Control
+                type="number"
+                name="zipcode"
+                defaultValue={this.props.user.zipcode}
+                placeholder="Enter zipcode"
+              />
+            </Form.Group>
+          </Col>
+          <Col>
+           <div style={{height: "7px"}}/>
+            <Elements stripe={stripePromise}>
+              <CardElement  />
+            </Elements>
+            <Form.Label>Instructions</Form.Label>
+              <Form.Control
+                as="textarea"
+                name="instructions"
+                rows={3} 
+                defaultValue={this.props.user.instructions}
+                placeholder="optional"
+              />
           </Col>
           {/*     <div className="things_to_drag">
             

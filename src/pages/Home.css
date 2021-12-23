@@ -8,6 +8,14 @@
 	animation: fill 1s ease-in-out infinite;
 }
 
+/* Smartphones (portrait) ---------- */
+@media screen and (min-width: 320px) and (max-width: 480px){
+    .phone{
+       margin-top: 0 !important;
+    }
+   
+    }
+
 @keyframes fill {
 	0% { height: 0; }
 	50% { height: 100%; }
