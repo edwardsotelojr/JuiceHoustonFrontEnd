@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import list, { dailyRecommendation, minerals } from "../MenuList";
+import { list, dailyRecommendation, minerals } from "../MenuList";
 import ReactDOM from "react-dom";
 import facts, { keywords } from "../Facts";
 import { Container, Row, Col, Card } from "react-bootstrap";
@@ -11,7 +11,6 @@ class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isFlipped: false,
       list: list,
       card: {
         border: "1px solid #eeeeee",
@@ -52,9 +51,10 @@ class Menu extends Component {
 }
 
   flipCard = (index) => {
+    console.log(index)
     let isFlipped = [...this.state.isFlipped];
     isFlipped[index] = !isFlipped[index];
-    this.setState({ isFlipped });
+    this.setState({ isFlipped }, () => console.log('flipped'));
   };
 
   componentDidMount() {}
@@ -85,7 +85,8 @@ class Menu extends Component {
         ee = list[i];
        }
     }
-    this.getTopVitaminsNMinerals(ee);
+    var count = 0; 
+    //this.getTopVitaminsNMinerals(ee);
     return (
       <Container
         fluid
@@ -122,20 +123,20 @@ class Menu extends Component {
           {
             //style={{ display: "flex", flexWrap: "wrap" }}>
           }
-          {this.state.list.map((item, index) => (
+          {Object.entries(this.state.list).map(([item, info], i) => (
             <Col
               xs={11}
               sm={6}
               md={4}
               lg={3}
-              key={index}
+              key={i}
               style={{
                 padding: "5px",
               }}
             >
               <ReactCardFlip
                 //onClick={() => this.cardFlip(index)}
-            isFlipped={this.state.isFlipped[index]}
+                isFlipped={this.state.isFlipped[i]}
                 flipDirection="horizontal"
                 containerStyle={{
                   zIndex: 1,
@@ -149,7 +150,7 @@ class Menu extends Component {
                 <Container
                   style={{
                     padding: "11px",
-                    backgroundColor: item.color,
+                    backgroundColor: info.color,
                     border: "solid #eeeeee",
                     borderRadius: "15px",
                   }}
@@ -158,7 +159,7 @@ class Menu extends Component {
                     <Col xs={5}>
                       <Card.Img
                         variant="top"
-                        src={item.img}
+                        src={info.img}
                         alt=""
                         style={{
                           marginLeft: "-10px",
@@ -170,7 +171,7 @@ class Menu extends Component {
                     </Col>
                     <Col xs={7} style={{ paddingLeft: "0" }}>
                       <Card.Title style={{ fontSize: "1.1rem" }}>
-                        {item.name}
+                        {item}
                       </Card.Title>
                     </Col>{" "}
                   </Row>
@@ -179,7 +180,7 @@ class Menu extends Component {
                       className="text-muted"
                       style={{ paddingLeft: "13px" }}
                     >
-                      ${item.costPerOunce} / oz.
+                      ${info.costPerOunce} / oz.
                     </Card.Subtitle>
                   </Row>
                   <Row
@@ -190,7 +191,7 @@ class Menu extends Component {
                       overflow: "scroll",
                     }}
                   >
-                    {item.facts.map((fact, index) => {
+                    {info.facts.map((fact, index) => {
                       return this.addHyperText(fact, index);
                     })}
                   </Row>
@@ -201,7 +202,7 @@ class Menu extends Component {
                       backgroundColor: "transparent",
                       border: "transparent",
                     }}
-                    onClick={() => this.flipCard(index)}
+                    onClick={() => this.flipCard(i)}
                   >
                     <img width="40px" height="40px" src={flip}></img>
                   </button>
@@ -210,7 +211,7 @@ class Menu extends Component {
                 </Container>
 
                 <div
-                 onClick={() => this.flipCard(index)}
+                 onClick={() => this.flipCard(i)}
                   style={{
                     padding: "0 0 0 4px",
                     backgroundColor: "white",
@@ -283,7 +284,7 @@ class Menu extends Component {
                         marginBottom: 0,
                       }}
                     >
-                      {item.calories}
+                      {info.calories}
                     </h3>
                   </div>
 
@@ -311,8 +312,8 @@ class Menu extends Component {
                     }}
                   />
                   <div style={{ display: "flow-root" }}>
-                    <b>Total Fat</b> {item.totalFat}{" "}
-                    <b style={{ float: "right", marginRight: "8px" }}>{this.getDailyValue('totalFat', item.totalFat)}%</b>
+                    <b>Total Fat</b> {info.totalFat}{" "}
+                    <b style={{ float: "right", marginRight: "8px" }}>{/*this.getDailyValue('totalFat', info.totalFat)*/}%</b>
                   </div>
                   <hr
                     style={{
@@ -325,8 +326,8 @@ class Menu extends Component {
                     }}
                   />
                   <div style={{ display: "flow-root" }}>
-                    <b>Total Carbohydrate</b> {item.totalCarbohydrate}{" "}
-                    <b style={{ float: "right", marginRight: "8px" }}>{this.getDailyValue('totalCarbohydrate', item.totalCarbohydrate)}%</b>
+                    <b>Total Carbohydrate</b> {info.totalCarbohydrate}{" "}
+                    <b style={{ float: "right", marginRight: "8px" }}>{/*this.getDailyValue('totalCarbohydrate', info.totalCarbohydrate)*/}%</b>
                   </div>
                   <hr
                     style={{
@@ -373,7 +374,7 @@ class Menu extends Component {
                     >
                       Sugar 
                     </p>
-                    {item.sugar}
+                    {info.sugar}
                   </div>
                   <hr
                     style={{
@@ -386,7 +387,7 @@ class Menu extends Component {
                     }}
                   />
                   <div style={{ display: "flow-root" }}>
-                    <b>Protein</b> {item.protein}
+                    <b>Protein</b> {info.protein}
                   </div>
                   <hr
                     style={{
@@ -398,7 +399,7 @@ class Menu extends Component {
                       height: "8px",
                     }}
                   />
-                  {this.getTopVitaminsNMinerals(item).map((mineral)=> (
+                  {/*this.getTopVitaminsNMinerals(info).map((mineral)=> (
                     
                     <div style={{ display: "flow-root" }}>
                     <p
@@ -420,7 +421,7 @@ class Menu extends Component {
                       {Math.round(mineral.percent*100)}%
                     </p>
                   </div>
-                  ))}
+                  ))*/}
                   <button
                     style={{
                       position: "absolute",
@@ -428,7 +429,7 @@ class Menu extends Component {
                       backgroundColor: "transparent",
                       border: "transparent",
                     }}
-                   // onClick={() => this.flipCard(index)}
+                    onClick={() => this.flipCard(i)}
                   >
                     {/*<img width="40px" height="40px" src={flip}></img>*/}
                   </button>

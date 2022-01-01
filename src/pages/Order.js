@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./Order.css";
-import list, { dailyRecommendation, minerals } from "../MenuList";
+import { list, dailyRecommendation, minerals } from "../MenuList";
 import fuji from "../assets/fuji-apple.jpg";
 import mlist from "../madeDrinks";
-import getNutritionalFacts from "../utils/getNutritionalFacts";
+import getNutritionalFacts, { getTop3 } from "../utils/getNutritionalFacts";
 import {
   Button,
   Container,
@@ -20,6 +20,36 @@ import listo from "../listo.js";
 
 class Order extends Component {
   constructor(props) {
+    const nf = {
+      calories: 0,
+      totalFat: 0,
+      sodium: 0,
+      totalCarbohydrate: 0,
+      sugar: 0,
+      vitaminA: 0,
+      thiamin: 0,
+      riboflavin: 0,
+      niacin: 0,
+      pantothenicAcid: 0,
+      vitaminB6: 0,
+      vitaminC: 0,
+      vitaminD: 0,
+      vitaminE: 0,
+      vitaminK: 0,
+      betaine: 0,
+      choline: 0,
+      calcium: 0,
+      copper: 0,
+      iron: 0,
+      magnesium: 0,
+      manganese: 0,
+      phosphorus: 0,
+      potassium: 0,
+      selenium: 0,
+      sodium: 0,
+      zinc: 0,
+      protein: 0,
+    };
     super(props);
     this.state = {
       sizeOfOrder: this.props.sizeOfOrder, // number of drinks
@@ -33,6 +63,8 @@ class Order extends Component {
       vitamins: [{}, {}, {}, {}, {}],
       calories: [0, 0, 0, 0, 0],
       drinkNames: ["", "", "", "", ""],
+      drinksNutrition: [nf, nf, nf, nf, nf],
+      top3: [[], [], []],
     };
     this.onCurrentDrink = this.onCurrentDrink.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -112,14 +144,14 @@ class Order extends Component {
   }
 
   nextPage(percentages) {
-    console.log("nextpage");
+    //console.log("nextpage");
     const sizeOfOrder = this.state.sizeOfOrder;
     const slicedDrinksPercentage = percentages.slice(0, sizeOfOrder);
-    console.log(
-      slicedDrinksPercentage,
-      " ",
-      slicedDrinksPercentage.some((p) => p < 100)
-    );
+    //console.log(
+    // slicedDrinksPercentage,
+    // " ",
+    //slicedDrinksPercentage.some((p) => p < 100)
+    //);
 
     if (slicedDrinksPercentage.some((p) => p < 100)) {
       return this.setState({ nextPageReady: false });
@@ -138,7 +170,7 @@ class Order extends Component {
         // if produce has a value greater than 0
         for (const produce in list) {
           // for each item in menu list
-          if (list[produce].name == p) {
+          if (list[produce] == p) {
             // if item equal produce name
             cost =
               cost +
@@ -164,6 +196,8 @@ class Order extends Component {
           // for each item in menu list
           if (list[produce].name == p) {
             // if item equal produce name
+            //console.log("list[produce]: ", list[produce])
+            //console.log("this.state.drinks[this.state.currentDrink][p]: ", this.state.drinks[this.state.currentDrink][p])
             calories =
               calories +
               list[produce].calories *
@@ -186,11 +220,13 @@ class Order extends Component {
         // if produce has a value greater than 0
         for (const produce in list) {
           // for each item in menu list
-          if (list[produce].name == p) {
+          if (produce == p) {
+            //console.log("produce: ", produce)
             // if item equal produce name
             //cost = cost + (list[produce].costPerOunce * this.state.drinks[this.state.currentDrink][p]); // push color of produce ounce
-            for (const a in list[produce].vitamin) {
+            for (const a in produce.vitamins) {
               //console.log(a); /// HERE
+              //console.log("produce.vitamins: ", a)
             }
           }
         }
@@ -263,6 +299,7 @@ class Order extends Component {
 
   // change drink property
   onChange = (e) => {
+    //console.log('onChange')
     const value = e.target.value.replace(/^0+/, "");
     let st = [...this.state.drinks];
     if (value == undefined || value == "") {
@@ -277,6 +314,7 @@ class Order extends Component {
         this.getVitamins();
         this.getCost();
         this.getCalories();
+        getNutritionalFacts();
       });
     } else if (
       this.state.percentages[this.state.currentDrink] == 100 && // if drink is full
@@ -296,6 +334,7 @@ class Order extends Component {
         this.getVitamins();
         this.getCost();
         this.getCalories();
+        getNutritionalFacts();
       });
     }
   };
@@ -332,23 +371,35 @@ class Order extends Component {
   }
 
   increment = (itemName) => {
-    console.log(itemName)
-    console.log(this.state.drinks[this.state.currentDrink][itemName])
+    //console.log(itemName)
+    //console.log(this.state.drinks[this.state.currentDrink][itemName])
     const value = this.state.drinks[this.state.currentDrink][itemName];
     let st = [...this.state.drinks];
+    let top3 = [...this.state.top3];
+    let drinkNF = [...this.state.drinksNutrition];
+    const cDrink = this.state.currentDrink;
+    const drink = this.state.drinks[this.state.currentDrink];
     if (value == undefined || value == "") {
       // if value is nil
-      console.log('here')
+      //console.log('here undefined')
       st[this.state.currentDrink] = {
         ...st[this.state.currentDrink],
         [itemName]: 1,
       };
       this.setState({ drinks: st }, () => {
+        //console.log(this.state.drinks[this.state.currentDrink])
         this.getPercentage();
-        this.color();
+        //this.color();
         this.getVitamins();
-        this.getCost();
-        this.getCalories();
+        //this.getCost();
+        //this.getCalories();
+        drinkNF[cDrink] = getNutritionalFacts(st[cDrink]);
+        console.log("nf ", drinkNF[cDrink]);
+        top3[cDrink] = getTop3(drinkNF[cDrink]);
+        this.setState({
+          top3: top3,
+          drinksNutrition: drinkNF,
+        });
       });
     } else if (
       this.state.percentages[this.state.currentDrink] == 100 && // if drink is full
@@ -360,32 +411,39 @@ class Order extends Component {
       // between range
       st[this.state.currentDrink] = {
         ...st[this.state.currentDrink],
-        [itemName]: parseInt(value)+1,
+        [itemName]: parseInt(value) + 1,
       };
-     this.setState({ drinks: st }, () => {
+      this.setState({ drinks: st }, () => {
         this.getPercentage();
         this.color();
         this.getVitamins();
-        this.getCost();
-        this.getCalories();
+        //this.getCost();
+        //this.getCalories();
+        drinkNF[cDrink] = getNutritionalFacts(st[cDrink]);
+        console.log("nf ", drinkNF[cDrink]);
+        top3[cDrink] = getTop3(drinkNF[cDrink]);
+        this.setState({
+          top3: top3,
+          drinksNutrition: drinkNF,
+        });
       });
     }
-    }
+  };
 
-    scrollToTop(){
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    }
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
 
   handleScroll(event) {
-    console.log(window.scrollY);
+    //console.log(window.scrollY);
     const div = document.getElementById("remainingOunces");
     const scrollToTop = document.getElementById("scrollToTop");
     const clearButton = document.getElementById("clearButton");
     const rightSide = document.getElementById("right-side");
-    console.log("outerWidth ", window.outerWidth);
+    //console.log("outerWidth ", window.outerWidth);
     // Small screen. fixed div
     if (window.scrollY > 309 && window.outerWidth < 575) {
       console.log(div);
@@ -395,7 +453,7 @@ class Order extends Component {
       div.style.left = "15px";
       div.style.zIndex = 100;
       div.style.width = "max-content";
-      scrollToTop.style.display = "block"
+      scrollToTop.style.display = "block";
       scrollToTop.style.position = "fixed";
       scrollToTop.style.top = "54px";
       scrollToTop.style.left = "269px";
@@ -412,7 +470,7 @@ class Order extends Component {
       div.style.top = "auto";
       div.style.left = 0;
       div.style.display = "block";
-      scrollToTop.style.display = "none"
+      scrollToTop.style.display = "none";
       clearButton.style.position = "relative";
       clearButton.style.top = "auto";
       clearButton.style.left = "auto";
@@ -425,11 +483,12 @@ class Order extends Component {
       div.style.left = "15px";
       div.style.zIndex = 100;
       div.style.width = "max-content";
-      scrollToTop.style.display = "block"
+      scrollToTop.style.display = "block";
       scrollToTop.style.position = "fixed";
       scrollToTop.style.top = "54px";
       scrollToTop.style.left = "269px";
-      scrollToTop.style.zIndex = 100;      clearButton.style.position = "fixed";
+      scrollToTop.style.zIndex = 100;
+      clearButton.style.position = "fixed";
       clearButton.style.position = "fixed";
       clearButton.style.top = "54px";
       clearButton.style.left = "212px";
@@ -442,7 +501,7 @@ class Order extends Component {
       div.style.top = "auto";
       div.style.left = 0;
       div.style.display = "block";
-      scrollToTop.style.display = "none"
+      scrollToTop.style.display = "none";
       clearButton.style.position = "relative";
       clearButton.style.top = "auto";
       clearButton.style.left = "auto";
@@ -452,7 +511,7 @@ class Order extends Component {
       div.style.top = "auto";
       div.style.left = 0;
       div.style.display = "block";
-      scrollToTop.style.display = "none"
+      scrollToTop.style.display = "none";
       clearButton.style.position = "relative";
       clearButton.style.top = "auto";
       clearButton.style.left = "auto";
@@ -489,7 +548,6 @@ class Order extends Component {
   };
 
   componentDidMount() {
-    getNutritionalFacts()
     window.addEventListener("scroll", this.handleScroll);
     window.addEventListener("resize", this.handleScroll);
     this.nextPage(this.state.percentages);
@@ -529,7 +587,12 @@ class Order extends Component {
             {(index) => (
               <div
                 className="progress vertical miniDrink"
-                style={{ height: "40px", width: "40px", marginLeft: 0, marginRight: 0 }}
+                style={{
+                  height: "40px",
+                  width: "40px",
+                  marginLeft: 0,
+                  marginRight: 0,
+                }}
               >
                 <div
                   style={juiceCup(percent, colors[i++])}
@@ -548,110 +611,142 @@ class Order extends Component {
       return facts.map((fact, index) => <p key={index}>{fact}</p>);
     };
 
-    
-    
-    var listItems = (curentDrink) =>
-      list.map((item, index) => (
-        <Col
-          lg={4}
-          md={6}
-          //className="d-flex align-items-center justify-content-between"
-          key={index}
-          style={{
-            borderColor: "white",
-            borderWidth: "thin",
-            borderStyle: "solid",
-            borderRadius: "25px",
-            padding: "12px",
-            backgroundColor: item.color + "80",
-          }}
-        >
-          <Row style={{ margin: 0 }}>
-            <Col style={{ padding: 0 }}>
-              <Row style={{ margin: 0 }}>
-                <Col
-                  sm={"auto"}
-                  style={{ maxWidth: "min-content", padding: 0 }}
-                >
-                  <img
-                    src={item.img}
-                    style={{ borderRadius: "10px" }}
-                    width="30px"
-                    height="30px"
-                  />
-                </Col>
-                <Col
-                  sm={"auto"}
-                  xs={"auto"}
-                  md="9"
-                  style={{ paddingLeft: 0, paddingRight: 0 }}
-                >
-                  <h5 style={{ paddingLeft: "5px", marginTop: "2px" }}>
-                    {item.name}
-                  </h5>
-                </Col>
-              </Row>
-              <Row>
-                <Col
-                  style={{
-                    margin: "0px 0px 0px 0px",
-                    paddingBottom: "0px",
-                    height: "170px",
-                    overflow: "scroll",
-                  }}
-                >
-                  {produceFacts(item.shortFacts)}
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="col-auto"
-              style={{ paddingLeft: 0, paddingRight: 0, marginRight: "9px" }}
-            >
-              <Row className="justify-content-center">
-                <Col className="col-auto" style={{padding: 0}}>
-                  <input
-                    className="inputNumber"
-                    type="number"
-                    min={0}
-                    pattern="[0-9]*"
-                    max={this.state.size}
-                    id={item.name}
-                    name={item.name}
+    var listItems = (curentDrink) => {
+      var itemList = [];
+      for (const [key, item] of Object.entries(list)) {
+        itemList.push(
+          <Col
+            lg={4}
+            md={6}
+            //className="d-flex align-items-center justify-content-between"
+            key={key}
+            style={{
+              borderColor: "white",
+              borderWidth: "thin",
+              borderStyle: "solid",
+              borderRadius: "25px",
+              padding: "12px",
+              backgroundColor: item.color + "80",
+            }}
+          >
+            <Row style={{ margin: 0 }}>
+              <Col style={{ padding: 0 }}>
+                <Row style={{ margin: 0 }}>
+                  <Col
+                    sm={"auto"}
+                    style={{ maxWidth: "min-content", padding: 0 }}
+                  >
+                    <img
+                      src={item.img}
+                      style={{ borderRadius: "10px" }}
+                      width="30px"
+                      height="30px"
+                    />
+                  </Col>
+                  <Col
+                    sm={"auto"}
+                    xs={"auto"}
+                    md="9"
+                    style={{ paddingLeft: 0, paddingRight: 0 }}
+                  >
+                    <h5 style={{ paddingLeft: "5px", marginTop: "2px" }}>
+                      {key}
+                    </h5>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col
                     style={{
-                      height: "40px",
-                      width: "40px",
-                      flex: 1,
-                      borderRadius: "5px",
+                      margin: "0px 0px 0px 0px",
+                      paddingBottom: "0px",
+                      height: "170px",
+                      overflow: "scroll",
                     }}
-                    value={
-                      this.state.drinks[curentDrink][item.name]
-                        ? this.state.drinks[curentDrink][item.name]
-                        : 0
-                    }
-                    onChange={this.onChange}
-                  ></input>
+                  >
+                    {produceFacts(item.shortFacts)}
+                  </Col>
+                </Row>
+              </Col>
+              <Col
+                className="col-auto"
+                style={{ paddingLeft: 0, paddingRight: 0, marginRight: "9px" }}
+              >
+                <Row className="justify-content-center">
+                  <Col className="col-auto" style={{ padding: 0 }}>
+                    <input
+                      className="inputNumber"
+                      type="number"
+                      min={0}
+                      pattern="[0-9]*"
+                      max={this.state.size}
+                      id={item.name}
+                      name={item.name}
+                      style={{
+                        height: "40px",
+                        width: "40px",
+                        flex: 1,
+                        borderRadius: "5px",
+                      }}
+                      value={
+                        this.state.drinks[curentDrink][key]
+                          ? this.state.drinks[curentDrink][key]
+                          : 0
+                      }
+                      onChange={this.onChange}
+                    ></input>
                     <Button
-                   style={{ fontSize: "large", border: "none",  width: "25px",backgroundColor: "darkseagreen", padding: "0rem 0rem 0rem 0rem" }}
-                  onClick={()=>this.increment(item.name)}
-                  >+</Button>
-                  <Button style={{ fontSize: "large", border: "none", width: "25px",backgroundColor: "darkseagreen", padding: "0rem 0rem 0rem 0rem"}}>-</Button>
-               
-                </Col>
-              </Row>
-              <Row>
-                <p>{item.costPerOunce * 100}¢/oz.</p>
-              </Row>
-            </Col>
-          </Row>
-        </Col>
-      ));
+                      style={{
+                        fontSize: "large",
+                        border: "none",
+                        width: "25px",
+                        backgroundColor: "darkseagreen",
+                        padding: "0rem 0rem 0rem 0rem",
+                      }}
+                      onClick={() => this.increment(key)}
+                    >
+                      +
+                    </Button>
+                    <Button
+                      style={{
+                        fontSize: "large",
+                        border: "none",
+                        width: "25px",
+                        backgroundColor: "darkseagreen",
+                        padding: "0rem 0rem 0rem 0rem",
+                      }}
+                    >
+                      -
+                    </Button>
+                  </Col>
+                </Row>
+                <Row>
+                  <p>{item.costPerOunce * 100}¢/oz.</p>
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+        );
+      }
+      return itemList;
+    };
     const total =
       this.state.cost[0] +
       this.state.cost[1] +
       this.state.cost[2] +
       this.state.cost[3] +
       this.state.cost[4];
+
+      function capitalizeFirstLetter(string){
+        var s = string.charAt(0).toUpperCase() + string.slice(1);
+        for(var i = 1; i< s.length; i++){
+          if(s[i] != s[i].toLowerCase()){
+            s = s.slice(0, i) + " " + s.slice(i);
+            i = s.length
+          }
+        }
+        return s;
+      }
+
     return (
       <Container fluid style={{ backgroundColor: "#fffff0" }}>
         <br />
@@ -771,7 +866,6 @@ class Order extends Component {
             {/* Current Drink Image Jar */}
             {/* <div>{this.drinkButtons}</div>*/}
             <div className={"drinkRow"}>{drinkButtons()}</div>
-           
             <Spring from={{ percent: 0 }} to={{ percent: 100 }}>
               {({ percent }) => (
                 <div className="progress vertical ed">
@@ -799,7 +893,7 @@ class Order extends Component {
             xs={7}
             style={{ textAlign: "center", alignSelf: "end" }}
           >
-           <div style={{ borderRadius: "6px", borderStyle: "solid" }}>
+            <div style={{ borderRadius: "6px", borderStyle: "solid" }}>
               <p>
                 Cost of Drink: $
                 {this.state.cost[this.state.currentDrink].toFixed(2)}
@@ -884,7 +978,7 @@ class Order extends Component {
                       marginBottom: 0,
                     }}
                   >
-                    {this.state.drinks[this.state.currentDrink].calories}
+                    {this.state.drinksNutrition[this.state.currentDrink].calories}
                   </h3>
                 </div>
 
@@ -913,7 +1007,7 @@ class Order extends Component {
                 />
                 <div style={{ display: "flow-root" }}>
                   <b>Total Fat</b>{" "}
-                  {this.state.drinks[this.state.currentDrink].totalFat}{" "}
+                  {this.state.drinksNutrition[this.state.currentDrink].totalFat.toFixed(3)}{" "}
                   <b style={{ float: "right", marginRight: "8px" }}>
                     {/*this.getDailyValue('totalFat', this.state.drinks[this.state.currentDrink].totalFat)*/}
                     %
@@ -931,7 +1025,7 @@ class Order extends Component {
                 />
                 <div style={{ display: "flow-root" }}>
                   <b>Total Carbohydrate</b>{" "}
-                  {this.state.drinks[this.state.currentDrink].totalCarbohydrate}{" "}
+                  {this.state.drinksNutrition[this.state.currentDrink].totalCarbohydrate.toFixed(3)}{" "}
                   <b style={{ float: "right", marginRight: "8px" }}>
                     {/*this.getDailyValue('totalCarbohydrate', this.state.drinks[this.state.currentDrink].totalCarbohydrate)*/}
                     %
@@ -982,7 +1076,7 @@ class Order extends Component {
                   >
                     Sugar
                   </p>
-                  {this.state.drinks[this.state.currentDrink].sugar}
+                  {this.state.drinksNutrition[this.state.currentDrink].sugar.toFixed(3)}
                 </div>
                 <hr
                   style={{
@@ -996,7 +1090,7 @@ class Order extends Component {
                 />
                 <div style={{ display: "flow-root" }}>
                   <b>Protein</b>{" "}
-                  {this.state.drinks[this.state.currentDrink].protein}
+                  {this.state.drinksNutrition[this.state.currentDrink].protein.toFixed(3)}
                 </div>
                 <hr
                   style={{
@@ -1008,9 +1102,8 @@ class Order extends Component {
                     height: "8px",
                   }}
                 />
-                {/*this.getTopVitaminsNMinerals(this.state.drinks[this.state.currentDrink]).map((mineral)=> (
-                    
-                    <div style={{ display: "flow-root" }}>
+                {this.state.top3[this.state.currentDrink].map((mineral) => (
+                  <div style={{ display: "flow-root" }}>
                     <p
                       style={{
                         float: "left",
@@ -1018,7 +1111,7 @@ class Order extends Component {
                         marginBottom: 0,
                       }}
                     >
-                      {minerals[mineral.name]} {mineral.amount}
+                      {mineral[0]} {mineral[1]}
                     </p>
                     <p
                       style={{
@@ -1027,10 +1120,10 @@ class Order extends Component {
                         marginBottom: 0,
                       }}
                     >
-                      {Math.round(mineral.percent*100)}%
+                      {Math.round(mineral[1] * 100)}%
                     </p>
                   </div>
-                    ))*/}
+                ))}
                 <button
                   style={{
                     position: "absolute",
@@ -1146,195 +1239,254 @@ class Order extends Component {
               >
                 <Col
                   className="col-lg-9 col-md-10 col-sm-12"
-                  style={{ border: 'none', padding: 0}}
+                  style={{ border: "none", padding: 0 }}
                 >
-                   <div
-                  style={{
-                    padding: "0 0 0 4px",
-                    backgroundColor: "white",
-                    border: "solid #eeeeee",
-                    borderRadius: "15px",
-                    borderColor: "black",
-                    height: "auto",
-                  }}
-                >
-                  <h3 style={{ fontWeight: "bold", marginBottom: "-8px" }}>
-                    Nutrition Facts
-                  </h3>
-                  <p style={{ marginBottom: 0, fontSize: "small" }}>
-                    1 servings per ounce
-                  </p>
-
                   <div
                     style={{
-                      display: "block ruby",
-                      marginTop: "-8px",
-                      height: "22px",
+                      padding: "0 0 0 4px",
+                      backgroundColor: "white",
+                      border: "solid #eeeeee",
+                      borderRadius: "15px",
+                      borderColor: "black",
+                      height: "auto",
                     }}
                   >
-                    <p style={{ marginBottom: 0, padding: 0, float: 'left', fontSize: "small", width: "90px" }}>
-                      Serving Size
-                    </p>
-                    <p
-                      style={{
-                        marginBottom: 0,
-                        width: "36px",
-                        float: "right",
-                        fontSize: "small",
-                      }}
-                    >
-                      {this.state.ounces[this.state.currentDrink]} oz.
-                    </p>
-                  </div>
-                  <hr
-                    style={{
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "5px",
-                    }}
-                  ></hr>
-                  <p style={{ fontWeight: "bold", margin: 0 }}>
-                    Amount per serving
-                  </p>
-                  <div style={{ margin: 0, display: "flow-root" }}>
-                    <h4
-                      style={{
-                        fontWeight: "bold",
-                        marginTop: "-8px",
-                        width: "max-content",
-                        float: "left",
-                        marginBottom: 0,
-                      }}
-                    >
-                      Calories
-                    </h4>
-                    <h3
-                      style={{
-                        fontWeight: "bold",
-                        width: "max-content",
-                        float: "right",
-                        marginRight: "5px",
-                        marginTop: "-12px",
-                        marginBottom: 0,
-                      }}
-                    >
-                      {this.state.calories[this.state.currentDrink]}
+                    <h3 style={{ fontWeight: "bold", marginBottom: "-8px" }}>
+                      Nutrition Facts
                     </h3>
-                  </div>
-
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "3px",
-                    }}
-                  ></hr>
-                  <div style={{ display: "flow-root", marginRight: "8px" }}>
-                    <b style={{ float: "right" }}>% Daily Value</b>
-                  </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "1px",
-                    }}
-                  />
-                  <div style={{ display: "flow-root" }}>
-                    <b>Total Fat</b> 
-                    <b style={{ float: "right", marginRight: "8px" }}>%</b>
-                  </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "1px",
-                    }}
-                  />
-                  <div style={{ display: "flow-root" }}>
-                    <b>Total Carbohydrate</b> 
-                    <b style={{ float: "right", marginRight: "8px" }}>%</b>
-                  </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "1px",
-                    }}
-                  />
-                  <div style={{ display: "flow-root" }}>
-                    <p
-                      style={{
-                        float: "left",
-                        marginLeft: "25px",
-                        marginRight:"4px",
-                        marginBottom: 0,
-                      }}
-                    >
-                      Dietary Fiber
-                    </p>{" "}
-                    0g
-                    <b style={{ float: "right", marginRight: "8px" }}>0%</b>
-                  </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "1px",
-                    }}
-                  />
-                  <div style={{ display: "flow-root" }}>
-                    <p
-                      style={{
-                        float: "left",
-                        marginLeft: "25px",
-                        marginRight:"4px",
-                        marginBottom: 0,
-                      }}
-                    >
-                      Sugar 
+                    <p style={{ marginBottom: 0, fontSize: "small" }}>
+                      1 servings per 16 ounce
                     </p>
+
+                    <div
+                      style={{
+                        display: "block ruby",
+                        marginTop: "-8px",
+                        height: "22px",
+                      }}
+                    >
+                      <p
+                        style={{
+                          marginBottom: 0,
+                          padding: 0,
+                          float: "left",
+                          fontSize: "small",
+                          width: "90px",
+                        }}
+                      >
+                        Serving Size
+                      </p>
+                      <p
+                        style={{
+                          marginBottom: 0,
+                          width: "36px",
+                          float: "right",
+                          fontSize: "small",
+                        }}
+                      >
+                        {this.state.ounces[this.state.currentDrink]} oz.
+                      </p>
+                    </div>
+                    <hr
+                      style={{
+                        marginTop: 0,
+                        marginBottom: 0,
+                        backgroundColor: "black",
+                        width: "98%",
+                        height: "5px",
+                      }}
+                    ></hr>
+                    <p style={{ fontWeight: "bold", margin: 0 }}>
+                      Amount per serving
+                    </p>
+                    <div style={{ margin: 0, display: "flow-root" }}>
+                      <h4
+                        style={{
+                          fontWeight: "bold",
+                          marginTop: "-8px",
+                          width: "max-content",
+                          float: "left",
+                          marginBottom: 0,
+                        }}
+                      >
+                        Calories
+                      </h4>
+                      <h3
+                        style={{
+                          fontWeight: "bold",
+                          width: "max-content",
+                          float: "right",
+                          marginRight: "5px",
+                          marginTop: "-12px",
+                          marginBottom: 0,
+                        }}
+                      >
+                        {
+                          this.state.drinksNutrition[this.state.currentDrink][
+                            "calories"
+                          ]
+                        }
+                      </h3>
+                    </div>
+
+                    <hr
+                      style={{
+                        marginRight: "6px",
+                        marginTop: 0,
+                        marginBottom: 0,
+                        backgroundColor: "black",
+                        width: "98%",
+                        height: "3px",
+                      }}
+                    ></hr>
+                    <div style={{ display: "flow-root", marginRight: "8px" }}>
+                      <b style={{ float: "right" }}>% Daily Value</b>
+                    </div>
+                    <hr
+                      style={{
+                        marginRight: "6px",
+                        marginTop: 0,
+                        marginBottom: 0,
+                        backgroundColor: "black",
+                        width: "98%",
+                        height: "1px",
+                      }}
+                    />
+                    <div style={{ display: "flow-root" }}>
+                      <b>Total Fat</b>{" "}
+                      {
+                        this.state.drinksNutrition[this.state.currentDrink][
+                          "totalFat"
+                        ].toFixed(3)
+                      }
+                      {"g"}
+                      <b style={{ float: "right", marginRight: "8px" }}> %</b>
+                    </div>
+                    <hr
+                      style={{
+                        marginRight: "6px",
+                        marginTop: 0,
+                        marginBottom: 0,
+                        backgroundColor: "black",
+                        width: "98%",
+                        height: "1px",
+                      }}
+                    />
+                    <div style={{ display: "flow-root" }}>
+                      <b>Total Carbohydrate</b>{" "}
+                      {
+                        this.state.drinksNutrition[this.state.currentDrink][
+                          "totalCarbohydrate"
+                        ].toFixed(3)
+                      }
+                      {"g"}
+                      <b style={{ float: "right", marginRight: "8px" }}> %</b>
+                    </div>
+                    <hr
+                      style={{
+                        marginRight: "6px",
+                        marginTop: 0,
+                        marginBottom: 0,
+                        backgroundColor: "black",
+                        width: "98%",
+                        height: "1px",
+                      }}
+                    />
+                    <div style={{ display: "flow-root" }}>
+                      <p
+                        style={{
+                          float: "left",
+                          marginLeft: "25px",
+                          marginRight: "4px",
+                          marginBottom: 0,
+                        }}
+                      >
+                        Dietary Fiber
+                      </p>{" "}
+                      0g
+                      <b style={{ float: "right", marginRight: "8px" }}>0%</b>
+                    </div>
+                    <hr
+                      style={{
+                        marginRight: "6px",
+                        marginTop: 0,
+                        marginBottom: 0,
+                        backgroundColor: "black",
+                        width: "98%",
+                        height: "1px",
+                      }}
+                    />
+                    <div style={{ display: "flow-root" }}>
+                      <p
+                        style={{
+                          float: "left",
+                          marginLeft: "25px",
+                          marginRight: "4px",
+                          marginBottom: 0,
+                        }}
+                      >
+                        Sugar{" "}
+                        {
+                          this.state.drinksNutrition[this.state.currentDrink][
+                            "sugar"
+                          ].toFixed(3)
+                        }
+                        {"g"}
+                      </p>
+                    </div>
+                    <hr
+                      style={{
+                        marginRight: "6px",
+                        marginTop: 0,
+                        marginBottom: 0,
+                        backgroundColor: "black",
+                        width: "98%",
+                        height: "1px",
+                      }}
+                    />
+                    <div style={{ display: "flow-root" }}>
+                      <b>Protein</b>{" "}
+                      {
+                        this.state.drinksNutrition[this.state.currentDrink][
+                          "protein"
+                        ].toFixed(3)
+                      }
+                      {"g"}
+                    </div>
+                    <hr
+                      style={{
+                        marginRight: "6px",
+                        marginTop: 0,
+                        marginBottom: 0,
+                        backgroundColor: "black",
+                        width: "98%",
+                        height: "8px",
+                      }}
+                    />
+                    {this.state.top3[this.state.currentDrink].map((mineral, i) => (
+                      <div style={{ display: "flow-root" }} key={i}>
+                        <p
+                          style={{
+                            float: "left",
+                            marginLeft: "1px",
+                            marginBottom: 0,
+                          }}
+                        >
+                          {capitalizeFirstLetter(mineral[0])}{" "}
+                          {this.state.drinksNutrition[this.state.currentDrink][mineral[0]].toFixed(3)}{"mg"}
+                        </p>
+                        <p
+                          style={{
+                            float: "right",
+                            marginRight: "8px",
+                            marginBottom: 0,
+                          }}
+                        >
+                          {mineral[1].toFixed(2)}%
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "1px",
-                    }}
-                  />
-                  <div style={{ display: "flow-root" }}>
-                    <b>Protein</b>
-                  </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "8px",
-                    }}
-                  />
-                </div>
                 </Col>
               </Row>
               <Row
@@ -1345,7 +1497,7 @@ class Order extends Component {
                   className="col-lg-9 col-md-10 col-sm-12"
                   style={{ borderRadius: "6px", borderStyle: "solid" }}
                 >
-                   <p>
+                  <p>
                     Cost of Drink: $
                     {this.state.cost[this.state.currentDrink].toFixed(2)}
                   </p>
