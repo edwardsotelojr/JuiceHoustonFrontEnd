@@ -12,7 +12,7 @@ export default function getNutritionalFacts(drink) {
     thiamin: 0,
     riboflavin: 0,
     niacin: 0,
-    pantothenicAcid: 0,
+    vitaminB5: 0,
     vitaminB6: 0,
     vitaminC: 0,
     vitaminD: 0,
@@ -33,8 +33,9 @@ export default function getNutritionalFacts(drink) {
     protein: 0,
   };
   var regex = /[+-]?\d+(\.\d+)?/g;
-
+console.log(drink)
   for (const [i, amount] of Object.entries(drink)) {
+    console.log(i)
     for (var j = 0; j < amount; j++) {
       for (const [key, value] of Object.entries(nf)) {
         var removeUnits = String(listt[i][key])
@@ -49,7 +50,7 @@ export default function getNutritionalFacts(drink) {
   console.log("nf ", nf)
   return nf;
 }
-export function getTop3(info) {
+export function getTop6(info) {
     const remove = ["calories", "protein", 
     "totalCarbohydrate", "totalFat", "sugar", "cholesterol"]
   var removedInfo = info;
@@ -71,7 +72,7 @@ export function getTop3(info) {
       ranking.push([key, percentage]);
 }
     ranking.sort((a, b) => b[1] - a[1]);
-    return ranking.slice(0, 3)
+    return ranking.slice(0, 6)
 }
 //console.log("here in gNF ", item["Fuji Apple"]['totalFat']
 /*  drink["Fuji Apple"] */

@@ -3,7 +3,7 @@ import "./Order.css";
 import { list, dailyRecommendation, minerals } from "../MenuList";
 import fuji from "../assets/fuji-apple.jpg";
 import mlist from "../madeDrinks";
-import getNutritionalFacts, { getTop3 } from "../utils/getNutritionalFacts";
+import getNutritionalFacts, { getTop6 } from "../utils/getNutritionalFacts";
 import {
   Button,
   Container,
@@ -64,7 +64,7 @@ class Order extends Component {
       calories: [0, 0, 0, 0, 0],
       drinkNames: ["", "", "", "", ""],
       drinksNutrition: [nf, nf, nf, nf, nf],
-      top3: [[], [], []],
+      top6: [[], [], [], [], []],
     };
     this.onCurrentDrink = this.onCurrentDrink.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -246,7 +246,7 @@ class Order extends Component {
       this.state.drinks[this.state.currentDrink]
     ).map(
       // get new volume of drink
-      ([key, value]) => (num += value)
+      ([key, value]) => (num += Number(value))
     );
     const newOunces = this.state.ounces.slice(); //copy the array
     newOunces[this.state.currentDrink] = num; // add new volume of drink
@@ -300,21 +300,50 @@ class Order extends Component {
   // change drink property
   onChange = (e) => {
     //console.log('onChange')
+
     const value = e.target.value.replace(/^0+/, "");
+    const name = e.target.name;
+    if (this.state.ounces[this.state.currentDrink] == 16) {
+      return;
+    }
+    if (value > 17 - this.state.ounces[this.state.currentDrink]) {
+      return;
+    }
+
+    const v = this.state.drinks[this.state.currentDrink][name];
     let st = [...this.state.drinks];
-    if (value == undefined || value == "") {
-      // if value is nil
-      st[this.state.currentDrink] = {
-        ...st[this.state.currentDrink],
-        [e.target.name]: 0,
-      };
-      return this.setState({ drinks: st }, () => {
+    let top6 = [...this.state.top6];
+    let drinkNF = [...this.state.drinksNutrition];
+    const cDrink = this.state.currentDrink;
+    console.log("v: ", value);
+    console.log("name", name);
+    if (v == undefined || v == "") {
+      console.log("here");
+      if (value.length == 0) {
+        st[this.state.currentDrink] = {
+          ...st[this.state.currentDrink],
+          [name]: 0,
+        };
+      } else {
+        st[this.state.currentDrink] = {
+          ...st[this.state.currentDrink],
+          [name]: value,
+        };
+      }
+      this.setState({ drinks: st }, () => {
+        //console.log(this.state.drinks[this.state.currentDrink])
         this.getPercentage();
-        this.color();
+        //this.color();
         this.getVitamins();
-        this.getCost();
-        this.getCalories();
-        getNutritionalFacts();
+        //this.getCost();
+        //this.getCalories();
+        drinkNF[cDrink] = getNutritionalFacts(st[cDrink]);
+        console.log("nf ", drinkNF[cDrink]);
+        top6[cDrink] = getTop6(drinkNF[cDrink]);
+        this.setState({
+          top6: top6,
+          drinksNutrition: drinkNF,
+        });
       });
     } else if (
       this.state.percentages[this.state.currentDrink] == 100 && // if drink is full
@@ -322,19 +351,32 @@ class Order extends Component {
     ) {
       // and value is higher than previous value
       return;
-    } else if (value >= 0 && value <= this.state.size) {
-      // between range
-      st[this.state.currentDrink] = {
-        ...st[this.state.currentDrink],
-        [e.target.name]: parseInt(value),
-      };
+    } else if (v >= 0 && v <= this.state.size) {
+      if (value.length == 0) {
+        st[this.state.currentDrink] = {
+          ...st[this.state.currentDrink],
+          [name]: 0,
+        };
+      } else {
+        st[this.state.currentDrink] = {
+          ...st[this.state.currentDrink],
+          [name]: value,
+        };
+      }
       this.setState({ drinks: st }, () => {
+        //console.log(this.state.drinks[this.state.currentDrink])
         this.getPercentage();
-        this.color();
-        this.getVitamins();
-        this.getCost();
-        this.getCalories();
-        getNutritionalFacts();
+        //this.color();
+        //this.getVitamins();
+        //this.getCost();
+        //this.getCalories();
+        drinkNF[cDrink] = getNutritionalFacts(st[cDrink]);
+        console.log("nf ", drinkNF[cDrink]);
+        top6[cDrink] = getTop6(drinkNF[cDrink]);
+        this.setState({
+          top6: top6,
+          drinksNutrition: drinkNF,
+        });
       });
     }
   };
@@ -375,7 +417,7 @@ class Order extends Component {
     //console.log(this.state.drinks[this.state.currentDrink][itemName])
     const value = this.state.drinks[this.state.currentDrink][itemName];
     let st = [...this.state.drinks];
-    let top3 = [...this.state.top3];
+    let top6 = [...this.state.top6];
     let drinkNF = [...this.state.drinksNutrition];
     const cDrink = this.state.currentDrink;
     const drink = this.state.drinks[this.state.currentDrink];
@@ -390,14 +432,14 @@ class Order extends Component {
         //console.log(this.state.drinks[this.state.currentDrink])
         this.getPercentage();
         //this.color();
-        this.getVitamins();
+        //this.getVitamins();
         //this.getCost();
         //this.getCalories();
         drinkNF[cDrink] = getNutritionalFacts(st[cDrink]);
         console.log("nf ", drinkNF[cDrink]);
-        top3[cDrink] = getTop3(drinkNF[cDrink]);
+        top6[cDrink] = getTop6(drinkNF[cDrink]);
         this.setState({
-          top3: top3,
+          top6: top6,
           drinksNutrition: drinkNF,
         });
       });
@@ -421,9 +463,9 @@ class Order extends Component {
         //this.getCalories();
         drinkNF[cDrink] = getNutritionalFacts(st[cDrink]);
         console.log("nf ", drinkNF[cDrink]);
-        top3[cDrink] = getTop3(drinkNF[cDrink]);
+        top6[cDrink] = getTop6(drinkNF[cDrink]);
         this.setState({
-          top3: top3,
+          top6: top6,
           drinksNutrition: drinkNF,
         });
       });
@@ -443,6 +485,7 @@ class Order extends Component {
     const scrollToTop = document.getElementById("scrollToTop");
     const clearButton = document.getElementById("clearButton");
     const rightSide = document.getElementById("right-side");
+    const checkoutButton = document.getElementById("checkoutButton")
     //console.log("outerWidth ", window.outerWidth);
     // Small screen. fixed div
     if (window.scrollY > 309 && window.outerWidth < 575) {
@@ -573,7 +616,7 @@ class Order extends Component {
         <label
           key={index}
           className={"drinkRowName"}
-          style={{ display: "inline-grid" }}
+          style={{ display: "inline-grid", margin: "3px" }}
         >
           <input
             type="radio"
@@ -582,14 +625,14 @@ class Order extends Component {
             onChange={this.onCurrentDrink}
             value={index}
           />
-          drink {index + 1}
+          <p style={{ margin: 0, textAlign: "center" }}>{index + 1}</p>
           <Spring from={{ percent: 0 }} to={{ percent: 100 }}>
             {(index) => (
               <div
                 className="progress vertical miniDrink"
                 style={{
-                  height: "40px",
-                  width: "40px",
+                  height: "35px",
+                  width: "25px",
                   marginLeft: 0,
                   marginRight: 0,
                 }}
@@ -625,7 +668,7 @@ class Order extends Component {
               borderWidth: "thin",
               borderStyle: "solid",
               borderRadius: "25px",
-              padding: "12px",
+              padding: "7px",
               backgroundColor: item.color + "80",
             }}
           >
@@ -634,7 +677,7 @@ class Order extends Component {
                 <Row style={{ margin: 0 }}>
                   <Col
                     sm={"auto"}
-                    style={{ maxWidth: "min-content", padding: 0 }}
+                    style={{ maxWidth: "min-content", padding: 0, marginLeft: "6px" }}
                   >
                     <img
                       src={item.img}
@@ -669,23 +712,29 @@ class Order extends Component {
               </Col>
               <Col
                 className="col-auto"
-                style={{ paddingLeft: 0, paddingRight: 0, marginRight: "9px" }}
+                style={{ paddingLeft: 0, paddingRight: 0 }}
               >
                 <Row className="justify-content-center">
-                  <Col className="col-auto" style={{ padding: 0 }}>
+                  <Col
+                    className="col-auto"
+                    style={{ padding: 0, width: "70px" }}
+                  >
                     <input
                       className="inputNumber"
                       type="number"
                       min={0}
                       pattern="[0-9]*"
                       max={this.state.size}
-                      id={item.name}
-                      name={item.name}
+                      id={key}
+                      name={key}
                       style={{
-                        height: "40px",
-                        width: "40px",
+                        height: "32px",
+                        width: "29px",
+                        float: "left",
                         flex: 1,
                         borderRadius: "5px",
+                        padding: "4px",
+                        paddingRight: 0
                       }}
                       value={
                         this.state.drinks[curentDrink][key]
@@ -694,29 +743,32 @@ class Order extends Component {
                       }
                       onChange={this.onChange}
                     ></input>
-                    <Button
-                      style={{
-                        fontSize: "large",
-                        border: "none",
-                        width: "25px",
-                        backgroundColor: "darkseagreen",
-                        padding: "0rem 0rem 0rem 0rem",
-                      }}
-                      onClick={() => this.increment(key)}
-                    >
-                      +
-                    </Button>
-                    <Button
-                      style={{
-                        fontSize: "large",
-                        border: "none",
-                        width: "25px",
-                        backgroundColor: "darkseagreen",
-                        padding: "0rem 0rem 0rem 0rem",
-                      }}
-                    >
-                      -
-                    </Button>
+                    <div className="btn-group-vertical" style={{marginLeft: "3px"}}>
+                      <Button
+                        style={{
+                          border: "none",
+                          width: "20px",
+                          height: "17px",
+                          backgroundColor: "darkseagreen",
+                          padding: "0rem 0rem 0rem 0rem",
+                        }}
+                        onClick={() => this.increment(key)}
+                      >
+                        <p style={{ fontSize: '10px', margin: 0, marginTop: '-2px', fontWeight: 'bold' }}>+</p>
+                      </Button>
+                      <Button
+                        style={{
+                          fontSize: "small",
+                          border: "none",
+                          width: "20px",
+                          height: "17px",
+                          backgroundColor: "darkseagreen",
+                          padding: "0rem 0rem 0rem 0rem",
+                        }}
+                      >
+                        <p style={{ fontSize: '10px', margin: 0, marginTop: '-2px', fontWeight: 'bold' }}>-</p>
+                      </Button>
+                    </div>
                   </Col>
                 </Row>
                 <Row>
@@ -736,34 +788,33 @@ class Order extends Component {
       this.state.cost[3] +
       this.state.cost[4];
 
-      function capitalizeFirstLetter(string){
-        var s = string.charAt(0).toUpperCase() + string.slice(1);
-        for(var i = 1; i< s.length; i++){
-          if(s[i] != s[i].toLowerCase()){
-            s = s.slice(0, i) + " " + s.slice(i);
-            i = s.length
-          }
+    function capitalizeFirstLetter(string) {
+      console.log(string)
+      var s = string.charAt(0).toUpperCase() + string.slice(1);
+      for (var i = 1; i < s.length; i++) {
+        if (s[i] != s[i].toLowerCase()) {
+          s = s.slice(0, i) + " " + s.slice(i);
+          i = s.length;
         }
-        return s;
       }
+      return s;
+    }
 
     return (
       <Container fluid style={{ backgroundColor: "#fffff0" }}>
         <br />
         <Row className="justify-content-md-center">
           <Col
-            sm={7}
-            xs={8}
             style={{ display: "flex" }}
             className="justify-content-md-center"
           >
-            <p style={{ fontSize: "larger" }}>Amount of Drinks:</p>
+            <p style={{ fontSize: "large" }}>Amount of Drinks:</p>
             <ButtonGroup
               name="d"
               toggle
               aria-label="First group"
               size="md"
-              style={{ height: "34px", marginLeft: "5px" }}
+              style={{ height: "34px", marginLeft: "8px", marginTop: "-5px" }}
             >
               <ToggleButton
                 name="3"
@@ -803,61 +854,6 @@ class Order extends Component {
               </ToggleButton>
             </ButtonGroup>
           </Col>
-          <Col
-            sm={4}
-            xs={4}
-            style={{ display: "flex" }}
-            className="justify-content-md-center"
-          >
-            <p style={{ fontSize: "larger" }}>Size: 16oz</p>
-            {/*
-            <ButtonGroup
-              toggle
-              size="sm"
-              aria-label="First group"
-              style={{ height: "30px", marginLeft: "5px" }}
-            >
-              <ToggleButton
-                variant="secondary"
-                onClick={() => {
-                  this.setState({ size: 16 });
-                  this.getPercentage();
-                }}
-                value={16}
-                name={"s"}
-                type="radio"
-                checked={this.state.size == 16}
-              >
-                Small
-              </ToggleButton>
-              <ToggleButton
-                variant="secondary"
-                onClick={() => {
-                  this.setState({ size: 20 });
-                  this.getPercentage();
-                }}
-                value={20}
-                name={"m"}
-                type="radio"
-                checked={this.state.size == 20}
-              >
-                Medium
-              </ToggleButton>
-              <ToggleButton
-                variant="secondary"
-                onClick={() => {
-                  this.setState({ size: 24 });
-                  this.getPercentage();
-                }}
-                value={24}
-                name={"l"}
-                type="radio"
-                checked={this.state.size == 24}
-              >
-                Large
-              </ToggleButton>
-            </ButtonGroup> */}
-          </Col>
         </Row>
         {/*  */}
         <Row className={" justify-content-center miniScreen"}>
@@ -891,292 +887,192 @@ class Order extends Component {
             sm={6}
             md={6}
             xs={7}
-            style={{ textAlign: "center", alignSelf: "end" }}
+            style={{ textAlign: "center", alignSelf: "end", paddingLeft: "0", paddingRight: "3px" }}
           >
-            <div style={{ borderRadius: "6px", borderStyle: "solid" }}>
-              <p>
-                Cost of Drink: $
-                {this.state.cost[this.state.currentDrink].toFixed(2)}
-              </p>
-              <div
-                style={{
-                  padding: "0 0 0 4px",
-                  backgroundColor: "white",
-                  border: "solid #eeeeee",
-                  borderRadius: "15px",
-                  borderColor: "black",
-                  height: "auto",
-                }}
-              >
-                <h3 style={{ fontWeight: "bold", marginBottom: "-8px" }}>
-                  Nutrition Facts
-                </h3>
-                <p style={{ marginBottom: 0, fontSize: "small" }}>
-                  1 servings per {this.state.remai} ounce
-                </p>
+            <div id="nutritionfacts">
+              <table cellSpacing={"0"} cellPadding={"0"}>
+                <tbody>
+                  <tr>
+                    <td align="center" className="header">
+                      Nutrition Facts
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="headerr">Nutrition Facts</div>
+                    </td>
+                  </tr>
+                  <tr style={{ height: "7px" }}>
+                    <td bgcolor="#000000"></td>
+                  </tr>
+                  <tr>
+                    <td style={{ fontSize: "7pt", float: "left" }}>
+                      <div className="line">Amount Per Serving</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="label">
+                          Calories{" "}
+                          <div className="weight">
+                            {
+                              this.state.drinksNutrition[
+                                this.state.currentDrink
+                              ].calories
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="dvlabel" style={{ float: "right" }}>
+                          % Daily Value<sup>*</sup>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="label">
+                          Total Fat{" "}
+                          <div className="weight">
+                            {this.state.drinksNutrition[
+                              this.state.currentDrink
+                            ].totalFat.toFixed(2)}
+                            g
+                          </div>
+                        </div>
+                        <div className="dv">10%</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr></tr>
 
-                <div
-                  style={{
-                    display: "block ruby",
-                    marginTop: "-8px",
-                    height: "22px",
-                  }}
-                >
-                  <p
-                    style={{
-                      marginBottom: 0,
-                      padding: 0,
-                      float: "left",
-                      fontSize: "small",
-                      width: "90px",
-                    }}
-                  >
-                    Serving Size
-                  </p>
-                  <p
-                    style={{
-                      marginBottom: 0,
-                      width: "36px",
-                      float: "right",
-                      fontSize: "small",
-                    }}
-                  >
-                    1 oz.
-                  </p>
-                </div>
-                <hr
-                  style={{
-                    marginTop: 0,
-                    marginBottom: 0,
-                    backgroundColor: "black",
-                    width: "98%",
-                    height: "5px",
-                  }}
-                ></hr>
-                <p style={{ fontWeight: "bold", margin: 0 }}>
-                  Amount per serving
-                </p>
-                <div style={{ margin: 0, display: "flow-root" }}>
-                  <h4
-                    style={{
-                      fontWeight: "bold",
-                      marginTop: "-8px",
-                      width: "max-content",
-                      float: "left",
-                      marginBottom: 0,
-                    }}
-                  >
-                    Calories
-                  </h4>
-                  <h3
-                    style={{
-                      fontWeight: "bold",
-                      width: "max-content",
-                      float: "right",
-                      marginRight: "5px",
-                      marginTop: "-12px",
-                      marginBottom: 0,
-                    }}
-                  >
-                    {this.state.drinksNutrition[this.state.currentDrink].calories}
-                  </h3>
-                </div>
-
-                <hr
-                  style={{
-                    marginRight: "6px",
-                    marginTop: 0,
-                    marginBottom: 0,
-                    backgroundColor: "black",
-                    width: "98%",
-                    height: "3px",
-                  }}
-                ></hr>
-                <div style={{ display: "flow-root", marginRight: "8px" }}>
-                  <b style={{ float: "right" }}>% Daily Value</b>
-                </div>
-                <hr
-                  style={{
-                    marginRight: "6px",
-                    marginTop: 0,
-                    marginBottom: 0,
-                    backgroundColor: "black",
-                    width: "98%",
-                    height: "1px",
-                  }}
-                />
-                <div style={{ display: "flow-root" }}>
-                  <b>Total Fat</b>{" "}
-                  {this.state.drinksNutrition[this.state.currentDrink].totalFat.toFixed(3)}{" "}
-                  <b style={{ float: "right", marginRight: "8px" }}>
-                    {/*this.getDailyValue('totalFat', this.state.drinks[this.state.currentDrink].totalFat)*/}
-                    %
-                  </b>
-                </div>
-                <hr
-                  style={{
-                    marginRight: "6px",
-                    marginTop: 0,
-                    marginBottom: 0,
-                    backgroundColor: "black",
-                    width: "98%",
-                    height: "1px",
-                  }}
-                />
-                <div style={{ display: "flow-root" }}>
-                  <b>Total Carbohydrate</b>{" "}
-                  {this.state.drinksNutrition[this.state.currentDrink].totalCarbohydrate.toFixed(3)}{" "}
-                  <b style={{ float: "right", marginRight: "8px" }}>
-                    {/*this.getDailyValue('totalCarbohydrate', this.state.drinks[this.state.currentDrink].totalCarbohydrate)*/}
-                    %
-                  </b>
-                </div>
-                <hr
-                  style={{
-                    marginRight: "6px",
-                    marginTop: 0,
-                    marginBottom: 0,
-                    backgroundColor: "black",
-                    width: "98%",
-                    height: "1px",
-                  }}
-                />
-                <div style={{ display: "flow-root" }}>
-                  <p
-                    style={{
-                      float: "left",
-                      marginLeft: "25px",
-                      marginRight: "4px",
-                      marginBottom: 0,
-                    }}
-                  >
-                    Dietary Fiber
-                  </p>{" "}
-                  0g
-                  <b style={{ float: "right", marginRight: "8px" }}>0%</b>
-                </div>
-                <hr
-                  style={{
-                    marginRight: "6px",
-                    marginTop: 0,
-                    marginBottom: 0,
-                    backgroundColor: "black",
-                    width: "98%",
-                    height: "1px",
-                  }}
-                />
-                <div style={{ display: "flow-root" }}>
-                  <p
-                    style={{
-                      float: "left",
-                      marginLeft: "25px",
-                      marginRight: "4px",
-                      marginBottom: 0,
-                    }}
-                  >
-                    Sugar
-                  </p>
-                  {this.state.drinksNutrition[this.state.currentDrink].sugar.toFixed(3)}
-                </div>
-                <hr
-                  style={{
-                    marginRight: "6px",
-                    marginTop: 0,
-                    marginBottom: 0,
-                    backgroundColor: "black",
-                    width: "98%",
-                    height: "1px",
-                  }}
-                />
-                <div style={{ display: "flow-root" }}>
-                  <b>Protein</b>{" "}
-                  {this.state.drinksNutrition[this.state.currentDrink].protein.toFixed(3)}
-                </div>
-                <hr
-                  style={{
-                    marginRight: "6px",
-                    marginTop: 0,
-                    marginBottom: 0,
-                    backgroundColor: "black",
-                    width: "98%",
-                    height: "8px",
-                  }}
-                />
-                {this.state.top3[this.state.currentDrink].map((mineral) => (
-                  <div style={{ display: "flow-root" }}>
-                    <p
-                      style={{
-                        float: "left",
-                        marginLeft: "1px",
-                        marginBottom: 0,
-                      }}
-                    >
-                      {mineral[0]} {mineral[1]}
-                    </p>
-                    <p
-                      style={{
-                        float: "right",
-                        marginRight: "8px",
-                        marginBottom: 0,
-                      }}
-                    >
-                      {Math.round(mineral[1] * 100)}%
-                    </p>
-                  </div>
-                ))}
-                <button
-                  style={{
-                    position: "absolute",
-                    right: 0,
-                    backgroundColor: "transparent",
-                    border: "transparent",
-                  }}
-                  // onClick={() => this.flipCard(index)}
-                >
-                  {/*<img width="40px" height="40px" src={flip}></img>*/}
-                </button>
-                {/* size for the button being absolute in position*/}
-              </div>
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="label">
+                          Total Carbohydrates{" "}
+                          <div className="weight">3
+                  {this.state.drinksNutrition[
+                    this.state.currentDrink
+                  ].totalCarbohydrate.toFixed(2)}g</div>
+                        </div>
+                        <div className="dv">11%</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="indent">
+                      <div className="line">
+                        <div className="labellight">
+                          Dietary Fiber <div className="weight">0g</div>
+                        </div>
+                        <div className="dv">0%</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="indent">
+                      <div className="line">
+                        <div className="labellight">
+                          Sugars <div className="weight">    {this.state.drinksNutrition[
+                    this.state.currentDrink
+                  ].sugar.toFixed(1)}g</div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="label">
+                          Protein <div className="weight">{this.state.drinksNutrition[
+                    this.state.currentDrink
+                  ].protein.toFixed(1)}g</div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr style={{ height: "7px" }}>
+                    <td bgcolor="#000000"></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table
+                        cellSpacing={"0"}
+                        cellPadding={"0"}
+                        border="0"
+                        className="vitamins"
+                      >
+                        <tbody>
+            {this.state.ounces[this.state.currentDrink] != 0 ? <>
+                          <tr>
+                            <td>{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][0][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][0][1].toFixed(1)}%</td>
+                            <td align="center">•</td>
+                            <td align="right">{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][3][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][3][1].toFixed(1)}%</td>
+                          </tr>
+                          <tr>
+                            <td>{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][1][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][1][1].toFixed(1)}%</td>
+                            <td align="center">•</td>
+                            <td align="right">{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][4][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][4][1].toFixed(1)}%</td>
+                          </tr>
+                          <tr>
+                            <td>{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][2][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][2][1].toFixed(1)}%</td>
+                            <td align="center">•</td>
+                            <td align="right">{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][5][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][5][1].toFixed(1)}%</td>
+                          </tr> </>
+                          : <></>}
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="labellight">
+                          * Based on a regular 2000 calorie diet
+                          <br />
+                          <br />
+                          <i>
+                            Nutritional details are an estimate and should only
+                            be used as a guide for approximation.
+                          </i>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            {this.state.nextPageReady && (
-              <Button
-                variant="success"
-                onClick={this.checkout}
-                /* to={{
-                    pathname: "/checkout",
-                    state: {
-                      drinks: this.state.drinks,
-                      cost: this.state.cost,
-                      sizeOfOrder: this.state.sizeOfOrder,
-                      color: this.state.colors,
-                    },
-                  }} */
-              >
-                Checkout
-              </Button>
-            )}
           </Col>
         </Row>
-
-        <br />
-        <Row className="justify-content-center ">
+        <Row className="justify-content-center " style={{marginTop: "5px"}}>
           <Col>
             <Container>
               <Row className="row justify-content-between">
                 <Col
-                  style={{ paddingTop: "5px", borderRadius: "7px" }}
+                  style={{
+                    paddingTop: "5px",
+                    borderRadius: "7px",
+                    display: "block",
+                  }}
                   className="remainingOunces"
                   id="remainingOunces"
                 >
                   Remaining Ounces:{" "}
                   {this.state.size - this.state.ounces[this.state.currentDrink]}
                 </Col>
-                <Col className="col-2">
+                <Col className="col-5">
                   <Button
                     id="clearButton"
                     style={{
                       padding: ".1rem .4rem",
-                      float: "right",
                       borderRadius: "7px",
                     }}
                     onClick={this.clearDrink}
@@ -1188,16 +1084,27 @@ class Order extends Component {
                     style={{
                       display: "none",
                       padding: ".1rem .4rem",
-                      float: "right",
                       borderRadius: "7px",
                     }}
                     onClick={this.scrollToTop}
                   >
                     ⬆
                   </Button>
+                  {this.state.nextPageReady && (
+                  <Button
+                    id={"checkoutButton"}
+                    style={{
+                      padding: ".1rem .4rem",
+                      float: "right",
+                      borderRadius: "7px",
+                    }} variant="success"
+                    onClick={this.checkout}
+                  >
+                    Checkout
+                  </Button>)}
                 </Col>
               </Row>
-              <Row>{listItems(this.state.currentDrink)}</Row>
+              <Row style={{marginTop: "3px"}}>{listItems(this.state.currentDrink)}</Row>
             </Container>
             <br />
             <Container fluid="md">{this.madeDrinks()}</Container>
@@ -1241,252 +1148,168 @@ class Order extends Component {
                   className="col-lg-9 col-md-10 col-sm-12"
                   style={{ border: "none", padding: 0 }}
                 >
-                  <div
-                    style={{
-                      padding: "0 0 0 4px",
-                      backgroundColor: "white",
-                      border: "solid #eeeeee",
-                      borderRadius: "15px",
-                      borderColor: "black",
-                      height: "auto",
-                    }}
-                  >
-                    <h3 style={{ fontWeight: "bold", marginBottom: "-8px" }}>
+              
+            <div id="nutritionfacts">
+              <table cellSpacing={"0"} cellPadding={"0"}>
+                <tbody>
+                  <tr>
+                    <td align="center" className="header">
                       Nutrition Facts
-                    </h3>
-                    <p style={{ marginBottom: 0, fontSize: "small" }}>
-                      1 servings per 16 ounce
-                    </p>
-
-                    <div
-                      style={{
-                        display: "block ruby",
-                        marginTop: "-8px",
-                        height: "22px",
-                      }}
-                    >
-                      <p
-                        style={{
-                          marginBottom: 0,
-                          padding: 0,
-                          float: "left",
-                          fontSize: "small",
-                          width: "90px",
-                        }}
-                      >
-                        Serving Size
-                      </p>
-                      <p
-                        style={{
-                          marginBottom: 0,
-                          width: "36px",
-                          float: "right",
-                          fontSize: "small",
-                        }}
-                      >
-                        {this.state.ounces[this.state.currentDrink]} oz.
-                      </p>
-                    </div>
-                    <hr
-                      style={{
-                        marginTop: 0,
-                        marginBottom: 0,
-                        backgroundColor: "black",
-                        width: "98%",
-                        height: "5px",
-                      }}
-                    ></hr>
-                    <p style={{ fontWeight: "bold", margin: 0 }}>
-                      Amount per serving
-                    </p>
-                    <div style={{ margin: 0, display: "flow-root" }}>
-                      <h4
-                        style={{
-                          fontWeight: "bold",
-                          marginTop: "-8px",
-                          width: "max-content",
-                          float: "left",
-                          marginBottom: 0,
-                        }}
-                      >
-                        Calories
-                      </h4>
-                      <h3
-                        style={{
-                          fontWeight: "bold",
-                          width: "max-content",
-                          float: "right",
-                          marginRight: "5px",
-                          marginTop: "-12px",
-                          marginBottom: 0,
-                        }}
-                      >
-                        {
-                          this.state.drinksNutrition[this.state.currentDrink][
-                            "calories"
-                          ]
-                        }
-                      </h3>
-                    </div>
-
-                    <hr
-                      style={{
-                        marginRight: "6px",
-                        marginTop: 0,
-                        marginBottom: 0,
-                        backgroundColor: "black",
-                        width: "98%",
-                        height: "3px",
-                      }}
-                    ></hr>
-                    <div style={{ display: "flow-root", marginRight: "8px" }}>
-                      <b style={{ float: "right" }}>% Daily Value</b>
-                    </div>
-                    <hr
-                      style={{
-                        marginRight: "6px",
-                        marginTop: 0,
-                        marginBottom: 0,
-                        backgroundColor: "black",
-                        width: "98%",
-                        height: "1px",
-                      }}
-                    />
-                    <div style={{ display: "flow-root" }}>
-                      <b>Total Fat</b>{" "}
-                      {
-                        this.state.drinksNutrition[this.state.currentDrink][
-                          "totalFat"
-                        ].toFixed(3)
-                      }
-                      {"g"}
-                      <b style={{ float: "right", marginRight: "8px" }}> %</b>
-                    </div>
-                    <hr
-                      style={{
-                        marginRight: "6px",
-                        marginTop: 0,
-                        marginBottom: 0,
-                        backgroundColor: "black",
-                        width: "98%",
-                        height: "1px",
-                      }}
-                    />
-                    <div style={{ display: "flow-root" }}>
-                      <b>Total Carbohydrate</b>{" "}
-                      {
-                        this.state.drinksNutrition[this.state.currentDrink][
-                          "totalCarbohydrate"
-                        ].toFixed(3)
-                      }
-                      {"g"}
-                      <b style={{ float: "right", marginRight: "8px" }}> %</b>
-                    </div>
-                    <hr
-                      style={{
-                        marginRight: "6px",
-                        marginTop: 0,
-                        marginBottom: 0,
-                        backgroundColor: "black",
-                        width: "98%",
-                        height: "1px",
-                      }}
-                    />
-                    <div style={{ display: "flow-root" }}>
-                      <p
-                        style={{
-                          float: "left",
-                          marginLeft: "25px",
-                          marginRight: "4px",
-                          marginBottom: 0,
-                        }}
-                      >
-                        Dietary Fiber
-                      </p>{" "}
-                      0g
-                      <b style={{ float: "right", marginRight: "8px" }}>0%</b>
-                    </div>
-                    <hr
-                      style={{
-                        marginRight: "6px",
-                        marginTop: 0,
-                        marginBottom: 0,
-                        backgroundColor: "black",
-                        width: "98%",
-                        height: "1px",
-                      }}
-                    />
-                    <div style={{ display: "flow-root" }}>
-                      <p
-                        style={{
-                          float: "left",
-                          marginLeft: "25px",
-                          marginRight: "4px",
-                          marginBottom: 0,
-                        }}
-                      >
-                        Sugar{" "}
-                        {
-                          this.state.drinksNutrition[this.state.currentDrink][
-                            "sugar"
-                          ].toFixed(3)
-                        }
-                        {"g"}
-                      </p>
-                    </div>
-                    <hr
-                      style={{
-                        marginRight: "6px",
-                        marginTop: 0,
-                        marginBottom: 0,
-                        backgroundColor: "black",
-                        width: "98%",
-                        height: "1px",
-                      }}
-                    />
-                    <div style={{ display: "flow-root" }}>
-                      <b>Protein</b>{" "}
-                      {
-                        this.state.drinksNutrition[this.state.currentDrink][
-                          "protein"
-                        ].toFixed(3)
-                      }
-                      {"g"}
-                    </div>
-                    <hr
-                      style={{
-                        marginRight: "6px",
-                        marginTop: 0,
-                        marginBottom: 0,
-                        backgroundColor: "black",
-                        width: "98%",
-                        height: "8px",
-                      }}
-                    />
-                    {this.state.top3[this.state.currentDrink].map((mineral, i) => (
-                      <div style={{ display: "flow-root" }} key={i}>
-                        <p
-                          style={{
-                            float: "left",
-                            marginLeft: "1px",
-                            marginBottom: 0,
-                          }}
-                        >
-                          {capitalizeFirstLetter(mineral[0])}{" "}
-                          {this.state.drinksNutrition[this.state.currentDrink][mineral[0]].toFixed(3)}{"mg"}
-                        </p>
-                        <p
-                          style={{
-                            float: "right",
-                            marginRight: "8px",
-                            marginBottom: 0,
-                          }}
-                        >
-                          {mineral[1].toFixed(2)}%
-                        </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="headerr">Nutrition Facts</div>
+                    </td>
+                  </tr>
+                  <tr style={{ height: "7px" }}>
+                    <td bgcolor="#000000"></td>
+                  </tr>
+                  <tr>
+                    <td style={{ fontSize: "7pt", float: "left" }}>
+                      <div className="line">Amount Per Serving</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="label">
+                          Calories{" "}
+                          <div className="weight">
+                            {
+                              this.state.drinksNutrition[
+                                this.state.currentDrink
+                              ].calories
+                            }
+                          </div>
+                        </div>
                       </div>
-                    ))}
-                  </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="dvlabel" style={{ float: "right" }}>
+                          % Daily Value<sup>*</sup>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="label">
+                          Total Fat{" "}
+                          <div className="weight">
+                            {this.state.drinksNutrition[
+                              this.state.currentDrink
+                            ].totalFat.toFixed(2)}
+                            g
+                          </div>
+                        </div>
+                        <div className="dv">10%</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr></tr>
+
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="label">
+                          Total Carbohydrates{" "}
+                          <div className="weight">3
+                  {this.state.drinksNutrition[
+                    this.state.currentDrink
+                  ].totalCarbohydrate.toFixed(2)}g</div>
+                        </div>
+                        <div className="dv">11%</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="indent">
+                      <div className="line">
+                        <div className="labellight">
+                          Dietary Fiber <div className="weight">0g</div>
+                        </div>
+                        <div className="dv">0%</div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="indent">
+                      <div className="line">
+                        <div className="labellight">
+                          Sugars <div className="weight">    {this.state.drinksNutrition[
+                    this.state.currentDrink
+                  ].sugar.toFixed(1)}g</div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="label">
+                          Protein <div className="weight">{this.state.drinksNutrition[
+                    this.state.currentDrink
+                  ].protein.toFixed(1)}g</div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr style={{ height: "7px" }}>
+                    <td bgcolor="#000000"></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table
+                        cellSpacing={"0"}
+                        cellPadding={"0"}
+                        border="0"
+                        className="vitamins"
+                      >
+                        <tbody>
+            {this.state.ounces[this.state.currentDrink] != 0 ? <>
+                          <tr>
+                            <td>{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][0][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][0][1].toFixed(1)}%</td>
+                            <td align="center">•</td>
+                            <td align="right">{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][3][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][3][1].toFixed(1)}%</td>
+                          </tr>
+                          <tr>
+                            <td>{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][1][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][1][1].toFixed(1)}%</td>
+                            <td align="center">•</td>
+                            <td align="right">{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][4][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][4][1].toFixed(1)}%</td>
+                          </tr>
+                          <tr>
+                            <td>{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][2][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][2][1].toFixed(1)}%</td>
+                            <td align="center">•</td>
+                            <td align="right">{capitalizeFirstLetter(this.state.top6[this.state.currentDrink][5][0])} &nbsp;&nbsp; {this.state.top6[this.state.currentDrink][5][1].toFixed(1)}%</td>
+                          </tr> </>
+                          : <></>}
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="line">
+                        <div className="labellight">
+                          * Based on a regular 2000 calorie diet
+                          <br />
+                          <br />
+                          <i>
+                            Nutritional details are an estimate and should only
+                            be used as a guide for approximation.
+                          </i>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
                 </Col>
               </Row>
               <Row
