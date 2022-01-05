@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Order.css";
 import { list, dailyRecommendation, minerals } from "../MenuList";
-import fuji from "../assets/fuji-apple.jpg";
 import mlist from "../madeDrinks";
 import getNutritionalFacts, { getTop6 } from "../utils/getNutritionalFacts";
 import {
@@ -11,12 +10,9 @@ import {
   Col,
   ButtonGroup,
   ToggleButton,
-  InputGroup,
 } from "react-bootstrap";
 import { Spring } from "react-spring";
 import mixColors from "mix-colors";
-import { Link } from "react-router-dom";
-import listo from "../listo.js";
 
 class Order extends Component {
   constructor(props) {
@@ -69,7 +65,6 @@ class Order extends Component {
     this.onCurrentDrink = this.onCurrentDrink.bind(this);
     this.onChange = this.onChange.bind(this);
     this.color = this.color.bind(this);
-    this.getVitamins = this.getVitamins.bind(this);
     this.getCost = this.getCost.bind(this);
     this.getPercentage = this.getPercentage.bind(this);
     this.getCalories = this.getCalories.bind(this);
@@ -82,15 +77,16 @@ class Order extends Component {
 
   checkout() {
     //window.location.href='/checkout'
-    const { drinks, cost, sizeOfOrder, colors, percentages } = this.state;
-    this.props.setOrder(drinks, cost, sizeOfOrder, colors, percentages);
+    const { drinks, cost, sizeOfOrder, colors, percentages, drinksNutrition } = this.state;
+    this.props.setOrder(drinks, cost, sizeOfOrder, colors, percentages, drinksNutrition);
     this.props.history.push({
       pathname: "/checkout",
       state: {
-        drinks: this.state.drinks,
-        cost: this.state.cost,
-        sizeOfOrder: this.state.sizeOfOrder,
-        color: this.state.colors,
+        drinks: drinks,
+        cost: cost,
+        sizeOfOrder: sizeOfOrder,
+        color: colors,
+        drinksNutrition: drinksNutrition
       },
     });
   }
@@ -109,7 +105,6 @@ class Order extends Component {
       () => {
         this.getPercentage();
         this.color();
-        this.getVitamins();
         this.getCost();
         this.getCalories();
       }
@@ -136,7 +131,6 @@ class Order extends Component {
       () => {
         this.getPercentage();
         this.color();
-        this.getVitamins();
         this.getCost();
         this.getCalories();
       }
@@ -144,15 +138,8 @@ class Order extends Component {
   }
 
   nextPage(percentages) {
-    //console.log("nextpage");
     const sizeOfOrder = this.state.sizeOfOrder;
     const slicedDrinksPercentage = percentages.slice(0, sizeOfOrder);
-    //console.log(
-    // slicedDrinksPercentage,
-    // " ",
-    //slicedDrinksPercentage.some((p) => p < 100)
-    //);
-
     if (slicedDrinksPercentage.some((p) => p < 100)) {
       return this.setState({ nextPageReady: false });
     } else {
@@ -164,18 +151,23 @@ class Order extends Component {
     const drink = this.state.drinks[this.state.currentDrink];
     const copyOfCost = this.state.cost.slice(); //copy the array
     var cost = 0;
-    for (const p in this.state.drinks[this.state.currentDrink]) {
+    console.log("here")
+    for (const p in drink) {
       // for each produce in drink
-      if (this.state.drinks[this.state.currentDrink][p] > 0) {
+      if (drink[p] > 0) {
+        console.log("p: ", p)
         // if produce has a value greater than 0
-        for (const produce in list) {
+        for (const [key, value] of Object.entries(list)) {
           // for each item in menu list
-          if (list[produce] == p) {
+          console.log('key: ', key)
+          if (key === p) {
             // if item equal produce name
+            console.log(key)
             cost =
               cost +
-              list[produce].costPerOunce *
-                this.state.drinks[this.state.currentDrink][p]; // push color of produce ounce
+              value.costPerOunce *
+                drink[p]; // push color of produce ounce
+                console.log(cost)
           }
         }
       }
@@ -195,10 +187,7 @@ class Order extends Component {
         for (const produce in list) {
           // for each item in menu list
           if (list[produce].name == p) {
-            // if item equal produce name
-            //console.log("list[produce]: ", list[produce])
-            //console.log("this.state.drinks[this.state.currentDrink][p]: ", this.state.drinks[this.state.currentDrink][p])
-            calories =
+              calories =
               calories +
               list[produce].calories *
                 this.state.drinks[this.state.currentDrink][p]; // push color of produce ounce
@@ -210,36 +199,7 @@ class Order extends Component {
     this.setState({ calories: copyOfCalories });
   }
 
-  getVitamins() {
-    const drink = this.state.drinks[this.state.currentDrink];
-    let st = [...this.state.vitamins];
-    var vitamins = {};
-    for (const p in this.state.drinks[this.state.currentDrink]) {
-      // for each produce in drink
-      if (this.state.drinks[this.state.currentDrink][p] > 0) {
-        // if produce has a value greater than 0
-        for (const produce in list) {
-          // for each item in menu list
-          if (produce == p) {
-            //console.log("produce: ", produce)
-            // if item equal produce name
-            //cost = cost + (list[produce].costPerOunce * this.state.drinks[this.state.currentDrink][p]); // push color of produce ounce
-            for (const a in produce.vitamins) {
-              //console.log(a); /// HERE
-              //console.log("produce.vitamins: ", a)
-            }
-          }
-        }
-      }
-    }
-    /*st[this.state.currentDrink] = {
-      ...st[this.state.currentDrink],
-      [e.target.name]: parseInt(e.target.value),
-    };
-    this.setState({ vitamins: st });
-    */
-  }
-
+  // get percentage and ounces
   getPercentage() {
     var num = 0;
     const doubled = Object.entries(
@@ -256,7 +216,7 @@ class Order extends Component {
     copyOfPercent[this.state.currentDrink] = percent; // new percentage of drink
     this.setState({ ounces: newOunces, percentages: copyOfPercent }, () =>
       this.nextPage(copyOfPercent)
-    ); //set the new state
+    ); 
   }
 
   // Set color of cup fluid
@@ -299,8 +259,6 @@ class Order extends Component {
 
   // change drink property
   onChange = (e) => {
-    //console.log('onChange')
-
     const value = e.target.value.replace(/^0+/, "");
     const name = e.target.name;
     if (this.state.ounces[this.state.currentDrink] == 16) {
@@ -309,16 +267,12 @@ class Order extends Component {
     if (value > 17 - this.state.ounces[this.state.currentDrink]) {
       return;
     }
-
     const v = this.state.drinks[this.state.currentDrink][name];
     let st = [...this.state.drinks];
     let top6 = [...this.state.top6];
     let drinkNF = [...this.state.drinksNutrition];
     const cDrink = this.state.currentDrink;
-    console.log("v: ", value);
-    console.log("name", name);
     if (v == undefined || v == "") {
-      console.log("here");
       if (value.length == 0) {
         st[this.state.currentDrink] = {
           ...st[this.state.currentDrink],
@@ -334,8 +288,7 @@ class Order extends Component {
         //console.log(this.state.drinks[this.state.currentDrink])
         this.getPercentage();
         //this.color();
-        this.getVitamins();
-        //this.getCost();
+        this.getCost();
         //this.getCalories();
         drinkNF[cDrink] = getNutritionalFacts(st[cDrink]);
         console.log("nf ", drinkNF[cDrink]);
@@ -367,11 +320,9 @@ class Order extends Component {
         //console.log(this.state.drinks[this.state.currentDrink])
         this.getPercentage();
         //this.color();
-        //this.getVitamins();
-        //this.getCost();
+        this.getCost();
         //this.getCalories();
         drinkNF[cDrink] = getNutritionalFacts(st[cDrink]);
-        console.log("nf ", drinkNF[cDrink]);
         top6[cDrink] = getTop6(drinkNF[cDrink]);
         this.setState({
           top6: top6,
@@ -403,7 +354,6 @@ class Order extends Component {
         }
       }
     }
-    //console.log(content);
     const dr = produceInDrink.map((item, index) => (
       <p key={index} style={{ marginBottom: 0 }}>
         {item.name} {content[item.name]}%
@@ -413,8 +363,6 @@ class Order extends Component {
   }
 
   increment = (itemName) => {
-    //console.log(itemName)
-    //console.log(this.state.drinks[this.state.currentDrink][itemName])
     const value = this.state.drinks[this.state.currentDrink][itemName];
     let st = [...this.state.drinks];
     let top6 = [...this.state.top6];
@@ -423,20 +371,16 @@ class Order extends Component {
     const drink = this.state.drinks[this.state.currentDrink];
     if (value == undefined || value == "") {
       // if value is nil
-      //console.log('here undefined')
       st[this.state.currentDrink] = {
         ...st[this.state.currentDrink],
         [itemName]: 1,
       };
       this.setState({ drinks: st }, () => {
-        //console.log(this.state.drinks[this.state.currentDrink])
         this.getPercentage();
         //this.color();
-        //this.getVitamins();
-        //this.getCost();
+        this.getCost();
         //this.getCalories();
         drinkNF[cDrink] = getNutritionalFacts(st[cDrink]);
-        console.log("nf ", drinkNF[cDrink]);
         top6[cDrink] = getTop6(drinkNF[cDrink]);
         this.setState({
           top6: top6,
@@ -458,11 +402,9 @@ class Order extends Component {
       this.setState({ drinks: st }, () => {
         this.getPercentage();
         this.color();
-        this.getVitamins();
-        //this.getCost();
+        this.getCost();
         //this.getCalories();
         drinkNF[cDrink] = getNutritionalFacts(st[cDrink]);
-        console.log("nf ", drinkNF[cDrink]);
         top6[cDrink] = getTop6(drinkNF[cDrink]);
         this.setState({
           top6: top6,
@@ -479,17 +421,17 @@ class Order extends Component {
     });
   }
 
-  handleScroll(event) {
+  handleScroll = (event) => {
     //console.log(window.scrollY);
     const div = document.getElementById("remainingOunces");
     const scrollToTop = document.getElementById("scrollToTop");
     const clearButton = document.getElementById("clearButton");
     const rightSide = document.getElementById("right-side");
     const checkoutButton = document.getElementById("checkoutButton")
+    const ounces = this.state.ounces[this.state.currentDrink]
     //console.log("outerWidth ", window.outerWidth);
     // Small screen. fixed div
     if (window.scrollY > 309 && window.outerWidth < 575) {
-      console.log(div);
       div.style.backgroundColor = "aliceblue";
       div.style.position = "fixed";
       div.style.top = "54px";
@@ -499,13 +441,23 @@ class Order extends Component {
       scrollToTop.style.display = "block";
       scrollToTop.style.position = "fixed";
       scrollToTop.style.top = "54px";
-      scrollToTop.style.left = "269px";
       scrollToTop.style.zIndex = 100;
       clearButton.style.position = "fixed";
       clearButton.style.top = "54px";
-      clearButton.style.left = "212px";
       clearButton.style.zIndex = 100;
+      checkoutButton.style.position = "fixed";
+      checkoutButton.style.top = "54px";
+      checkoutButton.style.zIndex = 100;
       rightSide.style.display = "none";
+      if(ounces > 6){
+        checkoutButton.style.left = "271px";
+        clearButton.style.left = "183px";
+        scrollToTop.style.left = "238px";
+      }else{
+        checkoutButton.style.left = "278px";
+        clearButton.style.left = "190px";
+        scrollToTop.style.left = "245px";
+      }
     } // small screen. dont fixed div
     else if (window.scrollY <= 309 && window.outerWidth < 575) {
       div.style.backgroundColor = "transparent";
@@ -517,9 +469,12 @@ class Order extends Component {
       clearButton.style.position = "relative";
       clearButton.style.top = "auto";
       clearButton.style.left = "auto";
+      checkoutButton.style.position = "relative";
+      checkoutButton.style.top = "auto";
+      checkoutButton.style.left = "auto";
       rightSide.style.display = "block";
     } // big screen. fixed div
-    else if (window.scrollY > 117 && window.outerWidth >= 575) {
+    else if (window.scrollY > 80 && window.outerWidth >= 575) {
       div.style.backgroundColor = "aliceblue";
       div.style.position = "fixed";
       div.style.top = "54px";
@@ -529,14 +484,23 @@ class Order extends Component {
       scrollToTop.style.display = "block";
       scrollToTop.style.position = "fixed";
       scrollToTop.style.top = "54px";
-      scrollToTop.style.left = "269px";
       scrollToTop.style.zIndex = 100;
       clearButton.style.position = "fixed";
       clearButton.style.position = "fixed";
       clearButton.style.top = "54px";
-      clearButton.style.left = "212px";
       rightSide.style.display = "block";
-
+      checkoutButton.style.position = "fixed";
+      checkoutButton.style.top = "54px";
+      checkoutButton.style.zIndex = 100;
+      if(ounces > 6){
+        checkoutButton.style.left = "271px";
+        clearButton.style.left = "183px";
+        scrollToTop.style.left = "238px";
+      }else{
+        checkoutButton.style.left = "278px";
+        clearButton.style.left = "190px";
+        scrollToTop.style.left = "245px";
+      }
       clearButton.style.zIndex = 100;
     } else if (window.scrollY <= 117 && window.outerWidth >= 575) {
       div.style.backgroundColor = "transparent";
@@ -548,6 +512,9 @@ class Order extends Component {
       clearButton.style.position = "relative";
       clearButton.style.top = "auto";
       clearButton.style.left = "auto";
+      checkoutButton.style.position = "relative";
+      checkoutButton.style.top = "auto";
+      checkoutButton.style.left = "auto";
     } else {
       div.style.backgroundColor = "transparent";
       div.style.position = "relative";
@@ -558,6 +525,9 @@ class Order extends Component {
       clearButton.style.position = "relative";
       clearButton.style.top = "auto";
       clearButton.style.left = "auto";
+      checkoutButton.style.position = "relative";
+      checkoutButton.style.top = "auto";
+      checkoutButton.style.left = "auto";
     }
   }
 
@@ -616,7 +586,7 @@ class Order extends Component {
         <label
           key={index}
           className={"drinkRowName"}
-          style={{ display: "inline-grid", margin: "3px" }}
+          style={{ display: "inline-grid", margin: "3px", marginBottom: 0, justifyContent: "center", width: "31px" }}
         >
           <input
             type="radio"
@@ -625,7 +595,7 @@ class Order extends Component {
             onChange={this.onCurrentDrink}
             value={index}
           />
-          <p style={{ margin: 0, textAlign: "center" }}>{index + 1}</p>
+          <p style={{ margin: 0, textAlign: "center"}}>{index + 1}</p>
           <Spring from={{ percent: 0 }} to={{ percent: 100 }}>
             {(index) => (
               <div
@@ -789,7 +759,6 @@ class Order extends Component {
       this.state.cost[4];
 
     function capitalizeFirstLetter(string) {
-      console.log(string)
       var s = string.charAt(0).toUpperCase() + string.slice(1);
       for (var i = 1; i < s.length; i++) {
         if (s[i] != s[i].toLowerCase()) {
@@ -801,20 +770,21 @@ class Order extends Component {
     }
 
     return (
-      <Container fluid style={{ backgroundColor: "#fffff0" }}>
-        <br />
-        <Row className="justify-content-md-center">
-          <Col
-            style={{ display: "flex" }}
-            className="justify-content-md-center"
-          >
-            <p style={{ fontSize: "large" }}>Amount of Drinks:</p>
+      <Container fluid style={{ backgroundColor: "#fffff0", paddingLeft: '10px', paddingRight: '10px'}}>
+        {/*  */}
+        <Row style={{height: "5px"}}></Row>
+        <Row className={" justify-content-center miniScreen"} style={{marginTop: "5px"}}>
+          <Col md={6} sm={6} xs={5} style={{ textAlign: "center", marginTop: '10px' }}>
+            {" "}
+            {/* Current Drink Image Jar */}
+            {/* <div>{this.drinkButtons}</div>*/}
+            <p style={{marginTop: 0, marginBottom: 0}}># of Drinks</p>
             <ButtonGroup
               name="d"
               toggle
               aria-label="First group"
-              size="md"
-              style={{ height: "34px", marginLeft: "8px", marginTop: "-5px" }}
+              size="sm"
+              style={{ height: "34px", marginBottom: "9px" }}
             >
               <ToggleButton
                 name="3"
@@ -853,18 +823,10 @@ class Order extends Component {
                 5
               </ToggleButton>
             </ButtonGroup>
-          </Col>
-        </Row>
-        {/*  */}
-        <Row className={" justify-content-center miniScreen"}>
-          <Col md={6} sm={6} xs={5} style={{ textAlign: "center" }}>
-            {" "}
-            {/* Current Drink Image Jar */}
-            {/* <div>{this.drinkButtons}</div>*/}
             <div className={"drinkRow"}>{drinkButtons()}</div>
             <Spring from={{ percent: 0 }} to={{ percent: 100 }}>
               {({ percent }) => (
-                <div className="progress vertical ed">
+                <div className="progress vertical ed" style={{marginBottom: 0, marginRight: 0}}>
                   <div
                     style={{
                       height: `${
@@ -887,7 +849,7 @@ class Order extends Component {
             sm={6}
             md={6}
             xs={7}
-            style={{ textAlign: "center", alignSelf: "end", paddingLeft: "0", paddingRight: "3px" }}
+            style={{ textAlign: "center",  paddingLeft: "0", paddingRight: "3px" }}
           >
             <div id="nutritionfacts">
               <table cellSpacing={"0"} cellPadding={"0"}>
@@ -958,7 +920,7 @@ class Order extends Component {
                       <div className="line">
                         <div className="label">
                           Total Carbohydrates{" "}
-                          <div className="weight">3
+                          <div className="weight">
                   {this.state.drinksNutrition[
                     this.state.currentDrink
                   ].totalCarbohydrate.toFixed(2)}g</div>
@@ -1050,6 +1012,10 @@ class Order extends Component {
                 </tbody>
               </table>
             </div>
+            <div style={{borderStyle: 'solid', borderRadius: "5px", marginTop: "3px"}}>
+              <p style={{margin: 0}}>Drink price: $</p>
+              <p style={{margin: 0}}>Total: $</p>
+            </div>
           </Col>
         </Row>
         <Row className="justify-content-center " style={{marginTop: "5px"}}>
@@ -1058,9 +1024,11 @@ class Order extends Component {
               <Row className="row justify-content-between">
                 <Col
                   style={{
-                    paddingTop: "5px",
+                    paddingTop: "3px",
                     borderRadius: "7px",
                     display: "block",
+                    paddingLeft: '5px',
+                    paddingRight: "5px"
                   }}
                   className="remainingOunces"
                   id="remainingOunces"
@@ -1068,12 +1036,12 @@ class Order extends Component {
                   Remaining Ounces:{" "}
                   {this.state.size - this.state.ounces[this.state.currentDrink]}
                 </Col>
-                <Col className="col-5">
+                <Col className="col-6" style={{textAlign: "end"}}>
                   <Button
                     id="clearButton"
                     style={{
                       padding: ".1rem .4rem",
-                      borderRadius: "7px",
+                      borderRadius: "7px", marginRight: "5px"
                     }}
                     onClick={this.clearDrink}
                   >
@@ -1090,18 +1058,18 @@ class Order extends Component {
                   >
                     ⬆
                   </Button>
-                  {this.state.nextPageReady && (
                   <Button
                     id={"checkoutButton"}
+                    disabled={!this.state.nextPageReady}
                     style={{
                       padding: ".1rem .4rem",
-                      float: "right",
                       borderRadius: "7px",
+                      marginRight: '-10px'
                     }} variant="success"
-                    onClick={this.checkout}
+                    //onClick={this.checkout}
                   >
                     Checkout
-                  </Button>)}
+                  </Button>
                 </Col>
               </Row>
               <Row style={{marginTop: "3px"}}>{listItems(this.state.currentDrink)}</Row>
@@ -1111,16 +1079,68 @@ class Order extends Component {
           </Col>
           <Col sm={4} xs={12} id="right-side">
             <div style={{ position: "sticky", top: "60px" }}>
+            <Row className="justify-content-md-center">
+          <Col
+            style={{ display: "flex" }}
+            className="justify-content-md-center"
+          >
+            <p style={{ fontSize: "large" }}># of Drinks</p>
+            <ButtonGroup
+              name="d"
+              toggle
+              aria-label="First group"
+              size="sm"
+              style={{ height: "34px", marginLeft: "4px", marginTop: "-5px" }}
+            >
+              <ToggleButton
+                name="3"
+                variant="info"
+                value={3}
+                checked={this.state.sizeOfOrder == 3}
+                onClick={() =>
+                  this.setState({ sizeOfOrder: 3, currentDrink: 0 })
+                }
+                type="radio"
+              >
+                3
+              </ToggleButton>
+              <ToggleButton
+                name="4"
+                variant="info"
+                type="radio"
+                value={4}
+                checked={this.state.sizeOfOrder == 4}
+                onClick={() =>
+                  this.setState({ sizeOfOrder: 4, currentDrink: 0 })
+                }
+              >
+                4
+              </ToggleButton>
+              <ToggleButton
+                name="5"
+                variant="info"
+                type="radio"
+                value={5}
+                checked={this.state.sizeOfOrder == 5}
+                onClick={() =>
+                  this.setState({ sizeOfOrder: 5, currentDrink: 0 })
+                }
+              >
+                5
+              </ToggleButton>
+            </ButtonGroup>
+          </Col>
+        </Row>
               <Row className="justify-content-center">
                 {" "}
                 {/* Current Drink Image Jar */}
                 {/* <div>{this.drinkButtons}</div>*/}
-                <div className={"drinkRow"}>{drinkButtons()}</div>
+                <div className={"drinkRow"} style={{marginRight: '4px'}}>{drinkButtons()}</div>
               </Row>
-              <Row className="justify-content-center">
-                <Spring from={{ percent: 0 }} to={{ percent: 100 }}>
+              <Row className="justify-content-center" >
+                <Spring from={{ percent: 0 }} to={{ percent: 100 }}  >
                   {({ percent }) => (
-                    <div className="progress vertical ed">
+                    <div className="progress vertical ed" style={{marginRight: '5px', marginBottom: '5px'}}>
                       <div
                         style={{
                           height: `${
@@ -1145,8 +1165,9 @@ class Order extends Component {
                 style={{ marginTop: "10px" }}
               >
                 <Col
+                  
                   className="col-lg-9 col-md-10 col-sm-12"
-                  style={{ border: "none", padding: 0 }}
+                  style={{ border: "none", padding: 0, paddingRight: '5px' }}
                 >
               
             <div id="nutritionfacts">
@@ -1218,7 +1239,7 @@ class Order extends Component {
                       <div className="line">
                         <div className="label">
                           Total Carbohydrates{" "}
-                          <div className="weight">3
+                          <div className="weight">
                   {this.state.drinksNutrition[
                     this.state.currentDrink
                   ].totalCarbohydrate.toFixed(2)}g</div>
@@ -1318,13 +1339,13 @@ class Order extends Component {
               >
                 <Col
                   className="col-lg-9 col-md-10 col-sm-12"
-                  style={{ borderRadius: "6px", borderStyle: "solid" }}
+                  style={{ borderRadius: "6px", borderStyle: "solid", marginRight: '5px' }}
                 >
-                  <p>
+                  <p style={{marginBottom: '5px'}}>
                     Cost of Drink: $
                     {this.state.cost[this.state.currentDrink].toFixed(2)}
                   </p>
-                  <p>Total: ${total.toFixed(2)}</p>
+                  <p  style={{marginBottom: '5px'}}>Total: ${total.toFixed(2)}</p>
                 </Col>
               </Row>
               <Row className="justify-content-center">

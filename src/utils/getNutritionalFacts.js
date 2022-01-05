@@ -33,9 +33,7 @@ export default function getNutritionalFacts(drink) {
     protein: 0,
   };
   var regex = /[+-]?\d+(\.\d+)?/g;
-console.log(drink)
   for (const [i, amount] of Object.entries(drink)) {
-    console.log(i)
     for (var j = 0; j < amount; j++) {
       for (const [key, value] of Object.entries(nf)) {
         var removeUnits = String(listt[i][key])
@@ -74,7 +72,3 @@ export function getTop6(info) {
     ranking.sort((a, b) => b[1] - a[1]);
     return ranking.slice(0, 6)
 }
-//console.log("here in gNF ", item["Fuji Apple"]['totalFat']
-/*  drink["Fuji Apple"] */
-
-//console.log("drink: ",parseFloat(item.drink.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0]))
