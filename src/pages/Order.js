@@ -151,23 +151,18 @@ class Order extends Component {
     const drink = this.state.drinks[this.state.currentDrink];
     const copyOfCost = this.state.cost.slice(); //copy the array
     var cost = 0;
-    console.log("here")
     for (const p in drink) {
       // for each produce in drink
       if (drink[p] > 0) {
-        console.log("p: ", p)
         // if produce has a value greater than 0
         for (const [key, value] of Object.entries(list)) {
           // for each item in menu list
-          console.log('key: ', key)
           if (key === p) {
             // if item equal produce name
-            console.log(key)
             cost =
               cost +
               value.costPerOunce *
                 drink[p]; // push color of produce ounce
-                console.log(cost)
           }
         }
       }
@@ -261,7 +256,7 @@ class Order extends Component {
   onChange = (e) => {
     const value = e.target.value.replace(/^0+/, "");
     const name = e.target.name;
-    if (this.state.ounces[this.state.currentDrink] == 16) {
+    if (this.state.ounces[this.state.currentDrink] > 16) {
       return;
     }
     if (value > 17 - this.state.ounces[this.state.currentDrink]) {
@@ -1066,7 +1061,7 @@ class Order extends Component {
                       borderRadius: "7px",
                       marginRight: '-10px'
                     }} variant="success"
-                    //onClick={this.checkout}
+                    onClick={this.checkout}
                   >
                     Checkout
                   </Button>
@@ -1348,27 +1343,7 @@ class Order extends Component {
                   <p  style={{marginBottom: '5px'}}>Total: ${total.toFixed(2)}</p>
                 </Col>
               </Row>
-              <Row className="justify-content-center">
-                <Col className="col-auto" style={{ marginTop: "10px" }}>
-                  {this.state.nextPageReady && (
-                    <Button
-                      variant="success"
-                      onClick={this.checkout}
-                      /* to={{
-                    pathname: "/checkout",
-                    state: {
-                      drinks: this.state.drinks,
-                      cost: this.state.cost,
-                      sizeOfOrder: this.state.sizeOfOrder,
-                      color: this.state.colors,
-                    },
-                  }} */
-                    >
-                      Checkout
-                    </Button>
-                  )}
-                </Col>
-              </Row>
+            
             </div>
           </Col>
         </Row>
