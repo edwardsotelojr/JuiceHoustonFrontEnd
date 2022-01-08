@@ -16,28 +16,47 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const date = [
   { id: "ed", content: "ed" },
-  { id: "sd", content: "sd" }
+  { id: "sd", content: "sd" },
 ];
 
 class Checkout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      columns: 
-        {
-          ["1"]: {
-            name: "Requested",
-            items: date
-          },
-          ["2"]: {
-            name: "To do",
-            items: []
-          },
-          ["3"]: {
-            name: "d",
-            items: []
-          }
+      columns: {
+        ["Dates"]: {
+          name: "Dates",
+          items: date,
         },
+        "day1": {
+          name: "",
+          items: [],
+        },
+        "day2": {
+          name: "",
+          items: [],
+        },
+        "day3": {
+          name: "",
+          items: [],
+        },
+        "day4": {
+          name: "",
+          items: [],
+        },
+        "day5": {
+          name: "",
+          items: [],
+        },
+        "day6": {
+          name: "",
+          items: [],
+        },
+        "day7": {
+          name: "",
+          items: [],
+        },
+      },
       data: this.props.location.state,
       selectedDates: ["", "", "", "", ""],
       name: "",
@@ -52,38 +71,55 @@ class Checkout extends React.Component {
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
-
   componentDidMount() {
     // if hour is 18, next day delivery is unavailable
     this.daysAvailable();
   }
 
-  daysAvailable() {
+  daysAvailable = () => {
     var dat = new Date(); // current time
     var first = dat.getDate();
-    var objectOfDays = {};
     var arrayOfDays = [];
-
     const hour = dat.getHours();
+
     if (hour < 18) {
       //not available next day
       for (var i = 1; i <= 7; i++) {
         var next = new Date(dat.getTime());
         next.setDate(first + i);
-        objectOfDays[next.toString()] = {};
-
         arrayOfDays.push(next.toString().slice(0, 15));
       }
     } else {
       for (var i = 2; i <= 8; i++) {
         var next = new Date(dat.getTime());
         next.setDate(first + i);
-        objectOfDays[next.toString()] = {};
         arrayOfDays.push(next.toString().slice(0, 15));
       }
     }
-    this.setState({ objectOfDays, arrayOfDays });
-  }
+    var i = 0;
+    this.setState({ arrayOfDays });
+
+
+    Object.entries(this.state.columns).forEach(([key, value]) => {   
+         if(key === "Dates") {
+        return;
+      }
+      console.log("ygfjyx")
+      this.setState((prevState) => ({
+        ...prevState,
+        columns: {
+          ...prevState.columns, // copy all other key-value pairs of food object
+          [key]: {
+            //...prevState[columns][day],
+            // specific object of food object
+            name: arrayOfDays[i++], // update value of specific key
+            items: []
+          },
+        },
+      }));
+    })
+  } 
+    
 
   listIngredients(drink) {
     const list = Object.keys(drink).map((p, index) => {
@@ -121,14 +157,13 @@ class Checkout extends React.Component {
       [e.target.name]: e.target.value,
     });
   }
- 
-  
+
   onDragEnd = (result, columns) => {
     if (!result.destination) return;
     const { source, destination } = result;
-    console.log(result)
-    console.log(columns)
-    if(columns[destination.droppableId].items.length == 1 ){
+    console.log(result);
+    console.log(columns);
+    if (columns[destination.droppableId].items.length == 1) {
       return;
     }
     if (source.droppableId !== destination.droppableId) {
@@ -138,18 +173,18 @@ class Checkout extends React.Component {
       const destItems = [...destColumn.items];
       const [removed] = sourceItems.splice(source.index, 1);
       destItems.splice(destination.index, 0, removed);
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         columns: {
           ...prevState.columns,
-        [source.droppableId]: {
-          ...sourceColumn,
-          items: sourceItems,
+          [source.droppableId]: {
+            ...sourceColumn,
+            items: sourceItems,
+          },
+          [destination.droppableId]: {
+            ...destColumn,
+            items: destItems,
+          },
         },
-        [destination.droppableId]: {
-          ...destColumn,
-          items: destItems,
-        },
-      }
       }));
     } else {
       const column = columns[source.droppableId];
@@ -182,10 +217,11 @@ class Checkout extends React.Component {
       >
         <br />
         <Row>
-            <DragDropContext
-              onDragEnd={(result) => this.onDragEnd(result, this.state.columns)}
-            >
-              {Object.entries(this.state.columns).map(([columnId, column], index) => {
+          <DragDropContext
+            onDragEnd={(result) => this.onDragEnd(result, this.state.columns)}
+          >
+            {Object.entries(this.state.columns).map(
+              ([columnId, column], index) => {
                 return (
                   <div
                     style={{
@@ -252,8 +288,9 @@ class Checkout extends React.Component {
                     </div>
                   </div>
                 );
-              })}
-            </DragDropContext>
+              }
+            )}
+          </DragDropContext>
         </Row>
         <Row>
           {Object.keys(this.props.user).length == 0 ? (
