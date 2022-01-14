@@ -48,14 +48,15 @@ class Order extends Component {
     };
     super(props);
     this.state = {
-      sizeOfOrder: this.props.sizeOfOrder, // number of drinks
-      drinks: this.props.drinks,
+      sizeOfOrder: 3, // number of drinks
+      drinks: [{},{},{},{},{}],
       ounces: [0, 0, 0, 0, 0], // max is 18  oz
       size: 16, // sm: 16, md: 20, lg: 24
       currentDrink: 0,
-      percentages: this.props.percentages,
-      colors: this.props.colors,
-      cost: this.props.cost,
+      percentages: [0, 0, 0, 0, 0],
+      colors: ["","","","",""],
+      cost: [0, 0, 0, 0, 0],
+      totalCost: 0,
       vitamins: [{}, {}, {}, {}, {}],
       calories: [0, 0, 0, 0, 0],
       drinkNames: ["", "", "", "", ""],
@@ -75,10 +76,8 @@ class Order extends Component {
     this.checkout = this.checkout.bind(this);
   }
 
-  checkout() {
-    //window.location.href='/checkout'
-    const { drinks, cost, sizeOfOrder, colors, percentages, drinksNutrition } = this.state;
-    this.props.setOrder(drinks, cost, sizeOfOrder, colors, percentages, drinksNutrition);
+  checkout = () => {
+    const { drinks, cost, sizeOfOrder, colors, drinksNutrition, totalCost } = this.state;
     this.props.history.push({
       pathname: "/checkout",
       state: {
@@ -86,7 +85,8 @@ class Order extends Component {
         cost: cost,
         sizeOfOrder: sizeOfOrder,
         color: colors,
-        drinksNutrition: drinksNutrition
+        drinksNutrition: drinksNutrition,
+        totalCost: totalCost
       },
     });
   }
@@ -168,7 +168,11 @@ class Order extends Component {
       }
     }
     copyOfCost[this.state.currentDrink] = cost; // add new volume of drink
-    this.setState({ cost: copyOfCost });
+    var totalCost = 0;
+    for(var i = 0; i < this.state.sizeOfOrder; i++){
+      totalCost = copyOfCost[i] + totalCost
+    }
+    this.setState({ cost: copyOfCost, totalCost: totalCost });
   }
 
   getCalories() {
@@ -409,6 +413,37 @@ class Order extends Component {
     }
   };
 
+  decrement = (itemName) => {
+    const value = this.state.drinks[this.state.currentDrink][itemName];
+    let st = [...this.state.drinks];
+    let top6 = [...this.state.top6];
+    let drinkNF = [...this.state.drinksNutrition];
+    const cDrink = this.state.currentDrink;
+    const drink = this.state.drinks[this.state.currentDrink];
+    if (value == undefined || value == "" || value == 0) {
+      // if value is nil
+      return
+    } else{
+      // between range
+      st[this.state.currentDrink] = {
+        ...st[this.state.currentDrink],
+        [itemName]: parseInt(value) - 1,
+      };
+      this.setState({ drinks: st }, () => {
+        this.getPercentage();
+        this.color();
+        this.getCost();
+        //this.getCalories();
+        drinkNF[cDrink] = getNutritionalFacts(st[cDrink]);
+        top6[cDrink] = getTop6(drinkNF[cDrink]);
+        this.setState({
+          top6: top6,
+          drinksNutrition: drinkNF,
+        });
+      });
+    }
+  };
+
   scrollToTop() {
     window.scrollTo({
       top: 0,
@@ -416,7 +451,7 @@ class Order extends Component {
     });
   }
 
-  handleScroll = (event) => {
+  handleScroll = () => {
     //console.log(window.scrollY);
     const div = document.getElementById("remainingOunces");
     const scrollToTop = document.getElementById("scrollToTop");
@@ -426,104 +461,206 @@ class Order extends Component {
     const ounces = this.state.ounces[this.state.currentDrink]
     //console.log("outerWidth ", window.outerWidth);
     // Small screen. fixed div
-    if (window.scrollY > 309 && window.outerWidth < 575) {
-      div.style.backgroundColor = "aliceblue";
-      div.style.position = "fixed";
-      div.style.top = "54px";
-      div.style.left = "15px";
-      div.style.zIndex = 100;
-      div.style.width = "max-content";
-      scrollToTop.style.display = "block";
-      scrollToTop.style.position = "fixed";
-      scrollToTop.style.top = "54px";
-      scrollToTop.style.zIndex = 100;
-      clearButton.style.position = "fixed";
-      clearButton.style.top = "54px";
-      clearButton.style.zIndex = 100;
-      checkoutButton.style.position = "fixed";
-      checkoutButton.style.top = "54px";
-      checkoutButton.style.zIndex = 100;
-      rightSide.style.display = "none";
-      if(ounces > 6){
-        checkoutButton.style.left = "271px";
-        clearButton.style.left = "183px";
-        scrollToTop.style.left = "238px";
-      }else{
-        checkoutButton.style.left = "278px";
-        clearButton.style.left = "190px";
-        scrollToTop.style.left = "245px";
+    if(this.state.ounces[this.state.currentDrink] == 0){
+      if (window.scrollY > 319 && window.outerWidth < 575) {
+        div.style.backgroundColor = "aliceblue";
+        div.style.position = "fixed";
+        div.style.top = "54px";
+        div.style.left = "15px";
+        div.style.zIndex = 100;
+        div.style.width = "max-content";
+        scrollToTop.style.display = "block";
+        scrollToTop.style.position = "fixed";
+        scrollToTop.style.top = "54px";
+        scrollToTop.style.zIndex = 100;
+        clearButton.style.position = "fixed";
+        clearButton.style.top = "54px";
+        clearButton.style.zIndex = 100;
+        checkoutButton.style.position = "fixed";
+        checkoutButton.style.top = "54px";
+        checkoutButton.style.zIndex = 100;
+        rightSide.style.display = "none";
+        if(ounces > 6){
+          checkoutButton.style.left = "269px";
+          clearButton.style.left = "173px";
+          scrollToTop.style.left = "228px";
+        }else{
+          checkoutButton.style.left = "276px";
+          clearButton.style.left = "180px";
+          scrollToTop.style.left = "235px";
+        }
+      } // small screen. dont fixed div
+      else if (window.scrollY <= 319 && window.outerWidth < 575) {
+        div.style.backgroundColor = "transparent";
+        div.style.position = "relative";
+        div.style.top = "auto";
+        div.style.left = 0;
+        div.style.display = "block";
+        scrollToTop.style.display = "none";
+        clearButton.style.position = "relative";
+        clearButton.style.top = "auto";
+        clearButton.style.left = "auto";
+        checkoutButton.style.position = "relative";
+        checkoutButton.style.top = "auto";
+        checkoutButton.style.left = "auto";
+        rightSide.style.display = "block";
+      } // big screen. fixed div
+      else if (window.scrollY > 80 && window.outerWidth >= 575) {
+        div.style.backgroundColor = "aliceblue";
+        div.style.position = "fixed";
+        div.style.top = "54px";
+        div.style.left = "15px";
+        div.style.zIndex = 100;
+        div.style.width = "max-content";
+        scrollToTop.style.display = "block";
+        scrollToTop.style.position = "fixed";
+        scrollToTop.style.top = "54px";
+        scrollToTop.style.zIndex = 100;
+        clearButton.style.position = "fixed";
+        clearButton.style.position = "fixed";
+        clearButton.style.top = "54px";
+        rightSide.style.display = "block";
+        checkoutButton.style.position = "fixed";
+        checkoutButton.style.top = "54px";
+        checkoutButton.style.zIndex = 100;
+        if(ounces > 6){
+          checkoutButton.style.left = "269px";
+          clearButton.style.left = "173px";
+          scrollToTop.style.left = "228px";
+        }else{
+          checkoutButton.style.left = "266px";
+          clearButton.style.left = "180px";
+          scrollToTop.style.left = "235px";
+        }
+        clearButton.style.zIndex = 100;
+      } else if (window.scrollY <= 117 && window.outerWidth >= 575) {
+        div.style.backgroundColor = "transparent";
+        div.style.position = "relative";
+        div.style.top = "auto";
+        div.style.left = 0;
+        div.style.display = "block";
+        scrollToTop.style.display = "none";
+        clearButton.style.position = "relative";
+        clearButton.style.top = "auto";
+        clearButton.style.left = "auto";
+        checkoutButton.style.position = "relative";
+        checkoutButton.style.top = "auto";
+        checkoutButton.style.left = "auto";
+      } else {
+        div.style.backgroundColor = "transparent";
+        div.style.position = "relative";
+        div.style.top = "auto";
+        div.style.left = 0;
+        div.style.display = "block";
+        scrollToTop.style.display = "none";
+        clearButton.style.position = "relative";
+        clearButton.style.top = "auto";
+        clearButton.style.left = "auto";
+        checkoutButton.style.position = "relative";
+        checkoutButton.style.top = "auto";
+        checkoutButton.style.left = "auto";
       }
-    } // small screen. dont fixed div
-    else if (window.scrollY <= 309 && window.outerWidth < 575) {
-      div.style.backgroundColor = "transparent";
-      div.style.position = "relative";
-      div.style.top = "auto";
-      div.style.left = 0;
-      div.style.display = "block";
-      scrollToTop.style.display = "none";
-      clearButton.style.position = "relative";
-      clearButton.style.top = "auto";
-      clearButton.style.left = "auto";
-      checkoutButton.style.position = "relative";
-      checkoutButton.style.top = "auto";
-      checkoutButton.style.left = "auto";
-      rightSide.style.display = "block";
-    } // big screen. fixed div
-    else if (window.scrollY > 80 && window.outerWidth >= 575) {
-      div.style.backgroundColor = "aliceblue";
-      div.style.position = "fixed";
-      div.style.top = "54px";
-      div.style.left = "15px";
-      div.style.zIndex = 100;
-      div.style.width = "max-content";
-      scrollToTop.style.display = "block";
-      scrollToTop.style.position = "fixed";
-      scrollToTop.style.top = "54px";
-      scrollToTop.style.zIndex = 100;
-      clearButton.style.position = "fixed";
-      clearButton.style.position = "fixed";
-      clearButton.style.top = "54px";
-      rightSide.style.display = "block";
-      checkoutButton.style.position = "fixed";
-      checkoutButton.style.top = "54px";
-      checkoutButton.style.zIndex = 100;
-      if(ounces > 6){
-        checkoutButton.style.left = "271px";
-        clearButton.style.left = "183px";
-        scrollToTop.style.left = "238px";
-      }else{
-        checkoutButton.style.left = "278px";
-        clearButton.style.left = "190px";
-        scrollToTop.style.left = "245px";
+    }else{
+      if (window.scrollY > 379 && window.outerWidth < 575) {
+        div.style.backgroundColor = "aliceblue";
+        div.style.position = "fixed";
+        div.style.top = "54px";
+        div.style.left = "15px";
+        div.style.zIndex = 100;
+        div.style.width = "max-content";
+        scrollToTop.style.display = "block";
+        scrollToTop.style.position = "fixed";
+        scrollToTop.style.top = "54px";
+        scrollToTop.style.zIndex = 100;
+        clearButton.style.position = "fixed";
+        clearButton.style.top = "54px";
+        clearButton.style.zIndex = 100;
+        checkoutButton.style.position = "fixed";
+        checkoutButton.style.top = "54px";
+        checkoutButton.style.zIndex = 100;
+        rightSide.style.display = "none";
+        if(ounces > 6){
+          checkoutButton.style.left = "269px";
+          clearButton.style.left = "173px";
+          scrollToTop.style.left = "228px";
+        }else{
+          checkoutButton.style.left = "276px";
+          clearButton.style.left = "180px";
+          scrollToTop.style.left = "235px";
+        }
+      } // small screen. dont fixed div
+      else if (window.scrollY <= 319 && window.outerWidth < 575) {
+        div.style.backgroundColor = "transparent";
+        div.style.position = "relative";
+        div.style.top = "auto";
+        div.style.left = 0;
+        div.style.display = "block";
+        scrollToTop.style.display = "none";
+        clearButton.style.position = "relative";
+        clearButton.style.top = "auto";
+        clearButton.style.left = "auto";
+        checkoutButton.style.position = "relative";
+        checkoutButton.style.top = "auto";
+        checkoutButton.style.left = "auto";
+        rightSide.style.display = "block";
+      } // big screen. fixed div
+      else if (window.scrollY > 80 && window.outerWidth >= 575) {
+        div.style.backgroundColor = "aliceblue";
+        div.style.position = "fixed";
+        div.style.top = "54px";
+        div.style.left = "15px";
+        div.style.zIndex = 100;
+        div.style.width = "max-content";
+        scrollToTop.style.display = "block";
+        scrollToTop.style.position = "fixed";
+        scrollToTop.style.top = "54px";
+        scrollToTop.style.zIndex = 100;
+        clearButton.style.position = "fixed";
+        clearButton.style.position = "fixed";
+        clearButton.style.top = "54px";
+        rightSide.style.display = "block";
+        checkoutButton.style.position = "fixed";
+        checkoutButton.style.top = "54px";
+        checkoutButton.style.zIndex = 100;
+        if(ounces > 6){
+          checkoutButton.style.left = "269px";
+          clearButton.style.left = "173px";
+          scrollToTop.style.left = "228px";
+        }else{
+          checkoutButton.style.left = "266px";
+          clearButton.style.left = "180px";
+          scrollToTop.style.left = "235px";
+        }
+        clearButton.style.zIndex = 100;
+      } else if (window.scrollY <= 117 && window.outerWidth >= 575) {
+        div.style.backgroundColor = "transparent";
+        div.style.position = "relative";
+        div.style.top = "auto";
+        div.style.left = 0;
+        div.style.display = "block";
+        scrollToTop.style.display = "none";
+        clearButton.style.position = "relative";
+        clearButton.style.top = "auto";
+        clearButton.style.left = "auto";
+        checkoutButton.style.position = "relative";
+        checkoutButton.style.top = "auto";
+        checkoutButton.style.left = "auto";
+      } else {
+        div.style.backgroundColor = "transparent";
+        div.style.position = "relative";
+        div.style.top = "auto";
+        div.style.left = 0;
+        div.style.display = "block";
+        scrollToTop.style.display = "none";
+        clearButton.style.position = "relative";
+        clearButton.style.top = "auto";
+        clearButton.style.left = "auto";
+        checkoutButton.style.position = "relative";
+        checkoutButton.style.top = "auto";
+        checkoutButton.style.left = "auto";
       }
-      clearButton.style.zIndex = 100;
-    } else if (window.scrollY <= 117 && window.outerWidth >= 575) {
-      div.style.backgroundColor = "transparent";
-      div.style.position = "relative";
-      div.style.top = "auto";
-      div.style.left = 0;
-      div.style.display = "block";
-      scrollToTop.style.display = "none";
-      clearButton.style.position = "relative";
-      clearButton.style.top = "auto";
-      clearButton.style.left = "auto";
-      checkoutButton.style.position = "relative";
-      checkoutButton.style.top = "auto";
-      checkoutButton.style.left = "auto";
-    } else {
-      div.style.backgroundColor = "transparent";
-      div.style.position = "relative";
-      div.style.top = "auto";
-      div.style.left = 0;
-      div.style.display = "block";
-      scrollToTop.style.display = "none";
-      clearButton.style.position = "relative";
-      clearButton.style.top = "auto";
-      clearButton.style.left = "auto";
-      checkoutButton.style.position = "relative";
-      checkoutButton.style.top = "auto";
-      checkoutButton.style.left = "auto";
     }
+    
   }
 
   madeDrinks = () => {
@@ -559,13 +696,14 @@ class Order extends Component {
     window.addEventListener("scroll", this.handleScroll);
     window.addEventListener("resize", this.handleScroll);
     this.nextPage(this.state.percentages);
+    this.handleScroll()
   }
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
     window.removeEventListener("resize", this.handleScroll);
   }
-
+ 
   render() {
     const juiceCup = (percent, c) => ({
       height: `${percent}%`,
@@ -693,7 +831,7 @@ class Order extends Component {
                       id={key}
                       name={key}
                       style={{
-                        height: "32px",
+                        height: "38px",
                         width: "29px",
                         float: "left",
                         flex: 1,
@@ -712,8 +850,8 @@ class Order extends Component {
                       <Button
                         style={{
                           border: "none",
-                          width: "20px",
-                          height: "17px",
+                          width: "23px",
+                          height: "20px",
                           backgroundColor: "darkseagreen",
                           padding: "0rem 0rem 0rem 0rem",
                         }}
@@ -725,11 +863,13 @@ class Order extends Component {
                         style={{
                           fontSize: "small",
                           border: "none",
-                          width: "20px",
-                          height: "17px",
+                          width: "23px",
+                          height: "20px",
                           backgroundColor: "darkseagreen",
                           padding: "0rem 0rem 0rem 0rem",
                         }}
+                        onClick={() => this.decrement(key)}
+
                       >
                         <p style={{ fontSize: '10px', margin: 0, marginTop: '-2px', fontWeight: 'bold' }}>-</p>
                       </Button>
@@ -1023,7 +1163,8 @@ class Order extends Component {
                     borderRadius: "7px",
                     display: "block",
                     paddingLeft: '5px',
-                    paddingRight: "5px"
+                    paddingRight: "5px",
+                    fontSize: "15px"
                   }}
                   className="remainingOunces"
                   id="remainingOunces"
@@ -1036,7 +1177,9 @@ class Order extends Component {
                     id="clearButton"
                     style={{
                       padding: ".1rem .4rem",
-                      borderRadius: "7px", marginRight: "5px"
+                      borderRadius: "7px",
+                       marginRight: "5px",
+                       fontSize: "15px"
                     }}
                     onClick={this.clearDrink}
                   >
@@ -1047,7 +1190,7 @@ class Order extends Component {
                     style={{
                       display: "none",
                       padding: ".1rem .4rem",
-                      borderRadius: "7px",
+                      borderRadius: "7px"
                     }}
                     onClick={this.scrollToTop}
                   >
@@ -1059,7 +1202,9 @@ class Order extends Component {
                     style={{
                       padding: ".1rem .4rem",
                       borderRadius: "7px",
-                      marginRight: '-10px'
+                      marginRight: '0px',
+                      fontSize: "15px"
+
                     }} variant="success"
                     onClick={this.checkout}
                   >

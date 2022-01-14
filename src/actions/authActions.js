@@ -78,6 +78,33 @@ import {
         })}
       );
   };
+
+  // Login - get user token
+  export const signinAtCheckout = userData => dispatch => {
+    console.log("signin func");
+    console.log("userData: ", userData)
+    axios
+      .post("http://localhost:8000/login", userData)
+      .then(res => {
+        console.log("res.data", res.data);
+        // Save to localStorage
+  // Set token to localStorage
+        const { token, user } = res.data;
+        localStorage.setItem("jwtToken", token);
+        // Decode token to get user data
+        const decoded = jwt_decode(token);
+        console.log("decoded ",decoded.user)
+        return(user)
+      })
+      .catch(error =>{
+        console.log('error ', error.response.data.msg)
+        dispatch({
+          type: LOGIN_ERROR,
+          payload: error
+        })}
+      );
+  };
+
   // Set logged in user
   export const setCurrentUser = decoded => {
     return {

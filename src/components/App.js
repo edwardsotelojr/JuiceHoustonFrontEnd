@@ -9,6 +9,7 @@ import Signup from "../containers/newUser";
 import Order from "../containers/Order";
 import User from "../containers/User";
 import Checkout from "../containers/Checkout";
+import OrderConfirmation from "../pages/OrderConfirmation";
 import Menu from "../pages/Menu";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../utils/setAuthToken";
@@ -55,7 +56,8 @@ class App extends Component {
           <Route path="/order" component={Order} />
           <Route path="/user" component={User} />
           <Route path="/edit" component={EditUser} />
-          <Route path="/checkout" component={Checkout}></Route>
+          <Route path="/checkout" component={Checkout}/>
+          <Route path="/orderConfirmation" component={OrderConfirmation}/>
         </Switch>
         
         </div>
