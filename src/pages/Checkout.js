@@ -125,6 +125,14 @@ class Checkout extends React.Component {
     this.placeOrderReady = this.placeOrderReady.bind(this);
   }
 
+  componentDidMount(){
+    console.log(window)
+    console.log(window.scrollY)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });  // reset the scroll position to the top left of the document.  }
+  }
   handleLogin = (e) => {
     e.preventDefault();
     var user = { email: this.state.emaill, password: this.state.password };

@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 import { Link, Router, Route, Switch } from "react-router-dom";
 import EditUser from "../containers/editUser";
 import Signin from "../pages/Signin";
-import Verify from "../pages/Verify"
+import Verify from "../containers/Verify"
 import Signup from "../containers/newUser";
 import Order from "../containers/Order";
 import User from "../containers/User";

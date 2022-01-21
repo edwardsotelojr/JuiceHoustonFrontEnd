@@ -115,7 +115,6 @@ class Header extends Component {
       isOpen: false,
       navCollapsed: true,
       showNavbar: false,
-      user: {user:{name:  "mom"}}
     };
   }
 
@@ -132,7 +131,7 @@ class Header extends Component {
   render() {
     let dropdown;
     let title;
-    console.log("user ", this.state.user.user)
+    //console.log("user ", this.state.user.user)
     if (this.props.auth.isAuthenticated) {
       //logged in
       title = "user";
@@ -147,7 +146,7 @@ class Header extends Component {
                   .classList.remove("show")
               }
             >
-              {this.state.user.user.name}
+              {/*this.state.user.user.name*/}
                     </Link>
           </Dropdown.Item>
           <Dropdown.Item>
@@ -162,7 +161,7 @@ class Header extends Component {
     const { navCollapsed } = this.state;
     return (
       <Navbar  light expand="xs" fixed='top'  style={{backgroundColor: "#e8ffe8", padding: "0.3rem 0.6rem 0.3rem 0.6rem",
-      borderBottom: "3px solid #e8f9ff"}}>
+      borderBottom: "3px solid #e8f9ff", zIndex: "100"}}>
         <NavbarBrand href="/">Juice Houston</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>

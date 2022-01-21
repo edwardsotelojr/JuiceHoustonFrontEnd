@@ -1,34 +1,178 @@
 import React, { Component } from "react";
-import {
-  Container,
-  Card,
-  Col,
-  Form,
-  Button,
-  Row,
-  Popover,
-  Overlay,
-  Fade,
-} from "react-bootstrap";
-import './Verify.css'
+import { Container, Button, Col, Row, Alert } from "react-bootstrap";
+import "./Verify.css";
+import axios from "axios";
+import setAuthToken from "../utils/setAuthToken";
+import jwt_decode from "jwt-decode";
+import history from "../history";
+
 class Verify extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      ready: false,
+      n1: "",
+      n2: "",
+      n3: "",
+      n4: "",
+      error: false,
+      match: false,
+      msg: "d",
+    };
+    this.handleTextChange = this.handleTextChange.bind(this);
+    this.isReady = this.isReady.bind(this);
+    this.verifyUser = this.verifyUser.bind(this);
   }
+
+  isReady = () => {
+    console.log(this.state.n4);
+    if (
+      parseInt(this.state.n1) > -1 &&
+      parseInt(this.state.n2) > -1 &&
+      parseInt(this.state.n3) > -1 &&
+      parseInt(this.state.n4) > -1
+    ) {
+      console.log("here");
+      this.setState({
+        ready: true,
+      });
+    } else {
+      this.setState({
+        ready: false,
+      });
+    }
+  };
+
+  keyPress(e) {
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    }
+  }
+
+  handleTextChange(e) {
+    const id = parseInt(e.target.name[1]);
+    this.setState(
+      {
+        [e.target.name]: e.target.value,
+      },
+      () => this.isReady()
+    );
+    if (id < 5) {
+      // Get the next input field using it's name
+      const nextfield = document.querySelector(`input[name="n${id + 1}"]`);
+      console.log(nextfield);
+      // If found, focus the next field
+      if (nextfield !== null) {
+        nextfield.focus();
+      }
+    }
+  }
+
+  verifyUser = () => {
+    axios
+      .patch("http://localhost:8000/verify", {
+        pin: this.state.n1 + this.state.n2 + this.state.n3 + this.state.n4,
+        userEmail: this.props.location.state.email,
+      })
+      .then((res) => {
+        if (res.data.msg == "Pin matched") {
+          console.log("pin is a match");
+          this.setState({error: false, match: true, msg: res.data.msg})
+          localStorage.setItem("jwtToken", res.data.token);
+          // Set token to Auth header
+          setAuthToken(res.data.token);
+          // Decode token to get user data
+          const decoded = jwt_decode(res.data.token);
+          console.log("decoded ", decoded.user);
+          // Set current user
+          this.props.setCurrentUser(decoded.user);
+          setTimeout(history.push("/"), 4000)
+        } else if (res.data.msg == "Incorrect Pin.") {
+          this.setState({ error: true, msg: res.data.msg });
+          console.log("pin is not a match");
+        } else if (res.data.msg == "user not founded") {
+        } else if (res.data.msg == "user is deleted") {
+        } else if (res.data.msg == "error to delete user") {
+        } else {
+          console.log(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   render() {
     return (
-      <Container fluid style={{ display: 'grid', height: "100vh", backgroundColor: "#fffced",
-    }} ><Row className="justify-content-center">
-      <Col className="align-self-center" xs="auto"><p>Enter Verification Code</p> </Col></Row>
+      <Container fluid style={{ height: "100vh", backgroundColor: "#fffced" }}>
+        <Row style={{height: "20px"}}/>
+        {this.state.error ? (
+          <Row className="justify-content-center">
+            <Alert variant={"danger"} style={{margin: 0, marginBottom: '5px'}}>{this.state.msg}</Alert>
+          </Row>
+        ) : (
+          <></>
+        )}
+        {this.state.match ? (
+          <Row className="justify-content-center">
+            <Alert variant={"success"} style={{margin: 0, marginBottom: '5px'}}>{this.state.msg}</Alert>
+          </Row>
+        ) : (
+          <></>
+        )}
         <Row className="justify-content-center">
           <Col className="align-self-center" xs="auto">
-                <input className="inputField" type='text' maxLength={"1"}/>
-                <input type='text' className="inputField" maxLength={"1"}/>
-                <input type='text' className="inputField" maxLength={"1"}/>
-                <input type='text' className="inputField" maxLength={"1"}/>
-
-         </Col>
+            <p style={{ marginBottom: "5px" }}>Enter Verification Code</p>{" "}
+          </Col>
+        </Row>
+        <Row className="justify-content-center">
+          <Col className="align-self-center" xs="auto">
+            <input
+              className="inputField"
+              type="text"
+              name="n1"
+              value={this.state.n1}
+              onKeyPress={this.keyPress}
+              maxLength={"1"}
+              onChange={this.handleTextChange}
+            />
+            <input
+              type="text"
+              className="inputField"
+              name="n2"
+              value={this.state.n2}
+              onKeyPress={this.keyPress}
+              maxLength={"1"}
+              onChange={this.handleTextChange}
+            />
+            <input
+              type="text"
+              className="inputField"
+              name="n3"
+              value={this.state.n3}
+              onKeyPress={this.keyPress}
+              maxLength={"1"}
+              onChange={this.handleTextChange}
+            />
+            <input
+              type="text"
+              className="inputField"
+              name="n4"
+              onKeyPress={this.keyPress}
+              value={this.state.n4}
+              maxLength={"1"}
+              onChange={this.handleTextChange}
+            />
+          </Col>
+        </Row>
+        <Row className="justify-content-center">
+          <Button
+            disabled={!this.state.ready}
+            style={{ marginTop: "5px" }}
+            onClick={this.verifyUser}
+          >
+            Verify
+          </Button>
         </Row>
       </Container>
     );

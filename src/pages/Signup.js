@@ -28,6 +28,7 @@ class Signup extends Component {
       passwordMatch: "",
       phone: "",
       address: "",
+      homeType: "house",
       zipcode: "",
       suiteNumber: "",
       gateCode: "",
@@ -72,6 +73,10 @@ class Signup extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    window.scrollTo(0,0);
+  }
+
   onSubmit = (e) => {
     e.preventDefault();
     const { name, email, password, phone, address, zipcode, gatecode, suiteNumber, instructions, checkBoxValid } = this.state;
@@ -89,7 +94,7 @@ class Signup extends Component {
 
     switch (name) {
       case "name":
-        valid = value.length > 1 && value.length < 20;
+        valid = value.length >= 1 && value.length < 20;
         if (valid) border = {};
         break;
       case "email":
@@ -119,43 +124,8 @@ class Signup extends Component {
         }
         break;
       case "address":
-        const geo = geocoder({
-          key: "AIzaSyAqBlhajPerTHQOCOLdB8p8C1JF7w3Yc4Q",
-        });
-        if(value.length != 0){
-        var myPromise = new Promise((resolve, reject) => {
-          geo.find(value + " texas", function (err, res) {
-            if (err) {
-              console.log("err ", err);
-              reject(err);
-            } else {
-              console.log("res ", res);
-              res.forEach((element) => {
-                console.log(element);
-                zipcodes.forEach((z) => {
-                  if (element.postal_code.long_name == String(z)) {
-                    console.log("available ", z);
-                    resolve(z);
-                  }
-                });
-              });
-            }
-          });
-        });
-
-        myPromise.then(
-          (zip) => {
-            this.setState({
-              zipcode: zip,
-            }, function () {this.validateForm()});
-          },
-          function (error) {
-            console.log(error);
-          }
-        );
         valid = true;
         border = {};
-        }
         break;
       case "zipcode":
         for (var z in zipcodes) {
@@ -208,11 +178,20 @@ class Signup extends Component {
     }
   }
   radioCheck(e) {
-    if (e.target.name == "house") {
-    } else {
+    console.log("radiocheck")
+    if (e.target.value == "house") {
       this.setState({
+        homeType: "house",
         suiteNumberValid: true,
         gateCodeValid: true,
+        suiteNumber: null,
+        gateCode: null,
+      });
+    }else {
+      this.setState({
+        homeType: "apartment",
+        suiteNumberValid: false,
+        gateCodeValid: false,
         suiteNumber: null,
         gateCode: null,
       });
@@ -281,7 +260,7 @@ class Signup extends Component {
             >
               <Popover
                 id="popover-contained"
-                style={{ padding: "3px 5px 3px 5px" }}
+                style={{ padding: "3px 5px 3px 5px", zIndex: "5" }}
               >
                 Character range: 1 - 20
               </Popover>
@@ -306,7 +285,7 @@ class Signup extends Component {
             >
               <Popover
                 id="popover-contained"
-                style={{ padding: "3px 5px 3px 5px" }}
+                style={{ padding: "3px 5px 3px 5px", zIndex: "5" }}
               >
                 invalid email
               </Popover>
@@ -335,7 +314,7 @@ class Signup extends Component {
             >
               <Popover
                 id="popover-contained"
-                style={{ padding: "3px 5px 3px 20px" }}
+                style={{ padding: "3px 5px 3px 20px", zIndex: "5" }}
               >
                 <li> 6 - 20 Characters </li>
               </Popover>
@@ -361,7 +340,7 @@ class Signup extends Component {
           >
             <Popover
               id="popover-contained"
-              style={{ padding: "5px 5px 0px 5px" }}
+              style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
             >
               <p> password does not match </p>
             </Popover>
@@ -385,7 +364,7 @@ class Signup extends Component {
             >
               <Popover
                 id="popover-contained"
-                style={{ padding: "5px 5px 0px 5px" }}
+                style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
               >
                 <p> phone number not valid. </p>
               </Popover>
@@ -411,7 +390,7 @@ class Signup extends Component {
             >
               <Popover
                 id="popover-contained"
-                style={{ padding: "5px 5px 0px 5px" }}
+                style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
               >
                 <p> address is not valid. </p>
               </Popover>
@@ -428,7 +407,6 @@ class Signup extends Component {
               ref={this.zipcodeTarget}
               style={this.state.zipcodeBorder}
               value={this.state.zipcode}
-              readOnly={true}
             />
             <Overlay
               transition={Fade}
@@ -438,7 +416,7 @@ class Signup extends Component {
             >
               <Popover
                 id="popover-contained"
-                style={{ padding: "5px 5px 0px 5px" }}
+                style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
               >
                 <p> zipcode not in range for delivery. </p>
               </Popover>
@@ -446,8 +424,6 @@ class Signup extends Component {
           </Form.Group>
           <Form.Group>
             <RadioGroup
-              aria-label="living"
-              name="living"
               onBlur={this.validation}
               onChange={this.radioCheck}
               style={{ flexDirection: "row" }}
@@ -465,7 +441,7 @@ class Signup extends Component {
                 label="apartment"
               />
             </RadioGroup>
-            {this.state.homeType == "apartment" && (
+            {this.state.homeType === "apartment" ? (
               <Form.Group className="mb-3">
                 <Form.Label>Gate Code</Form.Label>
                 <Form.Text className="text-muted" style={{ float: "right" }}>
@@ -485,7 +461,7 @@ class Signup extends Component {
                   placeholder="Enter Suite Number"
                 />
               </Form.Group>
-            )}
+            ) : <></>}
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Instruction for delivery</Form.Label>

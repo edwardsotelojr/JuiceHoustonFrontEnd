@@ -719,7 +719,8 @@ class Order extends Component {
         <label
           key={index}
           className={"drinkRowName"}
-          style={{ display: "inline-grid", margin: "3px", marginBottom: 0, justifyContent: "center", width: "31px" }}
+          style={{ display: "inline-grid", margin: "3px", marginBottom: 0,
+           justifyContent: "center", width: "31px", overflow: "hidden" }}
         >
           <input
             type="radio"
@@ -806,7 +807,7 @@ class Order extends Component {
                       margin: "0px 0px 0px 0px",
                       paddingBottom: "0px",
                       height: "170px",
-                      overflow: "scroll",
+                      overflow: "hidden",
                     }}
                   >
                     {produceFacts(item.shortFacts)}
@@ -989,11 +990,7 @@ class Order extends Component {
             <div id="nutritionfacts">
               <table cellSpacing={"0"} cellPadding={"0"}>
                 <tbody>
-                  <tr>
-                    <td align="center" className="header">
-                      Nutrition Facts
-                    </td>
-                  </tr>
+                 
                   <tr>
                     <td>
                       <div className="headerr">Nutrition Facts</div>
@@ -1148,8 +1145,8 @@ class Order extends Component {
               </table>
             </div>
             <div style={{borderStyle: 'solid', borderRadius: "5px", marginTop: "3px"}}>
-              <p style={{margin: 0}}>Drink price: $</p>
-              <p style={{margin: 0}}>Total: $</p>
+              <p style={{margin: 0}}>Drink price: ${this.state.cost[this.state.currentDrink].toFixed(2)}</p>
+              <p style={{margin: 0}}>Total: ${this.state.totalCost.toFixed(2)}</p>
             </div>
           </Col>
         </Row>
