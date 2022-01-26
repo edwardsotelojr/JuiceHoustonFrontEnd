@@ -13,9 +13,14 @@ import {
   Fade,
   Alert,
 } from "react-bootstrap";
+import { CheckoutForm } from "../components/CheckoutForm";
 import "./DragThingsToBoxesDemo.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { CardElement, Elements } from "@stripe/react-stripe-js";
+import {
+  CardElement,
+  Elements,
+  ElementsConsumer,
+} from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import geocoder from "google-geocoder";
 import zipcodes from "../zipcode";
@@ -30,6 +35,25 @@ class Checkout extends React.Component {
         content: "Juice " + (i + 1),
         ingredients: props.location.state.drinks[i],
       };
+    }
+    var name = "";
+    var email = "";
+    var address = "";
+    var phone = "";
+    var zipcode = "";
+    var gateCode = "";
+    var suiteNumber = "";
+    var instructions = "";
+    if (Object.keys(this.props.user).length != 0) {
+      console.log("here");
+      name = this.props.user.user.name;
+      email = this.props.user.user.email;
+      address = this.props.user.user.address;
+      phone = this.props.user.user.phone;
+      zipcode = this.props.user.user.zipcode;
+      gateCode = this.props.user.user.gateCode;
+      suiteNumber = this.props.user.user.suiteNumber;
+      instructions = this.props.user.user.instructions;
     }
     this.state = {
       loginButtonPressed: false,
@@ -74,16 +98,16 @@ class Checkout extends React.Component {
       },
       data: this.props.location.state,
       deliveryDates: ["", "", "", "", ""],
-      name: "",
-      email: "",
+      name: name,
+      email: email,
       emaill: "",
       password: "",
-      phone: null,
-      address: "",
-      zipcode: null,
-      gateCode: "",
-      suiteNumber: "",
-      instructions: "",
+      phone: phone,
+      address: address,
+      zipcode: zipcode,
+      gateCode: gateCode,
+      suiteNumber: suiteNumber,
+      instructions: instructions,
       agreement: false,
       totalCost: props.location.state.totalCost,
       nameValid: false,
@@ -105,7 +129,7 @@ class Checkout extends React.Component {
       agreementBorder: {},
       instructionsBorder: {},
 
-      placeOrderReady: false
+      placeOrderReady: false,
     };
 
     this.nameTarget = React.createRef();
@@ -125,14 +149,16 @@ class Checkout extends React.Component {
     this.placeOrderReady = this.placeOrderReady.bind(this);
   }
 
-  componentDidMount(){
-    console.log(window)
-    console.log(window.scrollY)
+  componentDidMount() {
+    this.daysAvailable();
+    const price = this.props.location.state.totalCost.toFixed(2);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
-    });  // reset the scroll position to the top left of the document.  }
+    }); // reset the scroll position to the top left of the document.  }
+   
   }
+
   handleLogin = (e) => {
     e.preventDefault();
     var user = { email: this.state.emaill, password: this.state.password };
@@ -177,8 +203,34 @@ class Checkout extends React.Component {
       totalCost: this.state.totalCost,
       drinks: drinks,
     };
-    console.log(order)
-    this.props.placeOrder(order)
+    console.log(order);
+
+    const { stripe, elements } = this.props;
+
+    if (!stripe || !elements) {
+      // Stripe.js has not loaded yet. Make sure to disable
+      // form submission until Stripe.js has loaded.
+      return;
+    }
+
+    // Get a reference to a mounted CardElement. Elements knows how
+    // to find your CardElement because there can only ever be one of
+    // each type of element.
+    const card = elements.getElement(CardElement);
+
+    if (card == null) {
+      return;
+    }
+    stripe
+      .confirmCardPayment(this.state.clientSecret, {
+        payment_method: {
+          card: card,
+        },
+      })
+      .then(function (result) {
+        // Handle result.error or result.paymentMethod
+        console.log("result: ", result);
+      });
   };
 
   validation = (e) => {
@@ -189,31 +241,31 @@ class Checkout extends React.Component {
     switch (name) {
       case "name":
         valid = value.length >= 1 && value.length < 20;
-        if (valid) border = {}
-        else{
-          valid = false
+        if (valid) border = {};
+        else {
+          valid = false;
         }
         break;
       case "email":
         if (value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
           valid = true;
           border = {};
-        }else{
-          valid = false
+        } else {
+          valid = false;
         }
         break;
       case "phone":
         if (value.length == 10) {
           valid = true;
           border = {};
-        }else{
-          valid = false
+        } else {
+          valid = false;
         }
         break;
-        case "address":
-            valid = true;
-            border = {};
-            break;
+      case "address":
+        valid = true;
+        border = {};
+        break;
         break;
       case "zipcode":
         for (var z in zipcodes) {
@@ -221,25 +273,32 @@ class Checkout extends React.Component {
             valid = true;
             border = {};
             break;
-          }else{
-            valid = false
+          } else {
+            valid = false;
           }
         }
         break;
       case "instructions":
         valid = value.length >= 0 && value.length < 200;
-        if (valid){border = {}}
-        else{ valid = false}
+        if (valid) {
+          border = {};
+        } else {
+          valid = false;
+        }
         break;
       case "gateCode":
         valid = value.length >= 0 && value.length < 10;
-        if (valid) border = {}
-        else{ valid = false}
+        if (valid) border = {};
+        else {
+          valid = false;
+        }
         break;
       case "suiteNumber":
         valid = value.length >= 0 && value.length < 10;
-        if (valid) border = {}
-        else{ valid = false}
+        if (valid) border = {};
+        else {
+          valid = false;
+        }
         break;
       default:
         break;
@@ -254,11 +313,6 @@ class Checkout extends React.Component {
       }
     );
   };
-
-  componentDidMount() {
-    // if hour is 18, next day delivery is unavailable
-    this.daysAvailable();
-  }
 
   daysAvailable = () => {
     var dat = new Date(); // current time
@@ -329,15 +383,13 @@ class Checkout extends React.Component {
   }
 
   onChange(e) {
-    this.setState(
-      {
-        [e.target.name]: e.target.value,
-      }
-    );
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
 
-    const name = e.target.name + "Border"
-    if(this.state[name] == {}){
-      console.log("empty")
+    const name = e.target.name + "Border";
+    if (this.state[name] == {}) {
+      console.log("empty");
     }
   }
 
@@ -349,7 +401,7 @@ class Checkout extends React.Component {
     if (this.state.columns.Dates.items.length != 0) {
       return;
     }
-    console.log("here in placeorderready")
+    console.log("here in placeorderready");
     const {
       agreement,
       nameValid,
@@ -373,11 +425,10 @@ class Checkout extends React.Component {
       instructionsValid
     ) {
       console.log("ready ");
-      if(!this.state.placeOrderReady)
-      this.setState({placeOrderReady: true})
-    }else{
-      if(this.state.placeOrderReady != false)
-      this.setState({placeOrderReady: false})
+      if (!this.state.placeOrderReady) this.setState({ placeOrderReady: true });
+    } else {
+      if (this.state.placeOrderReady != false)
+        this.setState({ placeOrderReady: false });
     }
   };
 
@@ -431,12 +482,14 @@ class Checkout extends React.Component {
       });
     }
   };
+  getData(val){
+    console.log(val)
+  }
 
   render() {
     const stripePromise = loadStripe(
       "pk_test_51JdrbbJhLWcBt73zLaa0UNkmKAAonyh9sRyrmkaMUgufzOeuvL4Vu9cNJcfdGykBSxkQPJOWkICvYoqw3r7q0AzD00Trf0E3aP"
     );
-
     const renderIngredients = (ingredients) => {
       var d = [];
       for (const [key, value] of Object.entries(ingredients)) {
@@ -448,6 +501,37 @@ class Checkout extends React.Component {
       }
       return d;
     };
+
+    const drinks = [];
+    for (var i = 0; i < this.state.sizeOfOrder; i++) {
+      drinks[i] = {
+        ingredients: this.state.drinks[i],
+        deliveryDate: this.state.deliveryDates[i],
+        color: this.state.colors[i],
+        price: this.state.prices[i],
+        nutritionalFacts: this.state.drinksNutrition[i],
+      };
+    }
+
+    const order = {
+      name: this.state.name,
+      email: this.state.email,
+      phone: this.state.phone,
+      address: this.state.address,
+      zipcode: this.state.zipcode,
+      gateCode: this.state.gateCode,
+      suiteNumber: this.state.suiteNumber,
+      instructions: this.state.instructions,
+      sizeOfOrder: this.state.sizeOfOrder,
+      agreement: this.state.agreement,
+      totalCost: this.state.totalCost.toFixed(2),
+      drinks: drinks,
+    }
+
+    
+    // Get a reference to a mounted CardElement. Elements knows how
+    // to find your CardElement because there can only ever be one of
+    // each type of element.
 
     return (
       <Container
@@ -772,9 +856,6 @@ class Checkout extends React.Component {
           </Col>
           <Col>
             <div style={{ height: "7px" }} />
-            <Elements stripe={stripePromise}>
-              <CardElement />
-            </Elements>
             <Form.Label>Instructions</Form.Label>
             <Form.Control
               onBlur={this.validation}
@@ -800,9 +881,9 @@ class Checkout extends React.Component {
               </Popover>
             </Overlay>
             <Card>
-              <Card.Body>
+              <Card.Body style={{ maxHeight: "253px" }}>
                 <Card.Title>Order Agreement</Card.Title>
-                <Card.Text>
+                <Card.Text style={{ overflowY: "scroll", maxHeight: "168px" }}>
                   All Sales are final. You are allow to change the delivery date
                   for a juice before 6pm the day before previously schedule
                   date. Juices are prepared the night before delivery, with
@@ -812,7 +893,9 @@ class Checkout extends React.Component {
                   upon delivery. Fresh Juices are meant to be consumed the day
                   of delivery. Juices are placed in an shaded area when
                   delivered, minding the duration of the shaded area. Please
-                  recycle the bottle with the cap off. Thank you.
+                  recycle the bottle with the cap off. If your juice get stolen,
+                  that really sucks for you, because I will do nothing about it.
+                  Thank you.
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -828,10 +911,21 @@ class Checkout extends React.Component {
                 }
               />
             </Form.Group>
-            <Button 
-                    id={"placeOrderButton"}
-                    disabled={!this.state.placeOrderReady}
-                    onClick={this.onSubmit}>Place Order</Button>
+            <Elements stripe={stripePromise}>
+              <ElementsConsumer>
+                {({ elements, stripe }) => (
+                  <CheckoutForm elements={elements} stripe={stripe} sendData={this.getData}
+                   order={order}/>
+                )}
+              </ElementsConsumer>
+            </Elements>
+            {/*<Button
+              id={"placeOrderButton"}
+              disabled={!this.state.placeOrderReady}
+              onClick={this.onSubmit}
+            >
+              Place Order
+            </Button>*/}
           </Col>
         </Row>
       </Container>
