@@ -43,7 +43,7 @@ function Home() {
           data-aos-duration="1200"
           style={{ paddingTop: "12px", textAlign: "center" }}
         >
-          <h3 style={{ marginTop: "50px" }}>Juice Houston</h3>
+          <h3 style={{ }}>Juice Houston</h3>
           <div className="item_des" style={{ textAlign: "center" }}>
             <p> Customize Fresh Juice deliver to you early in the morning</p>
             <Container fluid style={{ marginTop: "0px" }}>

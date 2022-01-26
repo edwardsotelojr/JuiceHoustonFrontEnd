@@ -103,7 +103,7 @@ export const dailyRecommendation = {
   totalCarbohydrate: "275g",
   totalFat: "78g",
   zinc: "11mg",
-};
+}; 
 
 export const listt = {
   "Fuji Apple": {
@@ -1193,12 +1193,10 @@ export const list = {
       zinc: "0.01mg",
     },
     facts: [
-      "Apples have slightly different nutrients depending on their type and color.",
-      "an apple hybrid created by in Fujisaki, Aomori, Japan in late 1930s.",
       "The Fuji apple has the highest overall concentration of bioflavonoids out of all apples.  Bioflavonoids protect you from diseases",
-      "One study found that drinking apple juice reduced the production of beta-amyloid in mice",
+      "One study found that drinking apple juice reduced the production of beta-amyloid (caused Alzheimer's) in mice",
       "sweet flavor",
-      "Heart and liver health",
+      "high flavonol",
       "antioxidant and anti-inflammatory properties",
       "Improve insulin resistance",
     ],
@@ -1210,7 +1208,7 @@ export const list = {
     minerals: {
       magnesium: 0.06,
     },
-    color: "#ff0000",
+    color: "#edd098",
     costPerOunce: 0.3,
   },
   "Gala Apple": {
@@ -1249,8 +1247,7 @@ export const list = {
     },
     unit: "micrograms",
     facts: [
-      "Great source of vitamin C.",
-      "antioxidant and anti-inflammatory properties",
+      "Great source of antioxidant."
     ],
     shortFacts: [
       "Source of stuff",
@@ -1260,7 +1257,7 @@ export const list = {
     minerals: {
       magnesium: 0.06,
     },
-    color: "#ff0000",
+    color: "#be883a",
     costPerOunce: 0.3,
   },
   "Golden Delicious Apple": {
@@ -1300,7 +1297,7 @@ export const list = {
       "Good for this and that, that, and this.",
       "It taste good!",
     ],
-    color: "#000000",
+    color: "#be8739",
     costPerOunce: 0,
   },
   "Granny Smith Apple": {
@@ -1337,7 +1334,7 @@ export const list = {
     protein: "0.08g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#ebb107",
     costPerOunce: 0,
   },
   "Red Delicious Apple": {
@@ -1373,7 +1370,7 @@ export const list = {
     protein: "0.05g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#af7605",
     costPerOunce: 0,
   },
   Beets: {
@@ -1409,7 +1406,7 @@ export const list = {
     protein: "0.46g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#cc253d",
     costPerOunce: 0,
   },
   Broccoli: {
@@ -1446,7 +1443,7 @@ export const list = {
     protein: "0.80g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#6e9e33",
     costPerOunce: 0,
   },
   Cantaloupe: {
@@ -1483,7 +1480,7 @@ export const list = {
     protein: "0.24g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#f88c18",
     costPerOunce: 0,
   },
   Carrot: {
@@ -1521,7 +1518,7 @@ export const list = {
     protein: "0.26g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#f3881d",
     costPerOunce: 0,
   },
   Celery: {
@@ -1559,7 +1556,7 @@ export const list = {
     protein: "0.20g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#7bb604",
     costPerOunce: 0,
   },
   Cucumber: {
@@ -1597,7 +1594,7 @@ export const list = {
     protein: "0.18g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#b1c91e",
     costPerOunce: 0,
   },
   Ginger: {
@@ -1635,7 +1632,7 @@ export const list = {
     protein: "0.52g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#d3ba76",
     costPerOunce: 0,
   },
   "Green Grapes": {
@@ -1673,7 +1670,7 @@ export const list = {
     protein: "0.20g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#c8cf3e",
     costPerOunce: 0,
   },
   "Red Grapes": {
@@ -1711,7 +1708,7 @@ export const list = {
     protein: "0.20g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#b33133",
     costPerOunce: 0,
   },
   "Black Grapes": {
@@ -1749,7 +1746,7 @@ export const list = {
     protein: "0.20g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#4e0436",
     costPerOunce: 0,
   },
   Grapefruit: {
@@ -1787,7 +1784,7 @@ export const list = {
     protein: "0.22g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#f07f52",
     costPerOunce: 0,
   },
   "Honeydew Melon": {
@@ -1825,7 +1822,7 @@ export const list = {
     protein: "0.15g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#b6c854",
     costPerOunce: 0,
   },
   Kale: {
@@ -1864,7 +1861,7 @@ export const list = {
     protein: "0.83g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#8f9731",
     costPerOunce: 0,
   },
   Kiwi: {
@@ -1903,7 +1900,7 @@ export const list = {
     protein: "0.30g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#99b802",
     costPerOunce: 0,
   },
   Lemons: {
@@ -1942,7 +1939,7 @@ export const list = {
     protein: "0.31g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#e2e2b8",
     costPerOunce: 0,
   },
   "Iceberg Lettuce": {
@@ -1981,7 +1978,7 @@ export const list = {
     protein: "0.26g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#cce364",
     costPerOunce: 0,
   },
   "Romaine Lettuce": {
@@ -2020,7 +2017,7 @@ export const list = {
     protein: "0.39g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#b7c808",
     costPerOunce: 0,
   },
   Lime: {
@@ -2059,7 +2056,7 @@ export const list = {
     protein: "g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#ccbb53",
     costPerOunce: 0,
   },
   Oranges: {
@@ -2097,7 +2094,7 @@ export const list = {
     protein: "g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#eba328",
     costPerOunce: 0,
   },
   Parsley: {
@@ -2135,7 +2132,7 @@ export const list = {
     protein: "g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#77b70d",
     costPerOunce: 0,
   },
   Pineapple: {
@@ -2173,7 +2170,7 @@ export const list = {
     protein: "g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#e4ca00",
     costPerOunce: 0,
   },
   Peaches: {
@@ -2211,7 +2208,7 @@ export const list = {
     protein: "g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#ee6a07",
     costPerOunce: 0,
   },
   Pears: {
@@ -2249,7 +2246,7 @@ export const list = {
     protein: "g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#dcb049",
     costPerOunce: 0,
   },
   Strawberries: {
@@ -2287,7 +2284,7 @@ export const list = {
     protein: "g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#f17263",
     costPerOunce: 0,
   },
   Tomatoes: {
@@ -2325,7 +2322,7 @@ export const list = {
     protein: "g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#ca3323",
     costPerOunce: 0,
   },
   Turmeric: {
@@ -2363,7 +2360,7 @@ export const list = {
     protein: "g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#f1be0f",
     costPerOunce: 0,
   },
   Watermelon: {
@@ -2401,7 +2398,7 @@ export const list = {
     protein: "g",
     facts: [""],
     shortFacts: [""],
-    color: "#000000",
+    color: "#c92a28",
     costPerOunce: 0,
   },
 };

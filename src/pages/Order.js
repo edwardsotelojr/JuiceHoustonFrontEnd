@@ -728,6 +728,7 @@ class Order extends Component {
             checked={this.state.currentDrink == index}
             onChange={this.onCurrentDrink}
             value={index}
+            style={{justifySelf: "center"}}
           />
           <p style={{ margin: 0, textAlign: "center"}}>{index + 1}</p>
           <Spring from={{ percent: 0 }} to={{ percent: 100 }}>
@@ -1215,7 +1216,7 @@ class Order extends Component {
             <Container fluid="md">{this.madeDrinks()}</Container>
           </Col>
           <Col sm={4} xs={12} id="right-side">
-            <div style={{ position: "sticky", top: "60px" }}>
+            <div style={{ position: "sticky", top: "70px" }}>
             <Row className="justify-content-md-center">
           <Col
             style={{ display: "flex" }}

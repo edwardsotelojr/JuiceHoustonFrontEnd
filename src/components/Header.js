@@ -106,6 +106,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import { Button, Dropdown } from "react-bootstrap";
+import logo from '../assets/logo.png'
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -134,7 +135,7 @@ class Header extends Component {
     //console.log("user ", this.state.user.user)
     if (this.props.auth.isAuthenticated) {
       //logged in
-      title = "user";
+      title = this.props.user.name;
       dropdown = (
         <div>
           <Dropdown.Item>
@@ -146,7 +147,7 @@ class Header extends Component {
                   .classList.remove("show")
               }
             >
-              {/*this.state.user.user.name*/}
+              {this.props.user.name}
                     </Link>
           </Dropdown.Item>
           <Dropdown.Item>
@@ -162,7 +163,14 @@ class Header extends Component {
     return (
       <Navbar  light expand="xs" fixed='top'  style={{backgroundColor: "#e8ffe8", padding: "0.3rem 0.6rem 0.3rem 0.6rem",
       borderBottom: "3px solid #e8f9ff", zIndex: "100"}}>
-        <NavbarBrand href="/">Juice Houston</NavbarBrand>
+          <NavbarBrand href="/" style={{paddingTop: '2px', paddingBottom: 0}}>
+      <img
+        src={logo}
+        height="45"
+        className="d-inline-block align-top"
+        alt="React Bootstrap logo"
+      />
+    </NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>

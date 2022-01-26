@@ -2,6 +2,7 @@ html{
 	scroll-snap-type: y mandatory;
 }
 section {
+	padding-top: 50px;
 	display: flex;
 	justify-content: center;
 	align-items: center;

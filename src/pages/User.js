@@ -12,8 +12,8 @@ class User extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.user.user);
-    this.props.getUserOrders(this.state.user._id);
+    console.log(this.props.user.name);
+    this.props.getUserOrders(this.props.user._id);
         
   }
   orders() {

@@ -5,13 +5,14 @@ import { ORDER } from "./types";
 export const placeOrder =
   order => (dispatch) => {
     console.log(order);
-    axios.post('http://localhost:8000/placeOrder', order).then(res => 
+    
+/*     axios.post('http://localhost:8000/placeOrder', order).then(res => 
     {console.log(res)
       history.push({
         pathname: "/orderConfirmation",
       });  
     }
-    )
+    ) */
   };
 
 export const getDrink = (drinkId) => (dispatch) => {

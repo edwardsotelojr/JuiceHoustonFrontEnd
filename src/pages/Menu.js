@@ -31,14 +31,14 @@ class Menu extends Component {
   }
   
   //get vitamins and minerals that are high in daily recommendation value
-  getTopVitaminsNMinerals(obj) {
+  getTopVitaminsNMinerals(vitamins) {
     var result = [];
     var top3 = new Array(3);
-    for(const property in obj.vitamins){
+    for(const property in vitamins){
     for (const value in dailyRecommendation) {
       if (value == property){
         //console.log(parseFloat(obj.vitamins[property].replace(/[^\d.-]/g,''))/parseFloat(dailyRecommendation[value].replace(/[^\d.-]/g,'')))
-        result.push({name: property, amount: obj.vitamins[property], percent: parseFloat(obj.vitamins[property].replace(/[^\d.-]/g,''))/parseFloat(dailyRecommendation[value].replace(/[^\d.-]/g,''))})
+        result.push({name: property, amount: vitamins[property], percent: parseFloat(vitamins[property].replace(/[^\d.-]/g,''))/parseFloat(dailyRecommendation[value].replace(/[^\d.-]/g,''))})
       }
     }
   }
@@ -144,7 +144,8 @@ class Menu extends Component {
                   //padding: "10px",
                   //width: "225px",
                   //height: "290px",
-                  //backgroundColor: item.color,
+                  backgroundColor: item.color,
+                  opacity: 0.92
                 }}
               >
                 <Container
@@ -170,18 +171,18 @@ class Menu extends Component {
                       />
                     </Col>
                     <Col xs={7} style={{ paddingLeft: "0" }}>
-                      <Card.Title style={{ fontSize: "1.1rem" }}>
+                      <Card.Title style={{ fontSize: "1.1rem", marginBottom: "0.35rem"}}>
                         {item}
                       </Card.Title>
-                    </Col>{" "}
-                  </Row>
-                  <Row style={{ margin: "0px 0px 10px 0px" }}>
-                    <Card.Subtitle
-                      className="text-muted"
-                      style={{ paddingLeft: "13px" }}
+                      <Card.Subtitle
+                      style={{}}
                     >
                       ${info.costPerOunce} / oz.
                     </Card.Subtitle>
+                    </Col>{" "}
+                  </Row>
+                  <Row style={{ margin: "0px 0px 10px 0px" }}>
+                   
                   </Row>
                   <Row
                     style={{
@@ -399,7 +400,7 @@ class Menu extends Component {
                       height: "8px",
                     }}
                   />
-                  {/*this.getTopVitaminsNMinerals(info).map((mineral)=> (
+                  {this.getTopVitaminsNMinerals(info.vitamins).map((mineral)=> (
                     
                     <div style={{ display: "flow-root" }}>
                     <p
@@ -421,7 +422,7 @@ class Menu extends Component {
                       {Math.round(mineral.percent*100)}%
                     </p>
                   </div>
-                  ))*/}
+                  ))}
                   <button
                     style={{
                       position: "absolute",
