@@ -14,8 +14,8 @@ export default function (state = initialState, action) {
       console.log("action.payload ", action.payload);
       return {
         ...state,
-        isAuthenticated: !isEmpty(action.payload),
         user: action.payload,
+        isAuthenticated: !isEmpty(action.payload),
       };
     case USER_LOADING:
       return {

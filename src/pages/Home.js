@@ -158,23 +158,6 @@ function Home() {
                     }}
                     data-aos-duration="1500"
                   >
-                    {/*
-                    <Autocomplete
-                      freeSolo
-                      id="combo-box-demo"
-                      options={zipcodes}
-                      getOptionLabel={(option) => option.toString()}
-                      style={{ width: 300, marginBottom: 0,}}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          margin="normal"
-                          label="Available zipcodes for delivery"
-                          variant="outlined"
-                        />
-                      )}
-                    />
-                     */}
                     <Dropdown>
                       <Dropdown.Toggle variant="primary" id="dropdown-basic">
                         Available zipcodes for delivery

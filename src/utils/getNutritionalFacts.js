@@ -1,5 +1,6 @@
 //
 import { listt, dailyRecommendation } from "../MenuList.js";
+
 export default function getNutritionalFacts(drink) {
   //var nf = item(drink)
   const nf = {
@@ -48,6 +49,7 @@ export default function getNutritionalFacts(drink) {
   console.log("nf ", nf)
   return nf;
 }
+
 export function getTop6(info) {
     const remove = ["calories", "protein", 
     "totalCarbohydrate", "totalFat", "sugar", "cholesterol"]

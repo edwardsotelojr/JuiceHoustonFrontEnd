@@ -128,7 +128,6 @@ class Checkout extends React.Component {
       gateCodeBorder: {},
       agreementBorder: {},
       instructionsBorder: {},
-
       placeOrderReady: false,
     };
 
@@ -175,143 +174,6 @@ class Checkout extends React.Component {
       });
       document.getElementById("siginForm").style.display = "none";
     });
-  };
-
-  onSubmit = (e) => {
-    e.preventDefault();
-    const drinks = [];
-    for (var i = 0; i < this.state.sizeOfOrder; i++) {
-      drinks[i] = {
-        ingredients: this.state.drinks[i],
-        deliveryDate: this.state.deliveryDates[i],
-        color: this.state.colors[i],
-        price: this.state.prices[i],
-        nutritionalFacts: this.state.drinksNutrition[i],
-      };
-    }
-    const order = {
-      name: this.state.name,
-      email: this.state.email,
-      phone: this.state.phone,
-      address: this.state.address,
-      zipcode: this.state.zipcode,
-      gateCode: this.state.gateCode,
-      suiteNumber: this.state.suiteNumber,
-      instructions: this.state.instructions,
-      sizeOfOrder: this.state.sizeOfOrder,
-      agreement: this.state.agreement,
-      totalCost: this.state.totalCost,
-      drinks: drinks,
-    };
-    console.log(order);
-
-    const { stripe, elements } = this.props;
-
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
-      return;
-    }
-
-    // Get a reference to a mounted CardElement. Elements knows how
-    // to find your CardElement because there can only ever be one of
-    // each type of element.
-    const card = elements.getElement(CardElement);
-
-    if (card == null) {
-      return;
-    }
-    stripe
-      .confirmCardPayment(this.state.clientSecret, {
-        payment_method: {
-          card: card,
-        },
-      })
-      .then(function (result) {
-        // Handle result.error or result.paymentMethod
-        console.log("result: ", result);
-      });
-  };
-
-  validation = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    var valid = false;
-    var border = { borderColor: "red" };
-    switch (name) {
-      case "name":
-        valid = value.length >= 1 && value.length < 20;
-        if (valid) border = {};
-        else {
-          valid = false;
-        }
-        break;
-      case "email":
-        if (value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
-          valid = true;
-          border = {};
-        } else {
-          valid = false;
-        }
-        break;
-      case "phone":
-        if (value.length == 10) {
-          valid = true;
-          border = {};
-        } else {
-          valid = false;
-        }
-        break;
-      case "address":
-        valid = true;
-        border = {};
-        break;
-        break;
-      case "zipcode":
-        for (var z in zipcodes) {
-          if (zipcodes[z] == Number(value)) {
-            valid = true;
-            border = {};
-            break;
-          } else {
-            valid = false;
-          }
-        }
-        break;
-      case "instructions":
-        valid = value.length >= 0 && value.length < 200;
-        if (valid) {
-          border = {};
-        } else {
-          valid = false;
-        }
-        break;
-      case "gateCode":
-        valid = value.length >= 0 && value.length < 10;
-        if (valid) border = {};
-        else {
-          valid = false;
-        }
-        break;
-      case "suiteNumber":
-        valid = value.length >= 0 && value.length < 10;
-        if (valid) border = {};
-        else {
-          valid = false;
-        }
-        break;
-      default:
-        break;
-    }
-    this.setState(
-      {
-        [e.target.name + "Valid"]: valid,
-        [e.target.name + "Border"]: border,
-      },
-      () => {
-        this.placeOrderReady();
-      }
-    );
   };
 
   daysAvailable = () => {
@@ -436,12 +298,6 @@ class Checkout extends React.Component {
     console.log(result);
     if (!result.destination) return;
     const { source, destination } = result;
-    if (
-      destination.droppableId != "Dates" &&
-      columns[destination.droppableId].items.length == 1
-    ) {
-      return;
-    }
     if (source.droppableId !== destination.droppableId) {
       const sourceColumn = columns[source.droppableId];
       const destColumn = columns[destination.droppableId];

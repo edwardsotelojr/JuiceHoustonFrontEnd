@@ -61,8 +61,8 @@
         display: none !important;
     }
     .ed{
-        width: 60% !important;
-        height: 200px !important;
+        width: 40% !important;
+        height: 160px !important;
     }
     .drinkRowName{
         font-size: medium;
@@ -83,8 +83,8 @@
     }
     .ed{
         margin-top: 7px;
-        width: 60% !important;
-        height: 175px !important;
+        width: 41% !important;
+        height: 145px !important;
     }
     .drinkRowName{
         font-size: medium;
@@ -98,8 +98,8 @@
         display: none;
     }
     .ed{
-        width: 60% !important;
-        height: 200px !important;
+        width: 32% !important;
+        height: 145px !important;
     }
     .drinkRowName{
         font-size: medium;

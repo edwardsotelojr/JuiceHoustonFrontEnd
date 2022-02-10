@@ -11,26 +11,32 @@ import jwt_decode from "jwt-decode";
 import history from "../history";
 
 // Register User
-export const signup = (userData) => (dispatch) => {
+export const signup = (userData) => async (dispatch) => {
   const email = userData.email
-  axios
+  console.log("redux signup")
+   const a = await axios
     .post("http://localhost:8000/signup", userData)
     .then((res) => {
+      console.log(res)
       if (res.data.msg == "success") {
         console.log("go to verify");
         history.push({pathname:"/verify", state: {email}});
       } else if (res.data.msg == "Authenticate") {
         console.log("error with twilio");
-      } else {
-        console.log(res.data);
+      } else if(res.status == 500){
+        console.log('500')
+        return res.data.msg
       }
     }) // re-direct to login on successful register
-    .catch((err) =>
-      dispatch({
+    .catch((err) => {
+      console.log(err.response.data.msg)
+      return err.response.data.msg
+      /* dispatch({
         type: SIGNUP_ERROR,
         payload: err.response,
-      })
-    );
+      }) */
+    });
+    return a
 };
 
 

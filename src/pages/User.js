@@ -1,89 +1,200 @@
 import React from "react";
-import { Container, Row, Col, Jumbotron, Button } from "react-bootstrap";
+import { Container, Row, Col, Jumbotron, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 class User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: this.props.user.user,
-      order: null
+      orders: null,
+      isLoading: true,
+      show: false,
+      selectedOrderChange: []
     };
+    this.handleClose = this.handleClose.bind(this)
+    this.handleShow = this.handleShow.bind(this)
+    this.availableChanges = this.availableChanges.bind(this)
   }
 
   componentDidMount() {
-    console.log(this.props.user.name);
-    this.props.getUserOrders(this.props.user._id);
-        
+    console.log(this.props.user.user.name);
+    axios
+      .get(`http://localhost:8000/orders/?email=${this.props.user.user.email}`)
+      .then((res) => {
+        console.log("res ", res.data);
+        this.setState({ isLoading: false, orders: res.data });
+        return res.data;
+      })
+      .catch((err) => console.log(err));
   }
-  orders() {
-    this.props.orders.map((o, index) => <p key={index}> pp</p>);
+
+  handleClose(){
+    this.setState({show: false})
+  }
+
+  handleShow = (lastDay) => {
+    this.setState({show: true, lastDay: lastDay})
+  }
+
+  availableChanges(drinksArray, lastDay){
+    this.setState({selectedOrderChange: []})
+    drinksArray.forEach(drink => {
+      if(new Date(drink.deliveryDate) < new Date(lastDay) && drink.delivered == false){
+        console.log('here ')
+        this.setState(prevState =>
+          ({ selectedOrderChange: [...prevState.selectedOrderChange, drink] }))
+      }
+    });
+  }
+
+  renderDates = (lastDay, deliveryDate) => {
+    let date = new Date();
+    const lastD = new Date(lastDay)
+    console.log(typeof(date))
+    let dates = []
+    const dd = new Date(deliveryDate)
+   
+    if(date.getHours() >= 16){
+      date = date.setDate(date.getDate() + 2)
+    }
+    if( dd < date){
+      dates.push(dd.getMonth()+1 + "/" +
+      dd.getDate() + "/" + 
+      dd.getFullYear())  
+      }
+    let nextPossibleDeliveryDate = new Date(date)
+    while(nextPossibleDeliveryDate.getMonth() <= lastD.getMonth() &&
+    nextPossibleDeliveryDate.getDate() <= lastD.getDate() &&
+    nextPossibleDeliveryDate.getFullYear() <= lastD.getFullYear()){
+        dates.push(nextPossibleDeliveryDate.getMonth()+1 + "/" +
+        nextPossibleDeliveryDate.getDate() + "/" + 
+        nextPossibleDeliveryDate.getFullYear())
+        nextPossibleDeliveryDate = nextPossibleDeliveryDate.setDate(nextPossibleDeliveryDate.getDate() + 1)
+        nextPossibleDeliveryDate = new Date(nextPossibleDeliveryDate)
+    }
+    return dates
   }
 
   render() {
-    const { loading, userOrders } = this.props;
-    
-    if (loading) {
-      return <div>Loading...</div>;
+    if (this.state.isLoading) {
+      return <div className="App" style={{ marginTop: "10px", 
+      backgroundColor: "rgb(255, 255 ,240)",
+    }}></div>;
     }
-    const user = this.props.user.user;
-    if (user) {
-      return (
-        <Container fluid style={{ marginTop: "10px" }}>
-          <br />
-          <Jumbotron style={{ padding: "10px" }}>
-            <Container fluid>
-              <Row className='justify-content-between'>
-                <Col className="col-auto">
-                  <h2>{user.name}</h2>
-                  <h3>{user.address}, {user.zipcode}</h3>
-                  <h4>{user.phone}</h4>
-                  <Link
-                    to={{
-                      pathname: "/edit",
-                      state: { user: user },
-                    }}
-                  >
-                    Edit
-                  </Link>
-                </Col>
-                <Col className='col-auto'> 
-                  <h2>Payment Method</h2>
 
-                </Col>
-              </Row>
-            </Container>
-          </Jumbotron>
-          <Row>
-            <Col className="col-6">
-              <Row style={{marginLeft: 0, marginRight: 0}}>
-                <Col>
-                  {userOrders.map((o, index) => (
-                    <Row key={index} style={{ backgroundColor: "grey" }}>
-                      <Col>
-                        <p>August 3 , 2021</p>
-                        <p>instructions here.</p>
-                        <Row>
-                          {o.drinks.map((drink, index) => 
-                          <p key={index}>
-                          here
+
+    return (
+      <Container  style={{ marginTop: "10px", 
+      backgroundColor: "rgb(255, 255 ,240)",
+    }}>
+        <br />
+        <Jumbotron style={{ padding: "10px" }}>
+          <Container fluid>
+            <Row className="justify-content-between">
+              <Col className="col-auto">
+                <h2>{this.props.user.user.name}</h2>
+                <h3>
+                  {this.props.user.user.address}, {this.props.user.user.zipcode}
+                </h3>
+                <h4>{this.props.user.user.phone.toString().substring(0,3)}
+                -{this.props.user.user.phone.toString().substring(3,6)}
+                -{this.props.user.user.phone.toString().substring(6,10)}</h4>
+                <Link
+                  to={{
+                    pathname: "/edit",
+                    state: { user: this.props.user.user },
+                  }}
+                >
+                  Edit
+                </Link>
+              </Col>
+            </Row>
+          </Container>
+        </Jumbotron>
+        <Row>
+          <Col xs={12} sm={12} md={8} style={{}}>
+            {this.state.orders.map((o, i) => (
+              <>
+                <Row>
+                  <p style={{ paddingTop: "5px" }}>
+                    Order Placed on {o.orderPlaced}
+                  </p>
+                  { new Date(o.createdAt) < new Date(o.lastDay)  ?
+                  <Button
+                    style={{ position: "absolute", right: "0" }}
+                    size="sm" onClick={() => { this.handleShow(o.lastDay); this.availableChanges(o.drinkss, o.lastDay)}}
+                  >
+                    Change Delivery Dates 
+                  </Button> : <></>}
+                </Row>
+                <Row  style={{marginBottom: "5px"}}>
+                  {o.drinkss
+                    .sort(
+                      (a, b) =>
+                        new Date(a.deliveryDate) - new Date(b.deliveryDate)
+                    )
+                    .map((d, ii) => (
+                      <Col
+                        style={{
+                          margin: "5px",
+                          backgroundColor: "#87a0b8",
+                          opacity: 0.9,
+                          borderRadius: "9px",
+                          borderStyle: "solid",
+                          borderWidth: "2px"
+                        }}
+                      >
+                        <p style={{ fontSize: "14px", marginBottom: "5px" }}>
+                          Delivery Date: {d.deliveryDate} {d.delivered ? <p>Delivered</p> : <></>}
+                        </p>
+                        {Object.keys(d.ingredients).map((k) => (
+                          <p style={{ fontSize: "14px" }}>
+                            {k}: {d.ingredients[k]}oz.
                           </p>
-                          
-                          )}
-                        </Row>
+                        ))}
                       </Col>
-                    </Row>
-                  ))}
-                </Col>
-              </Row>
-            </Col>
-            <Col className="col-6"> </Col>
-          </Row>
-        </Container>
-      );
-    } else {
-      return <p>nope</p>;
-    }
+                    ))}
+                </Row>
+              </>
+            ))}
+          </Col>
+        </Row>
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {
+             (this.state.selectedOrderChange).map((d, i) => <>
+              <select>
+              { new Date(d.deliveryDate).getMonth == new Date((new Date()).setDate((new Date).getDate() + 1)).getMonth() &&
+               new Date(d.deliveryDate).getDate == new Date((new Date()).setDate((new Date).getDate() + 1)).getDate() && 
+               new Date(d.deliveryDate).getFullYear == new Date((new Date()).setDate((new Date).getDate() + 1)).getFullYear() ?
+                this.renderDates(this.ste.lastDay, d.deliveryDate).map(day => 
+                  ( d.deliveryDate == day ? 
+                  <option selected>{day}</option> :
+                    <option>dat {day}</option>
+                )) : <></>
+              }
+          </select> {Object.keys(d.ingredients).map(key =>
+              <p>{key}: {d.ingredients[key]}</p>
+            )}
+          </>
+              )
+            }
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={this.handleClose}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </Container>
+    );
   }
 }
 

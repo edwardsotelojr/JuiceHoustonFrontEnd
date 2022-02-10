@@ -24,6 +24,12 @@ class Verify extends Component {
     this.verifyUser = this.verifyUser.bind(this);
   }
 
+  componentDidMount(){
+    window.scrollTo({
+      top: 0
+    });
+
+  }
   isReady = () => {
     console.log(this.state.n4);
     if (
@@ -32,7 +38,6 @@ class Verify extends Component {
       parseInt(this.state.n3) > -1 &&
       parseInt(this.state.n4) > -1
     ) {
-      console.log("here");
       this.setState({
         ready: true,
       });
@@ -57,10 +62,10 @@ class Verify extends Component {
       },
       () => this.isReady()
     );
+    if(e.target.value == "") {return}
     if (id < 5) {
       // Get the next input field using it's name
       const nextfield = document.querySelector(`input[name="n${id + 1}"]`);
-      console.log(nextfield);
       // If found, focus the next field
       if (nextfield !== null) {
         nextfield.focus();
@@ -77,6 +82,7 @@ class Verify extends Component {
       .then((res) => {
         if (res.data.msg == "Pin matched") {
           console.log("pin is a match");
+          console.log(res.data)
           this.setState({error: false, match: true, msg: res.data.msg})
           localStorage.setItem("jwtToken", res.data.token);
           // Set token to Auth header
@@ -86,7 +92,6 @@ class Verify extends Component {
           console.log("decoded ", decoded.user);
           // Set current user
           this.props.setCurrentUser(decoded.user);
-          setTimeout(history.push("/"), 4000)
         } else if (res.data.msg == "Incorrect Pin.") {
           this.setState({ error: true, msg: res.data.msg });
           console.log("pin is not a match");
@@ -99,7 +104,12 @@ class Verify extends Component {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => {
+        console.log("finally")
+        setTimeout(history.push("/"), 4000)
+        
+    });
   };
 
   render() {

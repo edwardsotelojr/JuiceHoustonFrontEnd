@@ -119,10 +119,6 @@ class Header extends Component {
     };
   }
 
-  componentDidMount() {
-    this.setState({ user: this.props.auth.user})
-  }
-
   toggle() {
     console.log("toggle");
     this.setState({
@@ -135,7 +131,7 @@ class Header extends Component {
     //console.log("user ", this.state.user.user)
     if (this.props.auth.isAuthenticated) {
       //logged in
-      title = this.props.user.name;
+      title = this.props.auth.user.user.name;
       dropdown = (
         <div>
           <Dropdown.Item>
@@ -147,7 +143,7 @@ class Header extends Component {
                   .classList.remove("show")
               }
             >
-              {this.props.user.name}
+              {this.props.auth.user.user.name}
                     </Link>
           </Dropdown.Item>
           <Dropdown.Item>
@@ -181,7 +177,7 @@ class Header extends Component {
               <NavLink href="/Order">Order</NavLink>
             </NavItem>
             <NavItem style={{alignSelf: 'center'}}>
-              <Dropdown>
+              <Dropdown style={{marginRight: "5px"}}>
                 <Dropdown.Toggle className="btn-sm"  style={{backgroundColor: "#9bd16e", borderColor: "#fff"}} id="dropdown-basic">
                   {title}
                 </Dropdown.Toggle>
