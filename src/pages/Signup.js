@@ -42,7 +42,7 @@ class Signup extends Component {
       suiteNumberValid: false,
       instructionsValid: true,
       checkBoxValid: false,
-      formValid: true,
+      formValid: false,
 
       nameBorder: {},
       emailBorder: {},
@@ -80,10 +80,10 @@ class Signup extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     console.log("submitted");
-    //this.validateForm()
-    //if(this.state.formValid == false){
-    //  return
-    //}
+    this.validateForm()
+    if(this.state.formValid == false){
+      return
+    }
     const {
       name,
       email,
@@ -226,7 +226,7 @@ class Signup extends Component {
           ["passwordBorder"]: border,
           [e.target.name + "Border"]: border,
         },
-        this.validateForm
+        () => this.validateForm
       );
     } else {
       this.setState(
@@ -234,7 +234,7 @@ class Signup extends Component {
           [e.target.name + "Valid"]: valid,
           [e.target.name + "Border"]: border,
         },
-        this.validateForm
+      () => this.validateForm
       );
     }
   }
@@ -249,9 +249,6 @@ class Signup extends Component {
         suiteNumber: "",
       });
     }
-    if (e.target.style.borderColor == "red") {
-      this.validation(e);
-    }
   }
   radioCheck(e) {
     console.log("radiocheck");
@@ -260,20 +257,20 @@ class Signup extends Component {
         {
           homeType: "house",
           suiteNumberValid: true,
-          suiteNumber: null,
-          gateCode: null,
+          suiteNumber: "",
+          gateCode: "",
         },
-        this.validateForm
+        () => this.validateForm
       );
     } else {
       this.setState(
         {
           homeType: "apartment",
           suiteNumberValid: false,
-          suiteNumber: null,
-          gateCode: null,
+          suiteNumber: "",
+          gateCode: "",
         },
-        this.validateForm
+        () => this.validateForm
       );
     }
   }
@@ -332,10 +329,10 @@ class Signup extends Component {
               <Form.Group className="mb-3">
                 <Form.Label>Name</Form.Label>
                 <Form.Control
-                  //autoFocus
+                  autoFocus
                   type="text"
                   name="name"
-                  //onBlur={this.validation}
+                  onBlur={this.validation}
                   onChange={this.handleChange}
                   placeholder="Enter name"
                   style={this.state.nameBorder}
@@ -360,7 +357,7 @@ class Signup extends Component {
                 <Form.Control
                   type="email"
                   name="email"
-                  //onBlur={this.validation}
+                  onBlur={this.validation}
                   onChange={this.handleChange}
                   placeholder="Enter email"
                   style={this.state.emailBorder}
@@ -386,7 +383,7 @@ class Signup extends Component {
                 <Form.Control
                   type="password"
                   name="password"
-                  //onBlur={this.validation}
+                  onBlur={this.validation}
                   onChange={this.handleChange}
                   placeholder="Password"
                   style={this.state.passwordBorder}
@@ -414,7 +411,7 @@ class Signup extends Component {
                 <Form.Control
                   type="password"
                   name="passwordMatch"
-                  //onBlur={this.validation}
+                  onBlur={this.validation}
                   onChange={this.handleChange}
                   ref={this.passwordMatchTarget}
                   style={this.state.passwordMatchBorder}
@@ -441,7 +438,7 @@ class Signup extends Component {
                 <Form.Control
                   type="text"
                   name="phone"
-                  //onBlur={this.validation}
+                  onBlur={this.validation}
                   onChange={this.handleChange}
                   ref={this.phoneTarget}
                   style={this.state.phoneBorder}
@@ -466,8 +463,7 @@ class Signup extends Component {
                 <Form.Control
                   type="text"
                   name="address"
-                  isInvalid={!this.state.addressValid}
-                  //onBlur={this.validation}
+                  onBlur={this.validation}
                   onChange={this.handleChange}
                   placeholder="Address"
                   ref={this.addressTarget}
@@ -492,7 +488,7 @@ class Signup extends Component {
                 <Form.Control
                   type="text"
                   name="zipcode"
-                  //onBlur={this.validation}
+                  onBlur={this.validation}
                   onChange={this.handleChange}
                   placeholder="zip code"
                   ref={this.zipcodeTarget}
@@ -515,20 +511,20 @@ class Signup extends Component {
               </Form.Group>
               <Form.Group>
                 <RadioGroup
-                  //onBlur={this.validation}
+                  onBlur={this.validation}
                   onChange={this.radioCheck}
                   style={{ flexDirection: "row" }}
                 >
                   <FormControlLabel
                     value="house"
                     name="homeType"
-                    control={<Radio checked={true} />}
+                    control={<Radio checked={this.state.homeType == "house"} />}
                     label="house"
                   />
                   <FormControlLabel
                     value="apartment"
                     name="homeType"
-                    control={<Radio />}
+                    control={<Radio checked={this.state.homeType == "apartment"} />}
                     label="apartment"
                   />
                 </RadioGroup>
@@ -584,7 +580,10 @@ class Signup extends Component {
                   Drink will be place in a shaded area to keep it cool
                 </Form.Text>
                 <Form.Control
-                  type="text"
+                  as="textarea"
+                  rows="3"
+                  value={this.state.instructions}
+                  onBlur={this.validation}
                   name="instructions"
                   onChange={this.handleChange}
                   placeholder="optional"

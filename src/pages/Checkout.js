@@ -34,6 +34,7 @@ class Checkout extends React.Component {
         id: "Juice" + (i + 1),
         content: "Juice " + (i + 1),
         ingredients: props.location.state.drinks[i],
+        color: props.location.state.color[i]
       };
     }
     var name = "";
@@ -46,14 +47,14 @@ class Checkout extends React.Component {
     var instructions = "";
     if (Object.keys(this.props.user).length != 0) {
       console.log("here");
-      name = this.props.user.user.name;
-      email = this.props.user.user.email;
-      address = this.props.user.user.address;
-      phone = this.props.user.user.phone;
-      zipcode = this.props.user.user.zipcode;
-      gateCode = this.props.user.user.gateCode;
-      suiteNumber = this.props.user.user.suiteNumber;
-      instructions = this.props.user.user.instructions;
+      name = this.props.user.name;
+      email = this.props.user.email;
+      address = this.props.user.address;
+      phone = this.props.user.phone;
+      zipcode = this.props.user.zipcode;
+      gateCode = this.props.user.gateCode;
+      suiteNumber = this.props.user.suiteNumber;
+      instructions = this.props.user.instructions;
     }
     this.state = {
       loginButtonPressed: false,
@@ -162,6 +163,8 @@ class Checkout extends React.Component {
     e.preventDefault();
     var user = { email: this.state.emaill, password: this.state.password };
     axios.post("http://localhost:8000/login", user).then((res) => {
+      if(res.status == 200){
+      console.log(res)
       this.setState({
         name: res.data.user.name,
         email: res.data.user.email,
@@ -173,6 +176,8 @@ class Checkout extends React.Component {
         suiteNumber: res.data.user.suiteNumber,
       });
       document.getElementById("siginForm").style.display = "none";
+      this.props.signinAtCheckout(res.data.token)
+    }
     });
   };
 
@@ -452,7 +457,7 @@ class Checkout extends React.Component {
                                             minHeight: "50px",
                                             backgroundColor: snapshot.isDragging
                                               ? "#263B4A"
-                                              : "#456C86",
+                                              : item.color,
                                             color: "white",
                                             ...provided.draggableProps.style,
                                           }}

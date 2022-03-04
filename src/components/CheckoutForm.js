@@ -27,15 +27,16 @@ export const CheckoutForm = (props) => {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
+    
     props.sendData("lol")
+    console.log(props.order.totalCost)
     axios
     .post("http://localhost:8000/create-payment-intent", {
-      price: parseInt(
+      price: 
         props.order.totalCost
-          .toFixed(2)
           .toString()
           .replace(".", "")
-      ),
+      ,
     })
     .then((res) => {
       console.log("res: ", res);
@@ -56,12 +57,15 @@ export const CheckoutForm = (props) => {
         } else {
           axios.post('http://localhost:8000/placeOrder', props.order).then(res => 
           {console.log(res)
-            history.push({
+          /*   history.push({
               pathname: "/orderConfirmation",
-              state: res.data
-            });  
+              state: props.order
+            });   */
           }
           )
+          .catch(err => {
+            console.log(err)
+          })
           setError(null);
           setProcessing(false);
           setSucceeded(true);

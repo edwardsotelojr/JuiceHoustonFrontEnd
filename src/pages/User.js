@@ -6,7 +6,7 @@ class User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: this.props.user.user,
+      user: this.props.user,
       orders: null,
       isLoading: true,
       show: false,
@@ -18,13 +18,13 @@ class User extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.user.user.name);
+    console.log(this.props.user.name);
     axios
-      .get(`http://localhost:8000/orders/?email=${this.props.user.user.email}`)
+      .get(`http://localhost:8000/orders/?email=${this.props.user.email}`)
       .then((res) => {
         console.log("res ", res.data);
         this.setState({ isLoading: false, orders: res.data });
-        return res.data;
+       
       })
       .catch((err) => console.log(err));
   }
@@ -89,21 +89,23 @@ class User extends React.Component {
       backgroundColor: "rgb(255, 255 ,240)",
     }}>
         <br />
-        <Jumbotron style={{ padding: "10px" }}>
+        <Jumbotron style={{ padding: "10px", marginBottom: "5px" }}>
           <Container fluid>
             <Row className="justify-content-between">
               <Col className="col-auto">
-                <h2>{this.props.user.user.name}</h2>
+                <h2>{this.props.user.name}</h2>
                 <h3>
-                  {this.props.user.user.address}, {this.props.user.user.zipcode}
+                  {this.props.user.address}, {this.props.user.zipcode}
                 </h3>
-                <h4>{this.props.user.user.phone.toString().substring(0,3)}
-                -{this.props.user.user.phone.toString().substring(3,6)}
-                -{this.props.user.user.phone.toString().substring(6,10)}</h4>
+                <h4>{this.props.user.phone.toString().substring(0,3)}
+                -{this.props.user.phone.toString().substring(3,6)}
+                -{this.props.user.phone.toString().substring(6,10)}</h4>
+                {this.props.user.instructions != "" ? <p>Instructions: {this.props.user.instructions}</p>
+                : <></>}
                 <Link
                   to={{
                     pathname: "/edit",
-                    state: { user: this.props.user.user },
+                    state: { user: this.props.user },
                   }}
                 >
                   Edit
@@ -114,10 +116,11 @@ class User extends React.Component {
         </Jumbotron>
         <Row>
           <Col xs={12} sm={12} md={8} style={{}}>
+           <h3> Order History </h3>
             {this.state.orders.map((o, i) => (
               <>
                 <Row>
-                  <p style={{ paddingTop: "5px" }}>
+                  <p style={{ paddingTop: "5px", marginBottom: 0 }}>
                     Order Placed on {o.orderPlaced}
                   </p>
                   { new Date(o.createdAt) < new Date(o.lastDay)  ?

@@ -1,5 +1,5 @@
 import { SET_CURRENT_USER, USER_LOADING,
-  SIGNUP_ERROR, USER_EDITED, LOGIN_ERROR } from "../actions/types";
+  SIGNUP_ERROR, USER_UPDATED, LOGIN_ERROR } from "../actions/types";
 
 const isEmpty = require("is-empty");
 const initialState = {
@@ -11,19 +11,18 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case SET_CURRENT_USER:
-      console.log("action.payload ", action.payload);
       return {
         ...state,
         user: action.payload,
         isAuthenticated: !isEmpty(action.payload),
+        loading: false
       };
     case USER_LOADING:
       return {
         ...state,
         loading: true,
       };
-    case USER_EDITED:
-      console.log("act ", action.payload);
+    case USER_UPDATED:
       return {
         ...state,
         user: action.payload,

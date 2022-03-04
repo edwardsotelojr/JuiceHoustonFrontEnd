@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import Checkout from '../pages/Checkout'
 import {placeOrder} from '../actions/orderActions'
-import { signinAtCheckout } from "../actions/authActions"
+import { signinAtCheckout, signin } from "../actions/authActions"
 
 const mapStateToProps = (state) => ({
     user: state.auth.user
@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
     return{
         placeOrder: (order) => dispatch(placeOrder(order)),
-        signinAtCheckout: (user) => dispatch(signinAtCheckout(user))
+        signinAtCheckout: (token) => dispatch(signinAtCheckout(token))
         }
 }
 

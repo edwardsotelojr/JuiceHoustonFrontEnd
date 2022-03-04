@@ -3,7 +3,7 @@ import {
   SIGNUP_ERROR,
   SET_CURRENT_USER,
   USER_LOADING,
-  USER_EDITED,
+  USER_UPDATED,
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
@@ -64,6 +64,11 @@ export const signin = (userData) => (dispatch) => {
         payload: null,
       });
       document.querySelector(".dropdown-menu.show").classList.remove("show");
+      if(window.location.pathname == "/Order" || 
+      window.location.pathname == "/Menu" ||
+      window.location.pathname == "/"){
+        return;
+      }
       history.push("/");
     })
     .catch((error) => {
@@ -76,29 +81,16 @@ export const signin = (userData) => (dispatch) => {
 };
 
 // Login - get user token
-export const signinAtCheckout = (userData) => (dispatch) => {
-  console.log("signin func");
-  console.log("userData: ", userData);
-  axios
-    .post("http://localhost:8000/login", userData)
-    .then((res) => {
-      console.log("res.data", res.data);
-      // Save to localStorage
-      // Set token to localStorage
-      const { token, user } = res.data;
-      localStorage.setItem("jwtToken", token);
+export const signinAtCheckout = (token) => (dispatch) => {
+  dispatch(setUserLoading())
+  localStorage.setItem("jwtToken", token);
+      // Set token to Auth header
+      setAuthToken(token);
       // Decode token to get user data
       const decoded = jwt_decode(token);
       console.log("decoded ", decoded.user);
-      return user;
-    })
-    .catch((error) => {
-      console.log("error ", error.response.data.msg);
-      dispatch({
-        type: LOGIN_ERROR,
-        payload: error,
-      });
-    });
+      // Set current user
+      dispatch(setCurrentUser(decoded.user));
 };
 
 // Set logged in user
@@ -123,28 +115,17 @@ export const logoutUser = () => (dispatch) => {
   console.log("logoutUser");
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
+  if(window.location.pathname == "/checkout"){
+    return;
+  }
   history.push("/");
 };
 
-export const userEdited = (updatedUser) => {
-  return {
-    payload: updatedUser,
-    type: USER_EDITED,
-  };
-};
-
-export const editUser = (user) => (dispatch) => {
-  console.log("sending: ", user);
-  axios
-    .patch("http://localhost:8000/users/edit/" + user._id, user)
-    .then((res) => {
-      console.log("User successfully updated", res.data);
-      dispatch(userEdited(res.data));
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  // Redirect to Student List
-  //this.props.history.push('/')
+export const userUpdated = (token, updatedUser) => (dispatch) => {
+  console.log("user token: ", updatedUser)
+  localStorage.setItem("jwtToken", token);
+  // Set token to Auth header
+  setAuthToken(token);
+  // Set current user
+  dispatch(setCurrentUser(updatedUser));
 };

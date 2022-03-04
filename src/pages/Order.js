@@ -264,7 +264,7 @@ class Order extends Component {
     if (this.state.ounces[this.state.currentDrink] > 16) {
       return;
     }
-    if (value > 17 - this.state.ounces[this.state.currentDrink]) {
+    if (value > 16 - this.state.ounces[this.state.currentDrink]) {
       return;
     }
     const v = this.state.drinks[this.state.currentDrink][name];
@@ -1054,7 +1054,7 @@ class Order extends Component {
                   </Col>
                 </Row>
                 <Row>
-                  <p>{item.costPerOunce * 100}¢/oz.</p>
+                  <p>{(item.costPerOunce * 100).toFixed()}¢/oz.</p>
                 </Row>
               </Col>
             </Row>

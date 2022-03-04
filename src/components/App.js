@@ -22,17 +22,14 @@ import history from "../history";
 //const store = makeStore();
 // Check for token to keep user logged in
 if (localStorage.jwtToken != undefined) {
-  console.log("token founded: ", localStorage.jwtToken);
   // Set auth token header auth
   const token = localStorage.jwtToken;
   setAuthToken(token);
   // Decode token and get user info and exp
   const decoded = jwt_decode(localStorage.jwtToken);
-  console.log('decoded ', decoded)
   // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
+  store.dispatch(setCurrentUser(decoded.updatedUser));
   // Check for expired token
-  console.log(decoded.exp);
   const currentTime = Date.now() / 1000; // to get in milliseconds
   if (decoded.exp < currentTime) {
     // Logout user
@@ -44,7 +41,7 @@ if (localStorage.jwtToken != undefined) {
 class App extends Component {
   render() {
     return (
-      <Router history={history}>
+      <Router history={history} >
         <Header />
         <div style={{marginTop: '52px'}}>
         <Switch>

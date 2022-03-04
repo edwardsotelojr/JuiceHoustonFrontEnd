@@ -129,32 +129,31 @@ class Header extends Component {
     let dropdown;
     let title;
     //console.log("user ", this.state.user.user)
+    if(!this.props.auth.loading){
     if (this.props.auth.isAuthenticated) {
       //logged in
-      title = this.props.auth.user.user.name;
+      title = this.props.auth.user.name;
       dropdown = (
-        <div>
-          <Dropdown.Item>
-            <Link
-              to="/user"
+        <>
+          <Dropdown.Item
+              href="/user"
               onClick={() =>
                 document
                   .querySelector(".dropdown-menu.show")
                   .classList.remove("show")
               }
             >
-              {this.props.auth.user.user.name}
-                    </Link>
+              {this.props.user.name}
           </Dropdown.Item>
-          <Dropdown.Item>
-            <Link onClick={this.props.logout}>Logout</Link>
+          <Dropdown.Item href="/" onClick={this.props.logout}>Logout
           </Dropdown.Item>
-        </div>
+        </>
       );
     } else {
       title = "Sign in";
       dropdown = <Login login={this.props.login} error={this.props.error} />;
     }
+  }
     const { navCollapsed } = this.state;
     return (
       <Navbar  light expand="xs" fixed='top'  style={{backgroundColor: "#e8ffe8", padding: "0.3rem 0.6rem 0.3rem 0.6rem",

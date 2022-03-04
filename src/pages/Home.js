@@ -27,7 +27,6 @@ function Home() {
   useEffect(() => {
     // Update the document title using the browser API
     window.scrollTo(0, 0);
-    console.log(localStorage);
   });
 
   AOS.init();
@@ -37,7 +36,7 @@ function Home() {
         scrollSnapType: "y mandatory",
       }}
     >
-      <section class="one">
+      <section className="one">
         <div
           data-aos="fade-up"
           data-aos-duration="1200"
@@ -179,7 +178,7 @@ function Home() {
           </div>
         </div>{" "}
       </section>
-      <section class="three">
+      <section className="three">
         <Container>
           <Row style={{ height: "80px" }}></Row>
           <Row className="justify-content-center">

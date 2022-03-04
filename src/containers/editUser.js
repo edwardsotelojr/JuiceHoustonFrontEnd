@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import EditUser from '../pages/EditUser'
-import { editUser } from '../actions/authActions';
+import { userUpdated } from '../actions/authActions';
 
 const mapStateToProps = (state) => ({
     user: state.auth.user
@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return{
-    editUser: (user) => dispatch(editUser(user))
+    userUpdated: (token, updatedUser) => dispatch(userUpdated(token, updatedUser))
     }
 }
 

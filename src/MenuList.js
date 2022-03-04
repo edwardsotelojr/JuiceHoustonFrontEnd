@@ -1195,7 +1195,7 @@ export const list = {
       "It taste good!",
     ],
     color: "#be8739",
-    costPerOunce: 0,
+    costPerOunce: 0.15,
   },
   "Granny Smith Apple": {
     taste: "tarty",
@@ -1232,7 +1232,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#ebb107",
-    costPerOunce: 0,
+    costPerOunce: 0.31,
   },
   "Red Delicious Apple": {
     img: redDeliciousApple,
@@ -1268,7 +1268,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#af7605",
-    costPerOunce: 0,
+    costPerOunce: 0.23,
   },
   Beets: {
     img: beets,
@@ -1304,7 +1304,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#cc253d",
-    costPerOunce: 0,
+    costPerOunce: 0.56,
   },
   Broccoli: {
     img: broccoli,
@@ -1341,7 +1341,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#6e9e33",
-    costPerOunce: 0,
+    costPerOunce: 0.47,
   },
   Cantaloupe: {
     img: cantaloupe,
@@ -1378,7 +1378,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#f88c18",
-    costPerOunce: 0,
+    costPerOunce: 0.36,
   },
   Carrot: {
     img: carrots,
@@ -1416,7 +1416,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#f3881d",
-    costPerOunce: 0,
+    costPerOunce: 0.45,
   },
   Celery: {
     img: celery,
@@ -1454,7 +1454,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#7bb604",
-    costPerOunce: 0,
+    costPerOunce: 0.30,
   },
   Cucumber: {
     img: cucumber,
@@ -1492,7 +1492,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#b1c91e",
-    costPerOunce: 0,
+    costPerOunce: 0.51,
   },
   Ginger: {
     img: ginger,
@@ -1530,7 +1530,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#d3ba76",
-    costPerOunce: 0,
+    costPerOunce: 0.26,
   },
   "Green Grapes": {
     img: greenGrapes,
@@ -1568,7 +1568,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#c8cf3e",
-    costPerOunce: 0,
+    costPerOunce: 0.36,
   },
   "Red Grapes": {
       img: redGrapes,
@@ -1606,7 +1606,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#b33133",
-    costPerOunce: 0,
+    costPerOunce: 0.50,
   },
   Grapefruit: {
     img: grapefruit,
@@ -1644,7 +1644,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#f07f52",
-    costPerOunce: 0,
+    costPerOunce: 0.49,
   },
   "Honeydew Melon": {
     img: honeydew,
@@ -1682,7 +1682,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#b6c854",
-    costPerOunce: 0,
+    costPerOunce: 0.43,
   },
   Kale: {
     img: kale,
@@ -1721,7 +1721,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#8f9731",
-    costPerOunce: 0,
+    costPerOunce: 0.38,
   },
   Kiwi: {
     img: kiwi,
@@ -1760,7 +1760,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#99b802",
-    costPerOunce: 0,
+    costPerOunce: 0.43,
   },
   Lemons: {
     img: lemons,
@@ -1799,7 +1799,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#e2e2b8",
-    costPerOunce: 0,
+    costPerOunce: 0.57,
   },
   "Iceberg Lettuce": {
     img: icebergLettuce,
@@ -1838,7 +1838,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#cce364",
-    costPerOunce: 0,
+    costPerOunce: 0.47,
   },
   "Romaine Lettuce": {
     img: romaineLettuce,
@@ -1877,7 +1877,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#b7c808",
-    costPerOunce: 0,
+    costPerOunce: 0.37,
   },
   Lime: {
     img: lime,
@@ -1916,7 +1916,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#ccbb53",
-    costPerOunce: 0,
+    costPerOunce: 0.27,
   },
   Oranges: {
     img: oranges,
@@ -1954,7 +1954,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#eba328",
-    costPerOunce: 0,
+    costPerOunce: 0.67,
   },
   Parsley: {
     img: parsley,
@@ -1992,7 +1992,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#77b70d",
-    costPerOunce: 0,
+    costPerOunce: 0.35,
   },
   Pineapple: {
     img: peaches,
@@ -2030,7 +2030,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#e4ca00",
-    costPerOunce: 0,
+    costPerOunce: 0.41,
   },
   Peaches: {
     img: peaches,
@@ -2068,7 +2068,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#ee6a07",
-    costPerOunce: 0,
+    costPerOunce: 0.54,
   },
   Pears: {
     img: pears,
@@ -2106,7 +2106,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#dcb049",
-    costPerOunce: 0,
+    costPerOunce: 0.32,
   },
   Strawberries: {
     img: strawberries,
@@ -2144,7 +2144,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#f17263",
-    costPerOunce: 0,
+    costPerOunce: 0.54,
   },
   Tomatoes: {
     img: tomatoes,
@@ -2182,7 +2182,7 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#ca3323",
-    costPerOunce: 0,
+    costPerOunce: 0.4,
   },
   Watermelon: {
     img: watermelon,
@@ -2220,6 +2220,6 @@ export const list = {
     facts: [""],
     shortFacts: [""],
     color: "#c92a28",
-    costPerOunce: 0,
+    costPerOunce: 0.3,
   },
 };
