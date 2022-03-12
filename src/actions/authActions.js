@@ -45,7 +45,9 @@ export const signin = (userData) => (dispatch) => {
   console.log("signin func");
   console.log("userData: ", userData);
   axios
-    .post("http://localhost:8000/login", userData)
+    .post("http://localhost:8000/login", userData, {headers: { 
+      'content-type': 'application/json'}
+    })
     .then((res) => {
       console.log("res.data", res.data);
       // Save to localStorage
@@ -72,10 +74,9 @@ export const signin = (userData) => (dispatch) => {
       history.push("/");
     })
     .catch((error) => {
-      console.log("error ", error.response.data.msg);
       dispatch({
         type: LOGIN_ERROR,
-        payload: error,
+        payload: error.response.data.msg,
       });
     });
 };

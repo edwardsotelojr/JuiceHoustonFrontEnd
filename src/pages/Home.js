@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import porch from "../assets/porch.png";
-import juice from "../assets/juice.jpg";
 import one from "../assets/one.png";
 import two from "../assets/two.png";
 import three from "../assets/three.png";
 import Item from "../components/Item";
 import AOS from "aos";
 import "../components/Item.css";
-import { TextField } from "@material-ui/core";
+import { Divider, TextField } from "@material-ui/core";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 import { Container, Row, Col, DropdownButton, Dropdown } from "react-bootstrap";
 import "./Home.css";
@@ -15,7 +14,7 @@ import juices from "../assets/Juices.png";
 import masked from "../assets/masked.png";
 import tasty from "../assets/tasty.png";
 import juicer from "../assets/juicer.png";
-import tesla from "../assets/tesla.png";
+import juice from "../assets/juice.png";
 const zipcodes = [
   77003, 77004, 77007, 77008, 77009, 77011, 77012, 77016, 77018, 77019, 77020,
   77021, 77022, 77023, 77024, 77026, 77027, 77028, 77030, 77036, 77037, 77039,
@@ -31,18 +30,22 @@ function Home() {
 
   AOS.init();
   return (
-    <div
+    <article
       style={{
         scrollSnapType: "y mandatory",
+        overflow: "scroll",
+        width: "100vw",
+        height: "190vh",
+        background: "linear-gradient(180deg, #04c207 -10%, #7c73ff 90%, #364bb5 100%)"
       }}
     >
       <section className="one">
         <div
           data-aos="fade-up"
           data-aos-duration="1200"
-          style={{ paddingTop: "12px", textAlign: "center" }}
+          style={{ paddingTop: "19px", textAlign: "center" }}
         >
-          <h3 style={{ }}>Juice Houston</h3>
+          <h3 style={{}}>Juice Houston</h3>
           <div className="item_des" style={{ textAlign: "center" }}>
             <p> Customize Fresh Juice deliver to you early in the morning</p>
             <Container fluid style={{ marginTop: "0px" }}>
@@ -58,16 +61,14 @@ function Home() {
                     }}
                     data-aos-duration="1500"
                     data-aos-delay="1000"
+                    data-aos-once="true"
+                    data-aos-mirror="false"
                   >
                     <img
+                      className="numberBox"
                       src={one}
                       height="18px"
                       width="18px"
-                      style={{
-                        float: "left",
-                        marginTop: "12px",
-                        marginRight: "5px",
-                      }}
                     />
                     <p style={{ float: "left", marginBottom: "2px" }}>
                       Create your juices
@@ -85,6 +86,8 @@ function Home() {
                     className="item_text"
                     data-aos="fade-up"
                     data-aos-duration="1500"
+                    data-aos-once="true"
+                    data-aos-mirror="false"
                     style={{
                       marginTop: "5px",
                       transitionDelay: "3.0s",
@@ -96,7 +99,7 @@ function Home() {
                       src={two}
                       height="18px"
                       width="18px"
-                      style={{ float: "left", marginTop: "10px" }}
+                      className="numberBox"
                     />
                     <p style={{ marginBottom: "2px" }}>
                       Select the days you want your juices deliver in the
@@ -109,6 +112,8 @@ function Home() {
                     className="item_text"
                     data-aos="fade-up"
                     data-aos-duration="1500"
+                    data-aos-once="true"
+                    data-aos-mirror="false"
                     style={{
                       marginTop: "5px",
                       transitionDelay: "5s",
@@ -120,11 +125,7 @@ function Home() {
                       src={three}
                       height="18px"
                       width="18px"
-                      style={{
-                        float: "left",
-                        marginTop: "11px",
-                        marginRight: "5px",
-                      }}
+                      className="numberBox"
                     />
                     <p
                       style={{
@@ -149,8 +150,11 @@ function Home() {
                   <div
                     className="item_text phone"
                     data-aos="fade-up"
+                    data-aos-once="true"
+                    data-aos-mirror="false"
                     style={{
                       marginTop: "10px",
+                      marginBottom: "15px",
                       fontSize: "25px",
                       transitionDelay: "6s",
                       display: "inline-block",
@@ -164,7 +168,11 @@ function Home() {
 
                       <Dropdown.Menu
                         className="pre-scrollable"
-                        style={{ maxHeight: "160px", minWidth: "100%", textAlign: "center" }}
+                        style={{
+                          maxHeight: "160px",
+                          minWidth: "100%",
+                          textAlign: "center",
+                        }}
                       >
                         {zipcodes.map((zip, index) => (
                           <Dropdown.Item key={index}>{zip}</Dropdown.Item>
@@ -181,10 +189,10 @@ function Home() {
       <section className="three">
         <Container>
           <Row style={{ height: "80px" }}></Row>
-          <Row className="justify-content-center">
+          <Row className="justify-content-between">
             <Col
               xs="6"
-              lg="4"
+              lg="5"
               style={{
                 alignSelf: "end",
                 paddingLeft: "5px",
@@ -195,22 +203,26 @@ function Home() {
                 data-aos="fade-right"
                 data-aos-duration="1500"
                 data-aos-delay="500"
-                style={{ textAlign: "center" }}
+                style={{ textAlign: "center", display: "flex" }}
+                data-aos-once="true"
               >
                 <img
                   src={juicer}
                   className="img-fluid shadow-4"
-                  style={{ height: "150px" }}
+                  style={{ height: "120px", display: "inline-block" }}
                 />
                 <p
                   style={{
-                    textAlign: "center",
+                    textAlign: "left",
+                    alignSelf: "center",
                     fontWeight: "bold",
                     marginBottom: 0,
                     fontSize: "15px",
+                    display: 'inline-block'
                   }}
                 >
-                  High Quality Cold Press Juicer
+                  Using a high quality cold press juicer to extract the most
+                   nutrients and flavors
                 </p>
                 <p></p>
               </div>
@@ -222,40 +234,45 @@ function Home() {
                 alignSelf: "end",
                 paddingLeft: "5px",
                 paddingRight: "5px",
-                textAlign: "center"
+                textAlign: "center",
               }}
             >
               <div
                 data-aos="fade-left"
                 data-aos-duration="1500"
                 data-aos-delay="2000"
+                data-aos-once="true"
+                style={{display: "flex"}}
               >
                 <img
-                  src={tesla}
-                  style={{ height: "150px", maxWidth: "95%" }}
+                  src={juice}
+                  style={{ height: "125px", maxWidth: "93%", display: "inline-block" }}
                   className="img-fluid shadow-4"
                 />
                 <p
                   style={{
-                    textAlign: "center",
+                    textAlign: "left",
                     fontWeight: "bold",
                     fontSize: "15px",
+                    alignSelf: "center",
                     marginBottom: 0,
+                    display: "inline-block"
                   }}
                 >
-                  Near Zero Carbon Emissions
+                 Produce purchased and juice made the night before delivery for the most freshest made juice
                 </p>
               </div>
-            </Col>
+            </Col> 
           </Row>
-          <Row className="justify-content-center">
+          <Row className="justify-content-center" style={{marginTop: '15px'}}>
             <Col xs="auto">
               <div
                 data-aos="fade-up"
                 data-aos-duration="1500"
                 data-aos-delay="1300"
+                data-aos-once="true"
               >
-                <img src={masked} style={{ maxWidth: "170px" }} />
+                <img src={masked} style={{ maxWidth: "150px" }} />
                 <p
                   style={{
                     textAlign: "center",
@@ -263,7 +280,7 @@ function Home() {
                     fontSize: "15px",
                   }}
                 >
-                  Health is the priority
+                  Juices made in a clean area
                 </p>
                 <p></p>
               </div>
@@ -271,7 +288,7 @@ function Home() {
           </Row>
         </Container>
       </section>
-    </div>
+    </article>
     /*
     <div
       style={{

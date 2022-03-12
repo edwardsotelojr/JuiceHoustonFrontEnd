@@ -1,93 +1,3 @@
-/* import React, { useState } from "react";
-import "./Header.css";
-import JuiceHoustonLogo from "../assets/JuiceHouston.png";
-import { useHistory } from "react-router";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import Login from "./Login";
-import { LinkContainer } from "react-router-bootstrap";
-const goToPage = (page) => {
-  const goToPage = "./" + page;
-  return goToPage;
-};
-
-/* const Header = (auth) => {
-    const history = useHistory();
-    const handle = (e, p) => {
-        e.preventDefault();
-        console.log("p: " + p);
-        history.push(goToPage(p));
-    };
-    console.log(auth.auth)
-    
-
-class Header extends React.Component{
-    constructor(props){
-        super(props);
-        this.state ={
-            isOpened: true
-        }
-    }
-
-    toggle = () => {
-        this.setState({
-            isOpened: !this.state.isOpened
-        });
-    }
-
-    render(){
-  return (
-    <Navbar
-      expand={"sm"}
-      className="ms-auto header"
-      style={{
-        padding: ".3rem 1rem",
-        position: "fixed",
-        backgroundColor: "white",
-      }}
-    >
-      <Navbar.Brand href="/">
-        <img
-          src={JuiceHoustonLogo}
-          height="39px"
-          width="100px"
-          className="d-inline-block align-top"
-          alt="Tesla Logo"
-        ></img>
-      </Navbar.Brand>
-      <Navbar.Collapse
-        onClick={(e) => e.preventDefault()}
-        id="basic-navbar-nav"
-        style={{ flex: "initial" }}
-      >
-        <Nav className="container-fluid ms-auto">
-          <Nav.Link href="/" className="link">
-            Home
-          </Nav.Link>
-          <Nav.Link href="/AboutUs" className="link">
-            About Us
-          </Nav.Link>
-          <Nav.Link href="/Menu" className="link">
-            Menu
-          </Nav.Link>
-          <LinkContainer to="/Order">
-            <Nav.Link href="/Order" className="link">
-              Order
-            </Nav.Link>
-          </LinkContainer>
-          <NavDropdown.Toggle onClick={this.toggle} />
-          <NavDropdown.Collapse isOpened={this.state.isOpened} navbar>
-                            <NavDropdown.Item>
-lol                            </NavDropdown.Item>
-                    </NavDropdown.Collapse>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-  );
-}
-};
-
-export default Header;
- */
 import "./Header.css";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
@@ -157,7 +67,7 @@ class Header extends Component {
     const { navCollapsed } = this.state;
     return (
       <Navbar  light expand="xs" fixed='top'  style={{backgroundColor: "#e8ffe8", padding: "0.3rem 0.6rem 0.3rem 0.6rem",
-      borderBottom: "3px solid #e8f9ff", zIndex: "100"}}>
+      borderBottom: "3px solid #e8f9ff", zIndex: "100", width: '100vw'}}>
           <NavbarBrand href="/" style={{paddingTop: '2px', paddingBottom: 0}}>
       <img
         src={logo}

@@ -3,6 +3,7 @@ import "../index.css";
 import Home from "../pages/Home";
 import { Link, Router, Route, Switch } from "react-router-dom";
 import EditUser from "../containers/editUser";
+import resetPassword from "../containers/resetPassword";
 import Signin from "../pages/Signin";
 import Verify from "../containers/Verify"
 import Signup from "../containers/newUser";
@@ -27,8 +28,9 @@ if (localStorage.jwtToken != undefined) {
   setAuthToken(token);
   // Decode token and get user info and exp
   const decoded = jwt_decode(localStorage.jwtToken);
+  console.log(decoded)
   // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded.updatedUser));
+  store.dispatch(setCurrentUser(decoded.user));
   // Check for expired token
   const currentTime = Date.now() / 1000; // to get in milliseconds
   if (decoded.exp < currentTime) {
@@ -43,7 +45,7 @@ class App extends Component {
     return (
       <Router history={history} >
         <Header />
-        <div style={{marginTop: '52px'}}>
+        <div style={{ position: 'relative', top: '59px'}}>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/verify" component={Verify} />
@@ -54,16 +56,11 @@ class App extends Component {
           <Route path="/user" component={User} />
           <Route path="/edit" component={EditUser} />
           <Route path="/checkout" component={Checkout}/>
+          <Route path="/resetPassword" component={resetPassword}/>
           <Route path="/orderConfirmation" component={OrderConfirmation}/>
         </Switch>
         
         </div>
-   {/*      <footer style={{marginTop: "-15px", marginBottom: "", backgroundColor: "rgb(255, 255, 240)"}}>
-          <hr></hr>
-          <center style={{height: "40px"}}>
-            <Link to="/" style={{color: "black"}}>home</Link>
-          </center>
-        </footer> */}
       </Router>
     );
   }

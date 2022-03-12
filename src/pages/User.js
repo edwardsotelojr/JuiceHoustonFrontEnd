@@ -6,7 +6,7 @@ class User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: this.props.user,
+      user: this.props.user.user,
       orders: null,
       isLoading: true,
       show: false,
@@ -18,7 +18,7 @@ class User extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.user.name);
+    console.log(this.state.user);
     axios
       .get(`http://localhost:8000/orders/?email=${this.props.user.email}`)
       .then((res) => {
@@ -82,6 +82,7 @@ class User extends React.Component {
       backgroundColor: "rgb(255, 255 ,240)",
     }}></div>;
     }
+    if(this.state.user.email == undefined) return <p>not logged in</p>
 
 
     return (
@@ -93,19 +94,19 @@ class User extends React.Component {
           <Container fluid>
             <Row className="justify-content-between">
               <Col className="col-auto">
-                <h2>{this.props.user.name}</h2>
+                <h2>{this.state.user.name}</h2>
                 <h3>
-                  {this.props.user.address}, {this.props.user.zipcode}
+                  {this.state.user.address}, {this.state.user.zipcode}
                 </h3>
-                <h4>{this.props.user.phone.toString().substring(0,3)}
-                -{this.props.user.phone.toString().substring(3,6)}
-                -{this.props.user.phone.toString().substring(6,10)}</h4>
-                {this.props.user.instructions != "" ? <p>Instructions: {this.props.user.instructions}</p>
+                <h4>{this.state.user.phone.toString().substring(0,3)}
+                -{this.state.user.phone.toString().substring(3,6)}
+                -{this.state.user.phone.toString().substring(6,10)}</h4>
+                {this.state.user.instructions != "" ? <p>Instructions: {this.state.user.instructions}</p>
                 : <></>}
                 <Link
                   to={{
                     pathname: "/edit",
-                    state: { user: this.props.user },
+                    state: { user: this.state.user },
                   }}
                 >
                   Edit

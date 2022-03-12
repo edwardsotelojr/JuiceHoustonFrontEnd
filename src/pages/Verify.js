@@ -18,9 +18,11 @@ class Verify extends Component {
       error: false,
       match: false,
       msg: "d",
+      showSignup: false
     };
     this.handleTextChange = this.handleTextChange.bind(this);
     this.isReady = this.isReady.bind(this);
+    this.keyPress = this.keyPress.bind(this);
     this.verifyUser = this.verifyUser.bind(this);
   }
 
@@ -52,6 +54,11 @@ class Verify extends Component {
     if (!/[0-9]/.test(e.key)) {
       e.preventDefault();
     }
+    if(e.key == "Enter"){
+      if(this.state.ready == true){
+        this.verifyUser()
+      }
+    }
   }
 
   handleTextChange(e) {
@@ -68,19 +75,21 @@ class Verify extends Component {
       const nextfield = document.querySelector(`input[name="n${id + 1}"]`);
       // If found, focus the next field
       if (nextfield !== null) {
-        nextfield.focus();
+        nextfield.focus()
+        nextfield.select()
       }
     }
   }
 
   verifyUser = () => {
+    console.log("verifyUser()")
     axios
       .patch("http://localhost:8000/verify", {
         pin: this.state.n1 + this.state.n2 + this.state.n3 + this.state.n4,
         userEmail: this.props.location.state.email,
       })
       .then((res) => {
-        if (res.data.msg == "Pin matched") {
+        if (res.data.msg == "pin matched") {
           console.log("pin is a match");
           console.log(res.data)
           this.setState({error: false, match: true, msg: res.data.msg})
@@ -92,23 +101,26 @@ class Verify extends Component {
           console.log("decoded ", decoded.user);
           // Set current user
           this.props.setCurrentUser(decoded.user);
-        } else if (res.data.msg == "Incorrect Pin.") {
-          this.setState({ error: true, msg: res.data.msg });
+        } else if (res.data.msg == "incorrect pin") {
+          this.setState({ error: true, msg: res.data.msg + ". "
+          + res.data.attemptsLeft + " attempt left." });
           console.log("pin is not a match");
-        } else if (res.data.msg == "user not founded") {
+        } else if (res.data.msg == "user not founded.") {
+          this.setState({ error: true, msg: res.data.msg, showSignup: true });
         } else if (res.data.msg == "user is deleted") {
+          this.setState({error: true, match: false, msg: res.data.msg, showSignup: true})
         } else if (res.data.msg == "error to delete user") {
         } else {
-          console.log(res.data);
+          this.setState({error: true, match: false, msg: res.data.msg, showSignup: true})
         }
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        console.log("finally")
-        setTimeout(history.push("/"), 4000)
-        
+        if(this.state.match){
+          history.push('/user')
+        }
     });
   };
 
@@ -118,11 +130,17 @@ class Verify extends Component {
         <Row style={{height: "20px"}}/>
         {this.state.error ? (
           <Row className="justify-content-center">
-            <Alert variant={"danger"} style={{margin: 0, marginBottom: '5px'}}>{this.state.msg}</Alert>
+            <Alert variant={"danger"} style={{margin: 0, marginBottom: '5px'}}>{this.state.msg}
+            </Alert>
           </Row>
         ) : (
           <></>
         )}
+          {this.state.showSignup ? (
+          <Row className="justify-content-center">
+            <button onClick={() => history.goBack()}>Go Back</button>
+        </Row>) : <></>} 
+        
         {this.state.match ? (
           <Row className="justify-content-center">
             <Alert variant={"success"} style={{margin: 0, marginBottom: '5px'}}>{this.state.msg}</Alert>

@@ -39,7 +39,7 @@ class Signup extends Component {
       phoneValid: false,
       addressValid: true,
       zipcodeValid: false,
-      suiteNumberValid: false,
+      suiteNumberValid: true,
       instructionsValid: true,
       checkBoxValid: false,
       formValid: false,
@@ -178,7 +178,6 @@ class Signup extends Component {
           if (this.state.password === value) {
             valid = true;
             border = {};
-            console.log("here");
             break;
           }
         }
@@ -225,16 +224,14 @@ class Signup extends Component {
           [e.target.name + "Valid"]: valid,
           ["passwordBorder"]: border,
           [e.target.name + "Border"]: border,
-        },
-        () => this.validateForm
+        }, function () {this.validateForm(); }
       );
     } else {
       this.setState(
         {
           [e.target.name + "Valid"]: valid,
           [e.target.name + "Border"]: border,
-        },
-      () => this.validateForm
+        }, function () {this.validateForm(); }
       );
     }
   }
@@ -242,7 +239,8 @@ class Signup extends Component {
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
-    });
+    }, function () {this.validateForm(); }
+    );
     if (e.target.name == "homeType" && e.target.value == "house") {
       this.setState({
         gateCode: "",
@@ -259,8 +257,8 @@ class Signup extends Component {
           suiteNumberValid: true,
           suiteNumber: "",
           gateCode: "",
-        },
-        () => this.validateForm
+        }, function () {this.validateForm(); }
+
       );
     } else {
       this.setState(
@@ -269,8 +267,7 @@ class Signup extends Component {
           suiteNumberValid: false,
           suiteNumber: "",
           gateCode: "",
-        },
-        () => this.validateForm
+        }, function () {this.validateForm(); }
       );
     }
   }
@@ -288,7 +285,7 @@ class Signup extends Component {
       instructionsValid,
       checkBoxValid,
     } = this.state;
-    console.log("checkbox ", checkBoxValid);
+    console.log('heree')
     const formValid =
       nameValid &&
       emailValid &&
@@ -300,7 +297,6 @@ class Signup extends Component {
       suiteNumberValid &&
       instructionsValid &&
       checkBoxValid;
-    console.log("formValid ", formValid);
     this.setState({ formValid: formValid });
   }
 
@@ -621,7 +617,7 @@ class Signup extends Component {
                     this.setState(
                       {
                         checkBoxValid: !this.state.checkBoxValid,
-                      } /*, function () {this.validateForm(); }*/
+                      } , function () {this.validateForm(); }
                     );
                   }}
                 />

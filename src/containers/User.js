@@ -4,7 +4,7 @@ import { getUserOrders, getDrink } from '../actions/orderActions';
 
 const mapStateToProps = (state) => {console.log("state ", state);
     return ({
-        user: state.auth.user,
+        user: state.auth,
         userOrders: state.order.userOrders,
         loading: state.order.loading,
 

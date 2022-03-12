@@ -232,7 +232,9 @@ class EditUser extends React.Component {
     const user = this.state.user;
     return (
       <Container style={{paddingTop: "10px"}}>
-        <h1>Edit </h1>
+        <h1 style={{display: "inline-block"}}>Edit </h1>
+        <a style={{display: "inline-block",
+        marginLeft: "10px"}} href="/resetPassword">reset password</a>
         <Row style={{ paddingTop: "13px" }}>
           <Col>
             <Alert
@@ -256,7 +258,7 @@ class EditUser extends React.Component {
           </Col>
           
         </Row>
-        <Form onSubmit={this.onSave}>
+        <Form onSubmit={this.onSave} style={{marginBottom: '15px'}}>
           <Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control

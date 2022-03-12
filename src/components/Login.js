@@ -31,7 +31,7 @@ class Login extends Component {
       >
         {this.props.error ? (
           <Alert style={{ marginBottom: 0 }} variant={"danger"}>
-            {this.props.error.response.data.msg}
+            {this.props.error}
           </Alert>
         ) : null}
         <Form.Group controlId="formBasicEmail">
