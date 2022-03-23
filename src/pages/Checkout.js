@@ -34,7 +34,8 @@ class Checkout extends React.Component {
         id: "Juice" + (i + 1),
         content: "Juice " + (i + 1),
         ingredients: props.location.state.drinks[i],
-        color: props.location.state.color[i]
+        color: props.location.state.color[i],
+        cost: props.location.state.cost[i]
       };
     }
     var name = "";
@@ -397,7 +398,7 @@ class Checkout extends React.Component {
     return (
       <Container
         fluid
-        style={{ marginTop: "50px", backgroundColor: "rgb(255, 255, 240)" }}
+        style={{ backgroundColor: "rgb(255, 255, 240)" }}
       >
         <br />
         <Row>
@@ -462,7 +463,8 @@ class Checkout extends React.Component {
                                             ...provided.draggableProps.style,
                                           }}
                                         >
-                                          {item.content}
+
+                                          {item.content} ${item.cost.toFixed(2)}
                                           {renderIngredients(item.ingredients)}
                                         </div>
                                       );

@@ -5,22 +5,65 @@ import two from "../assets/two.png";
 import three from "../assets/three.png";
 import Item from "../components/Item";
 import AOS from "aos";
+import axios from 'axios'
 import "../components/Item.css";
 import { Divider, TextField } from "@material-ui/core";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
-import { Container, Row, Col, DropdownButton, Dropdown } from "react-bootstrap";
+import { Container, Row, Col, DropdownButton, Dropdown, Button } from "react-bootstrap";
 import "./Home.css";
 import juices from "../assets/Juices.png";
 import masked from "../assets/masked.png";
 import tasty from "../assets/tasty.png";
 import juicer from "../assets/juicer.png";
 import juice from "../assets/juice.png";
+import jsxToString from 'jsx-to-string'
 const zipcodes = [
   77003, 77004, 77007, 77008, 77009, 77011, 77012, 77016, 77018, 77019, 77020,
   77021, 77022, 77023, 77024, 77026, 77027, 77028, 77030, 77036, 77037, 77039,
   77040, 77042, 77050, 77054, 77055, 77057, 77063, 77076, 77080, 77087, 77088,
   77091, 77092, 77093, 77096, 77098, 77201, 77401,
 ];
+
+function htmll(){
+  const p = "ed"
+  return(
+    <html>
+   {/*  <style>
+        p {
+            margin-bottom: 5px;
+        }
+      div p {
+        font-family: 'Courier New', Courier, monospace;
+        padding: 0;
+        margin: 0;
+      }
+    </style> */}
+    <body style='background-color: rgb(255, 248, 215)'>
+      <h1
+        style='
+          text-align: center;
+         font-size: 25px;
+          margin-bottom: 0;
+        '
+      >
+        thank you for trying juice houston! {p}
+      </h1>
+      <p style='text-align: center'>your order number is 123</p>
+      <p>address: 217 joyce st</p>
+      <p>instructions: none</p>
+      <p>4 juices</p>
+      <div style='border: solid; width: max-content; border-radius: 10px; padding: 2px'>
+        <p>delivery date: june 1</p>
+        <p>4oz fuji apple</p>
+        <p>5oz red grapes</p>
+        <p>$5.20</p>
+      </div>
+      <p>total was $18.90</p>
+    </body>
+  </html>
+  
+  )
+}
 
 function Home() {
   useEffect(() => {

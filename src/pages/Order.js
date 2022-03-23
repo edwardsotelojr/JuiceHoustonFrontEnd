@@ -264,7 +264,9 @@ class Order extends Component {
     if (this.state.ounces[this.state.currentDrink] > 16) {
       return;
     }
-    if (value > 16 - this.state.ounces[this.state.currentDrink]) {
+    if (value > 16) {
+     console.log(value)
+      console.log('herre')
       return;
     }
     const v = this.state.drinks[this.state.currentDrink][name];
