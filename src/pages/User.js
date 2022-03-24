@@ -18,15 +18,14 @@ class User extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.state.user);
+    console.log(this.state.user.email);
     axios
-      .get(`http://localhost:8000/orders/?email=${this.props.user.email}`)
+      .get(`http://localhost:8000/orders/`, {params: { email: this.state.user.email}})
       .then((res) => {
-        console.log("res ", res.data);
-        this.setState({ isLoading: false, orders: res.data });
-       
+        console.log("res ", res.data.orders);
+        this.setState({ isLoading: false, orders: res.data.orders });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("error: ", err));
   }
 
   handleClose(){
@@ -83,8 +82,6 @@ class User extends React.Component {
     }}></div>;
     }
     if(this.state.user.email == undefined) return <p>not logged in</p>
-
-
     return (
       <Container  style={{ marginTop: "10px", 
       backgroundColor: "rgb(255, 255 ,240)",
@@ -133,7 +130,7 @@ class User extends React.Component {
                   </Button> : <></>}
                 </Row>
                 <Row  style={{marginBottom: "5px"}}>
-                  {o.drinkss
+                  {o.drinks
                     .sort(
                       (a, b) =>
                         new Date(a.deliveryDate) - new Date(b.deliveryDate)
@@ -153,7 +150,7 @@ class User extends React.Component {
                           Delivery Date: {d.deliveryDate} {d.delivered ? <p>Delivered</p> : <></>}
                         </p>
                         {Object.keys(d.ingredients).map((k) => (
-                          <p style={{ fontSize: "14px" }}>
+                          <p style={{ fontSize: "14px", margin: '3px' }}>
                             {k}: {d.ingredients[k]}oz.
                           </p>
                         ))}
