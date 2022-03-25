@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col, Jumbotron, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import moment from 'moment-timezone'
 class User extends React.Component {
   constructor(props) {
     super(props);
@@ -10,19 +11,49 @@ class User extends React.Component {
       orders: null,
       isLoading: true,
       show: false,
-      selectedOrderChange: []
+      changableDrinks: [],
+      selectedOrderLastDate: ""
     };
     this.handleClose = this.handleClose.bind(this)
     this.handleShow = this.handleShow.bind(this)
     this.availableChanges = this.availableChanges.bind(this)
+    this.deliveryDateChanged = this.deliveryDateChanged.bind(this)
+    this.saveChanges = this.saveChanges.bind(this)
+  }
+
+  saveChanges(){
+    var strDate;
+    for(var i = 0; i < this.state.changableDrinks.length; i++){
+      strDate = new Date(new Date(this.state.changableDrinks[i].deliveryDate)).toString().slice(0, 15)
+      axios.patch("http://localhost:8000/updateDrink", {drinkId: this.state.changableDrinks[i]._id, 
+      deliveryDate: strDate})
+      .then(res => {
+        console.log("res: ", res)
+        if(res.data == 'success'){
+          this.setState({show: false})
+        }
+      })
+      .catch(err => {
+        console.log("err: ", err)
+      })
+     }
+  }
+
+  deliveryDateChanged = (e) => {
+    console.log('dateeee: ', e.target.value)
+    console.log(e.target)
+    var order = this.state.changableDrinks
+    console.log(order)
+    order[Number(e.target.name)].deliveryDate = e.target.value
+
+    this.setState({changableDrinks: order})
   }
 
   componentDidMount() {
-    console.log(this.state.user.email);
+    console.log(moment.tz(Date.now(), "America/Chicago").add(24, 'hours').format("MM/DD/YYYY"))
     axios
       .get(`http://localhost:8000/orders/`, {params: { email: this.state.user.email}})
       .then((res) => {
-        console.log("res ", res.data.orders);
         this.setState({ isLoading: false, orders: res.data.orders });
       })
       .catch((err) => console.log("error: ", err));
@@ -33,46 +64,52 @@ class User extends React.Component {
   }
 
   handleShow = (lastDay) => {
-    this.setState({show: true, lastDay: lastDay})
+    console.log("lastDay: ", lastDay)
+    this.setState({show: true, selectedOrderLastDate: lastDay})
   }
 
   availableChanges(drinksArray, lastDay){
-    this.setState({selectedOrderChange: []})
+    this.setState({changableDrinks: []})
     drinksArray.forEach(drink => {
-      if(new Date(drink.deliveryDate) < new Date(lastDay) && drink.delivered == false){
-        console.log('here ')
+      if(new Date(drink.deliveryDate) < new Date(lastDay) && new Date() < new Date(drink.deliveryDate) 
+      && drink.delivered == false){//changable
         this.setState(prevState =>
-          ({ selectedOrderChange: [...prevState.selectedOrderChange, drink] }))
+          ({ changableDrinks: [...prevState.changableDrinks, drink] }))
       }
     });
   }
 
-  renderDates = (lastDay, deliveryDate) => {
-    let date = new Date();
-    const lastD = new Date(lastDay)
-    console.log(typeof(date))
-    let dates = []
-    const dd = new Date(deliveryDate)
-   
-    if(date.getHours() >= 16){
-      date = date.setDate(date.getDate() + 2)
+  renderDates(lastDate, deliveryDate) {
+    let lDate = moment.tz(lastDate, "America/Chicago")
+    let dDate = moment.tz(deliveryDate, "America/Chicago")
+    let currentDate = moment.tz(Date.now(), "America/Chicago")
+    console.log(Number(currentDate.format("HH")))
+    var arr = []
+    if(Number(currentDate.format("HH")) >= 18){
+      console.log("here")
+      currentDate.add(32, 'hours')
     }
-    if( dd < date){
-      dates.push(dd.getMonth()+1 + "/" +
-      dd.getDate() + "/" + 
-      dd.getFullYear())  
+    var i = 0
+    while( currentDate < lastDate){
+      if(currentDate.format("MM/DD/YYYY") == dDate.format("MM/DD/YYYY")){
+        arr.push(<option name={i} value={currentDate.format("MM/DD/YYYY")}>{currentDate.format("MM/DD/YYYY")}</option>)
       }
-    let nextPossibleDeliveryDate = new Date(date)
-    while(nextPossibleDeliveryDate.getMonth() <= lastD.getMonth() &&
-    nextPossibleDeliveryDate.getDate() <= lastD.getDate() &&
-    nextPossibleDeliveryDate.getFullYear() <= lastD.getFullYear()){
-        dates.push(nextPossibleDeliveryDate.getMonth()+1 + "/" +
-        nextPossibleDeliveryDate.getDate() + "/" + 
-        nextPossibleDeliveryDate.getFullYear())
-        nextPossibleDeliveryDate = nextPossibleDeliveryDate.setDate(nextPossibleDeliveryDate.getDate() + 1)
-        nextPossibleDeliveryDate = new Date(nextPossibleDeliveryDate)
+      else{
+        arr.push(<option name={i} value={currentDate.format("MM/DD/YYYY")} >{currentDate.format("MM/DD/YYYY")}</option>)
+      }
+      i++
+      currentDate.add(24, 'hours')
     }
-    return dates
+    console.log("dates: ", arr)
+    return arr
+  }
+
+  orderChangable(order) { // return true or false
+    for(var i = 0; i < order.drinks.length; i++){
+      if(order.drinks[i].delivered == false) return true
+    }
+    if(new Date() < Date(order.lastDay)) return true
+    return false
   }
 
   render() {
@@ -121,10 +158,10 @@ class User extends React.Component {
                   <p style={{ paddingTop: "5px", marginBottom: 0 }}>
                     Order Placed on {o.orderPlaced}
                   </p>
-                  { new Date(o.createdAt) < new Date(o.lastDay)  ?
+                  {this.orderChangable(o)  ?
                   <Button
                     style={{ position: "absolute", right: "0" }}
-                    size="sm" onClick={() => { this.handleShow(o.lastDay); this.availableChanges(o.drinkss, o.lastDay)}}
+                    size="sm" onClick={() => { this.handleShow(o.lastDay); this.availableChanges(o.drinks, o.lastDay)}}
                   >
                     Change Delivery Dates 
                   </Button> : <></>}
@@ -139,7 +176,7 @@ class User extends React.Component {
                       <Col
                         style={{
                           margin: "5px",
-                          backgroundColor: "#87a0b8",
+                          backgroundColor: d.color,
                           opacity: 0.9,
                           borderRadius: "9px",
                           borderStyle: "solid",
@@ -147,7 +184,7 @@ class User extends React.Component {
                         }}
                       >
                         <p style={{ fontSize: "14px", marginBottom: "5px" }}>
-                          Delivery Date: {d.deliveryDate} {d.delivered ? <p>Delivered</p> : <></>}
+                          Delivery Date: {new Date(new Date(d.deliveryDate).getTime()).toString().slice(0,15)} {d.delivered ? <p>Delivered</p> : <></>}
                         </p>
                         {Object.keys(d.ingredients).map((k) => (
                           <p style={{ fontSize: "14px", margin: '3px' }}>
@@ -166,30 +203,25 @@ class User extends React.Component {
             <Modal.Title>Modal heading</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            <Row>
             {
-             (this.state.selectedOrderChange).map((d, i) => <>
-              <select>
-              { new Date(d.deliveryDate).getMonth == new Date((new Date()).setDate((new Date).getDate() + 1)).getMonth() &&
-               new Date(d.deliveryDate).getDate == new Date((new Date()).setDate((new Date).getDate() + 1)).getDate() && 
-               new Date(d.deliveryDate).getFullYear == new Date((new Date()).setDate((new Date).getDate() + 1)).getFullYear() ?
-                this.renderDates(this.ste.lastDay, d.deliveryDate).map(day => 
-                  ( d.deliveryDate == day ? 
-                  <option selected>{day}</option> :
-                    <option>dat {day}</option>
-                )) : <></>
-              }
-          </select> {Object.keys(d.ingredients).map(key =>
+             (this.state.changableDrinks).map((d, i) => <Col style={{backgroundColor: d.color}}>
+              <select onChange={this.deliveryDateChanged} defaultValue={moment.tz(new Date(d.deliveryDate), "America/Chicago").format("MM/DD/YYYY")} >
+                {this.renderDates(new Date(this.state.selectedOrderLastDate), new Date(d.deliveryDate))}
+          </select> 
+          {Object.keys(d.ingredients).map(key =>
               <p>{key}: {d.ingredients[key]}</p>
             )}
-          </>
+          </Col>
               )
             }
+            </Row>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={this.handleClose}>
+            <Button variant="primary" onClick={this.saveChanges}>
               Save Changes
             </Button>
           </Modal.Footer>

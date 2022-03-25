@@ -79,7 +79,9 @@ function Home() {
         overflow: "scroll",
         width: "100vw",
         height: "190vh",
-        background: "linear-gradient(180deg, #04c207 -10%, #7c73ff 90%, #364bb5 100%)"
+
+        //#e0c3fc 0%, #8ec5fc
+        background: "linear-gradient(180deg, #8ec5fc -10%, #7c73ff 90%, #e0c3fc 100%)"
       }}
     >
       <section className="one">
@@ -205,7 +207,7 @@ function Home() {
                     data-aos-duration="1500"
                   >
                     <Dropdown>
-                      <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                      <Dropdown.Toggle style={{backgroundColor: "#5ccc00"}} id="dropdown-basic">
                         Available zipcodes for delivery
                       </Dropdown.Toggle>
 

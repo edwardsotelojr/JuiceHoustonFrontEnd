@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from "react"; 
 import axios from "axios";
 import {
   Container,
@@ -17,13 +16,10 @@ import { CheckoutForm } from "../components/CheckoutForm";
 import "./DragThingsToBoxesDemo.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {
-  CardElement,
   Elements,
   ElementsConsumer,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import geocoder from "google-geocoder";
-import zipcodes from "../zipcode";
 
 class Checkout extends React.Component {
   constructor(props) {
