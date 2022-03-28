@@ -149,12 +149,12 @@ class User extends React.Component {
             </Row>
           </Container>
         </Jumbotron>
-        <Row>
+        <Row style={{paddingBottom: "10px"}}>
           <Col xs={12} sm={12} md={8} style={{}}>
            <h3> Order History </h3>
             {this.state.orders.map((o, i) => (
               <>
-                <Row>
+                <Row style={{marginBottom: '5px'}}>
                   <p style={{ paddingTop: "5px", marginBottom: 0 }}>
                     Order Placed on {o.orderPlaced}
                   </p>

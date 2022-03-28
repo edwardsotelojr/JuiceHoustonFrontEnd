@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { list, dailyRecommendation, minerals } from "../MenuList";
+import { list, listt, dailyRecommendation, minerals } from "../MenuList";
 import ReactDOM from "react-dom";
 import facts, { keywords } from "../Facts";
 import { Container, Row, Col, Card } from "react-bootstrap";
@@ -7,6 +7,8 @@ import "./Menu.css";
 import ReactCardFlip from "react-card-flip";
 import "../styles/Card.css";
 import flip from "../assets/flip.png";
+import {getTop6Menu} from "../utils/getNutritionalFacts"
+import "./Order.css"
 class Menu extends Component {
   constructor(props) {
     super(props);
@@ -25,39 +27,186 @@ class Menu extends Component {
     this.flipCard = this.flipCard.bind(this);
   }
  
+  capitalizeFirstLetter(string) {
+    var s = string.charAt(0).toUpperCase() + string.slice(1);
+    for (var i = 1; i < s.length; i++) {
+      if (s[i] != s[i].toLowerCase()) {
+        s = s.slice(0, i) + " " + s.slice(i);
+        i = s.length;
+      }
+    }
+    return s;
+  }
+
   getDailyValue(mineral, itemValue){
     let percentage = parseFloat(itemValue.replace(/[^\d.-]/g,''))/parseFloat(dailyRecommendation[mineral].replace(/[^\d.-]/g,''))
     return Math.round(percentage * 100)
   }
-  
-  //get vitamins and minerals that are high in daily recommendation value
-  getTopVitaminsNMinerals(vitamins) {
-    var result = [];
-    var top3 = new Array(3);
-    for(const property in vitamins){
-    for (const value in dailyRecommendation) {
-      if (value == property){
-        //console.log(parseFloat(obj.vitamins[property].replace(/[^\d.-]/g,''))/parseFloat(dailyRecommendation[value].replace(/[^\d.-]/g,'')))
-        result.push({name: property, amount: vitamins[property], percent: parseFloat(vitamins[property].replace(/[^\d.-]/g,''))/parseFloat(dailyRecommendation[value].replace(/[^\d.-]/g,''))})
-      }
-    }
-  }
-  top3 = result.sort(function(a, b) {
-    return b.percent - a.percent;
-  });
 
-  console.log('top 3: ', top3[0], " ", top3[1], " ", top3[2]);
-  return top3.slice(0,3);
-}
 
   flipCard = (index) => {
-    console.log(index)
     let isFlipped = [...this.state.isFlipped];
     isFlipped[index] = !isFlipped[index];
     this.setState({ isFlipped }, () => console.log('flipped'));
   };
 
-  componentDidMount() {}
+  renderNutritionalFactLabel(currentProduce){
+    
+    const top6 = getTop6Menu(currentProduce)
+    return(
+      <div id="nutritionfacts" style={{border: 'none', backgroundColor: "transparent"}}>
+      <table cellSpacing={"0"} cellPadding={"0"}>
+        <tbody>
+          <tr>
+            <td>
+              <div className="headerr">Nutrition Facts</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+                <div className="labellight" style={{marginTop: "-10px"}}>
+                 Serving Size 16oz
+                </div>
+            </td>
+          </tr>
+          <tr style={{ height: "7px" }}>
+            <td bgcolor="#000000"></td>
+          </tr>
+          <tr>
+            <td style={{ fontSize: "7pt", float: "left" }}>
+              <div className="line">Amount Per Serving</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div className="line">
+                <div className="label">
+                  Calories{" "}
+                  <div className="weight">
+                    {
+                      currentProduce.calories * 16
+                    }
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div className="line">
+                <div className="dvlabel" style={{ float: "right" }}>
+                  % Daily Value<sup>*</sup>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div className="line">
+                <div className="label">
+                  Total Fat{" "}
+                  <div className="weight">
+                    {Number(currentProduce.totalFat.replace('g', '')) * 16}g 
+                  </div>
+                </div>
+                <div className="dv"></div>
+              </div>
+            </td>
+          </tr>
+          <tr></tr>
+
+          <tr>
+            <td>
+              <div className="line">
+                <div className="label">
+                  Total Carbohydrates{" "}
+                  <div className="weight">
+          {Number(currentProduce.totalCarbohydrate.replace('g', '')) * 16}g</div>
+                </div>
+                <div className="dv"></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td className="indent">
+              <div className="line">
+                <div className="labellight">
+                  Dietary Fiber <div className="weight">0g</div>
+                </div>
+                <div className="dv">0%</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td className="indent">
+              <div className="line">
+                <div className="labellight">
+                  Sugars <div className="weight">  
+                    {Number(currentProduce.sugar.replace('g', '')) * 16 }g</div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div className="line">
+                <div className="label">
+                  Protein <div className="weight">{Number(currentProduce.protein.replace('g', '')) * 16}g </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr style={{ height: "7px" }}>
+            <td bgcolor="#000000"></td>
+          </tr>
+          <tr>
+            <td>
+              <table
+                cellSpacing={"0"}
+                cellPadding={"0"}
+                border="0"
+                className="vitamins"
+              >
+                <tbody>
+                  <tr>
+                    <td>{this.capitalizeFirstLetter(top6[0][0])} &nbsp;&nbsp; {top6[0][1].toFixed(1)}%</td>
+                    <td align="center">•</td>
+                    <td align="right">{this.capitalizeFirstLetter(top6[3][0])} &nbsp;&nbsp; {top6[3][1].toFixed(1)}%</td>
+                  </tr>
+                  <tr>
+                    <td>{this.capitalizeFirstLetter(top6[1][0])} &nbsp;&nbsp; {top6[1][1].toFixed(1)}%</td>
+                    <td align="center">•</td>
+                    <td align="right">{this.capitalizeFirstLetter(top6[4][0])} &nbsp;&nbsp; {top6[4][1].toFixed(1)}%</td>
+                  </tr>
+                  <tr>
+                    <td>{this.capitalizeFirstLetter(top6[2][0])} &nbsp;&nbsp; {top6[2][1].toFixed(1)}%</td>
+                    <td align="center">•</td>
+                    <td align="right">{this.capitalizeFirstLetter(top6[5][0])} &nbsp;&nbsp; {top6[5][1].toFixed(1)}%</td>
+                  </tr> 
+                  </tbody>
+                 </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div className="line">
+                <div className="labellight">
+                  * Based on a regular 2000 calorie diet
+                  <br />
+                  <br />
+                  <i>
+                    Nutritional details are an estimate and should only
+                    be used as a guide for approximation.
+                  </i>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    )
+  }
 
   addHyperText(text, key) {
     var updatedText = (
@@ -222,220 +371,7 @@ class Menu extends Component {
                     height: "auto",
                   }}
                 >
-                  
-                  <h3 style={{ fontWeight: "bold", marginBottom: "-8px" }}>
-                    Nutrition Facts
-                  </h3>
-                  <p style={{ marginBottom: 0, fontSize: "small" }}>
-                    1 servings per ounce
-                  </p>
-
-                  <div
-                    style={{
-                      display: "block ruby",
-                      marginTop: "-8px",
-                      height: "22px",
-                    }}
-                  >
-                    <p style={{ marginBottom: 0, padding: 0, float: 'left', fontSize: "small", width: "90px" }}>
-                      Serving Size
-                    </p>
-                    <p
-                      style={{
-                        marginBottom: 0,
-                        width: "36px",
-                        float: "right",
-                        fontSize: "small",
-                      }}
-                    >
-                      1 oz.
-                    </p>
-                  </div>
-                  <hr
-                    style={{
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "5px",
-                    }}
-                  ></hr>
-                  <p style={{ fontWeight: "bold", margin: 0 }}>
-                    Amount per serving
-                  </p>
-                  <div style={{ margin: 0, display: "flow-root" }}>
-                    <h4
-                      style={{
-                        fontWeight: "bold",
-                        marginTop: "-8px",
-                        width: "max-content",
-                        float: "left",
-                        marginBottom: 0,
-                      }}
-                    >
-                      Calories
-                    </h4>
-                    <h3
-                      style={{
-                        fontWeight: "bold",
-                        width: "max-content",
-                        float: "right",
-                        marginRight: "5px",
-                        marginTop: "-12px",
-                        marginBottom: 0,
-                      }}
-                    >
-                      {info.calories}
-                    </h3>
-                  </div>
-
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "3px",
-                    }}
-                  ></hr>
-                  <div style={{ display: "flow-root", marginRight: "8px" }}>
-                    <b style={{ float: "right" }}>% Daily Value</b>
-                  </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "1px",
-                    }}
-                  />
-                  <div style={{ display: "flow-root" }}>
-                    <b>Total Fat</b> {info.totalFat}{" "}
-                    <b style={{ float: "right", marginRight: "8px" }}>{/*this.getDailyValue('totalFat', info.totalFat)*/}%</b>
-                  </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "1px",
-                    }}
-                  />
-                  <div style={{ display: "flow-root" }}>
-                    <b>Total Carbohydrate</b> {info.totalCarbohydrate}{" "}
-                    <b style={{ float: "right", marginRight: "8px" }}>{/*this.getDailyValue('totalCarbohydrate', info.totalCarbohydrate)*/}%</b>
-                  </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "1px",
-                    }}
-                  />
-                  <div style={{ display: "flow-root" }}>
-                    <p
-                      style={{
-                        float: "left",
-                        marginLeft: "25px",
-                        marginRight:"4px",
-                        marginBottom: 0,
-                      }}
-                    >
-                      Dietary Fiber
-                    </p>{" "}
-                    0g
-                    <b style={{ float: "right", marginRight: "8px" }}>0%</b>
-                  </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "1px",
-                    }}
-                  />
-                  <div style={{ display: "flow-root" }}>
-                    <p
-                      style={{
-                        float: "left",
-                        marginLeft: "25px",
-                        marginRight:"4px",
-                        marginBottom: 0,
-                      }}
-                    >
-                      Sugar 
-                    </p>
-                    {info.sugar}
-                  </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "1px",
-                    }}
-                  />
-                  <div style={{ display: "flow-root" }}>
-                    <b>Protein</b> {info.protein}
-                  </div>
-                  <hr
-                    style={{
-                      marginRight: "6px",
-                      marginTop: 0,
-                      marginBottom: 0,
-                      backgroundColor: "black",
-                      width: "98%",
-                      height: "8px",
-                    }}
-                  />
-                  {this.getTopVitaminsNMinerals(info.vitamins).map((mineral)=> (
-                    
-                    <div style={{ display: "flow-root" }}>
-                    <p
-                      style={{
-                        float: "left",
-                        marginLeft: "1px",
-                        marginBottom: 0,
-                      }}
-                    >
-                      {minerals[mineral.name]} {mineral.amount}
-                    </p>
-                    <p
-                      style={{
-                        float: "right",
-                        marginRight: "8px",
-                        marginBottom: 0,
-                      }}
-                    >
-                      {Math.round(mineral.percent*100)}%
-                    </p>
-                  </div>
-                  ))}
-                  <button
-                    style={{
-                      position: "absolute",
-                      right: 0,
-                      backgroundColor: "transparent",
-                      border: "transparent",
-                    }}
-                    onClick={() => this.flipCard(i)}
-                  >
-                    {/*<img width="40px" height="40px" src={flip}></img>*/}
-                  </button>
-                  {/* size for the button being absolute in position*/}
-                 
+                  {this.renderNutritionalFactLabel(listt[item])}
                 </div>
               </ReactCardFlip>
             </Col>
@@ -460,10 +396,17 @@ class Menu extends Component {
               marginBottom: "0.3rem",
             }}
           >
-            School of Public Health at Harvard.{" "}
+            School of Public Health at Harvard{" "}
+          </p>
+          <p style={{marginBottom: "0.3rem", marginLeft: "10px", fontSize: "12px", width: "100%" }}>
+            National Institutes of Health, Office of Dietary Supplements{" "}
+          </p>
+
+          <p style={{marginBottom: "0.3rem", marginLeft: "10px", fontSize: "12px", width: "100%" }}>
+            Medical News Today{" "}
           </p>
           <p style={{ marginLeft: "10px", fontSize: "12px", width: "100%" }}>
-            National Institutes of Health, Office of Dietary Supplements.{" "}
+            Healthline{" "}
           </p>
         </Row>
       </Container>

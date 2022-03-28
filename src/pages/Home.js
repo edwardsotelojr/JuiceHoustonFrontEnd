@@ -81,7 +81,7 @@ function Home() {
         height: "190vh",
 
         //#e0c3fc 0%, #8ec5fc
-        background: "linear-gradient(180deg, #8ec5fc -10%, #7c73ff 90%, #e0c3fc 100%)"
+        background: "linear-gradient(180deg, #8ec5fc -10%, #7c73ff 90%)"
       }}
     >
       <section className="one">

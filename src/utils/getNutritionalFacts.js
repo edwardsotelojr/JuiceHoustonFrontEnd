@@ -74,3 +74,30 @@ export function getTop6(info) {
     ranking.sort((a, b) => b[1] - a[1]);
     return ranking.slice(0, 6)
 }
+
+export function getTop6Menu(info) {
+  const remove = ["calories", "protein", 
+  "totalCarbohydrate", "totalFat", "sugar", "cholesterol"]
+var removedInfo = info;
+var dr = dailyRecommendation;
+var regex = /[+-]?\d+(\.\d+)?/g;
+var percentage = 0;
+var ranking = [];
+var removedUnit = 0.0
+for (const [key, value] of Object.entries(dr)) {
+  if(remove.includes(key)){
+      continue;
+  }
+  removedUnit = parseFloat(value.replace("mg", ''));
+  if(removedInfo[key] === undefined){
+      continue;
+  }
+  percentage = ( Number(removedInfo[key].replace("mg", "")) * 16 / removedUnit) * 100;
+    ranking.push([key, percentage]);
+}
+
+  ranking.sort((a, b) => b[1] - a[1]);
+
+  return ranking.slice(0, 6)
+}
+
