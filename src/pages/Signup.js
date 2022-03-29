@@ -11,7 +11,6 @@ import {
   Overlay,
   Fade,
 } from "react-bootstrap";
-import geocoder from "google-geocoder";
 import zipcodes from "../zipcode";
 import { Radio, RadioGroup, FormControlLabel } from "@material-ui/core";
 import history from "../history";
@@ -79,7 +78,6 @@ class Signup extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log("submitted");
     this.validateForm()
     if(this.state.formValid == false){
       return
@@ -108,43 +106,29 @@ class Signup extends Component {
       instructions,
       termsOfAgreement: checkBoxValid,
     };
-    //console.log(this.props.signup(newUser));
     axios
       .post("http://localhost:8000/signup", newUser)
       .then((res) => {
-        console.log(res);
         if (res.status == 200) {
-          console.log("go to verify");
           history.push({
             pathname: "/verify",
             state: { email: newUser.email },
           });
         } else if (res.status == 500) {
-          console.log("500");
           this.setState({ error: res.response.data.msg, showAlert: true });
           window.scrollTo({
             top: 0,
             behavior: "smooth",
           });
-          //return res.data.msg
         }
       }) // re-direct to login on successful register
       .catch((err) => {
-        console.log("error with axios request: ", err.response.data.msg);
-        this.setState({ error: err.response.data.msg, showAlert: true });
+        this.setState({ error: err.message, showAlert: true });
         window.scrollTo({
           top: 0,
           behavior: "smooth",
         });
-        //return err.response.data.msg
-        /* dispatch({
-        type: SIGNUP_ERROR,
-        payload: err.response,
-      }) */
       })
-      .finally(() => {
-        console.log("finally");
-      });
   };
 
   validation(e) {
@@ -203,7 +187,6 @@ class Signup extends Component {
         break;
       case "suiteNumber":
         if (value === "") {
-          console.log(value);
           valid = false;
           border = { borderColor: "red" };
         } else {
@@ -249,7 +232,6 @@ class Signup extends Component {
     }
   }
   radioCheck(e) {
-    console.log("radiocheck");
     if (e.target.value == "house") {
       this.setState(
         {
@@ -285,7 +267,6 @@ class Signup extends Component {
       instructionsValid,
       checkBoxValid,
     } = this.state;
-    console.log('heree')
     const formValid =
       nameValid &&
       emailValid &&

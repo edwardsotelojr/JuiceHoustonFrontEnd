@@ -1,55 +1,20 @@
 import {
   LOGIN_ERROR,
-  SIGNUP_ERROR,
   SET_CURRENT_USER,
   USER_LOADING,
-  USER_UPDATED,
 } from "./types";
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 import history from "../history";
 
-// Register User
-export const signup = (userData) => async (dispatch) => {
-  const email = userData.email
-  console.log("redux signup")
-   const a = await axios
-    .post("http://localhost:8000/signup", userData)
-    .then((res) => {
-      console.log(res)
-      if (res.data.msg == "success") {
-        console.log("go to verify");
-        history.push({pathname:"/verify", state: {email}});
-      } else if (res.data.msg == "Authenticate") {
-        console.log("error with twilio");
-      } else if(res.status == 500){
-        console.log('500')
-        return res.data.msg
-      }
-    }) // re-direct to login on successful register
-    .catch((err) => {
-      console.log(err.response.data.msg)
-      return err.response.data.msg
-      /* dispatch({
-        type: SIGNUP_ERROR,
-        payload: err.response,
-      }) */
-    });
-    return a
-};
-
-
 // Login - get user token
 export const signin = (userData) => (dispatch) => {
-  console.log("signin func");
-  console.log("userData: ", userData);
   axios
     .post("http://localhost:8000/login", userData, {headers: { 
       'content-type': 'application/json'}
     })
     .then((res) => {
-      console.log("res.data", res.data);
       // Save to localStorage
       // Set token to localStorage
       const { token } = res.data;
@@ -58,7 +23,6 @@ export const signin = (userData) => (dispatch) => {
       setAuthToken(token);
       // Decode token to get user data
       const decoded = jwt_decode(token);
-      console.log("decoded ", decoded.user);
       // Set current user
       dispatch(setCurrentUser(decoded.user));
       dispatch({
@@ -73,10 +37,10 @@ export const signin = (userData) => (dispatch) => {
       }
       history.push("/");
     })
-    .catch((error) => {
+    .catch(function (error) {
       dispatch({
         type: LOGIN_ERROR,
-        payload: error.response.data.msg,
+        payload: error.message,
       });
     });
 };
@@ -89,7 +53,6 @@ export const signinAtCheckout = (token) => (dispatch) => {
       setAuthToken(token);
       // Decode token to get user data
       const decoded = jwt_decode(token);
-      console.log("decoded ", decoded.user);
       // Set current user
       dispatch(setCurrentUser(decoded.user));
 };
@@ -123,7 +86,6 @@ export const logoutUser = () => (dispatch) => {
 };
 
 export const userUpdated = (token, updatedUser) => (dispatch) => {
-  console.log("user token: ", updatedUser)
   localStorage.setItem("jwtToken", token);
   // Set token to Auth header
   setAuthToken(token);
