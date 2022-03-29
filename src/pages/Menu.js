@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { list, listt, dailyRecommendation, minerals } from "../MenuList";
-import ReactDOM from "react-dom";
+import { list, listt, dailyRecommendation } from "../MenuList";
+import capitalizeFirstLetter from '../utils/capitalFirstLetter'
 import facts, { keywords } from "../Facts";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import "./Menu.css";
@@ -26,23 +26,11 @@ class Menu extends Component {
     };
     this.flipCard = this.flipCard.bind(this);
   }
- 
-  capitalizeFirstLetter(string) {
-    var s = string.charAt(0).toUpperCase() + string.slice(1);
-    for (var i = 1; i < s.length; i++) {
-      if (s[i] != s[i].toLowerCase()) {
-        s = s.slice(0, i) + " " + s.slice(i);
-        i = s.length;
-      }
-    }
-    return s;
-  }
 
   getDailyValue(mineral, itemValue){
     let percentage = parseFloat(itemValue.replace(/[^\d.-]/g,''))/parseFloat(dailyRecommendation[mineral].replace(/[^\d.-]/g,''))
     return Math.round(percentage * 100)
   }
-
 
   flipCard = (index) => {
     let isFlipped = [...this.state.isFlipped];
@@ -51,7 +39,6 @@ class Menu extends Component {
   };
 
   renderNutritionalFactLabel(currentProduce){
-    
     const top6 = getTop6Menu(currentProduce)
     return(
       <div id="nutritionfacts" style={{border: 'none', backgroundColor: "transparent"}}>
@@ -169,19 +156,19 @@ class Menu extends Component {
               >
                 <tbody>
                   <tr>
-                    <td>{this.capitalizeFirstLetter(top6[0][0])} &nbsp;&nbsp; {top6[0][1].toFixed(1)}%</td>
+                    <td>{capitalizeFirstLetter(top6[0][0])} &nbsp;&nbsp; {top6[0][1].toFixed(1)}%</td>
                     <td align="center">•</td>
-                    <td align="right">{this.capitalizeFirstLetter(top6[3][0])} &nbsp;&nbsp; {top6[3][1].toFixed(1)}%</td>
+                    <td align="right">{capitalizeFirstLetter(top6[3][0])} &nbsp;&nbsp; {top6[3][1].toFixed(1)}%</td>
                   </tr>
                   <tr>
-                    <td>{this.capitalizeFirstLetter(top6[1][0])} &nbsp;&nbsp; {top6[1][1].toFixed(1)}%</td>
+                    <td>{capitalizeFirstLetter(top6[1][0])} &nbsp;&nbsp; {top6[1][1].toFixed(1)}%</td>
                     <td align="center">•</td>
-                    <td align="right">{this.capitalizeFirstLetter(top6[4][0])} &nbsp;&nbsp; {top6[4][1].toFixed(1)}%</td>
+                    <td align="right">{capitalizeFirstLetter(top6[4][0])} &nbsp;&nbsp; {top6[4][1].toFixed(1)}%</td>
                   </tr>
                   <tr>
-                    <td>{this.capitalizeFirstLetter(top6[2][0])} &nbsp;&nbsp; {top6[2][1].toFixed(1)}%</td>
+                    <td>{capitalizeFirstLetter(top6[2][0])} &nbsp;&nbsp; {top6[2][1].toFixed(1)}%</td>
                     <td align="center">•</td>
-                    <td align="right">{this.capitalizeFirstLetter(top6[5][0])} &nbsp;&nbsp; {top6[5][1].toFixed(1)}%</td>
+                    <td align="right">{capitalizeFirstLetter(top6[5][0])} &nbsp;&nbsp; {top6[5][1].toFixed(1)}%</td>
                   </tr> 
                   </tbody>
                  </table>
@@ -215,11 +202,8 @@ class Menu extends Component {
         <a href={"d"}>lol</a>
       </p>
     );
-    //console.log(updatedText.props.children);
-
     for (var i = 0; i < keywords.length; i++) {
       if (text.includes(keywords[i])) {
-        //console.log(keywords[i]);
       }
     }
 
@@ -227,15 +211,6 @@ class Menu extends Component {
   }
 
   render() {
-    const veggies = new Array(list);
-    let ee = {};
-    for (var i=0; i<list.length; i++) {
-       if (list[i].name == "Beets"){
-        ee = list[i];
-       }
-    }
-    var count = 0; 
-    //this.getTopVitaminsNMinerals(ee);
     return (
       <Container
         fluid
@@ -269,9 +244,6 @@ class Menu extends Component {
           </Col>
         </Row>
         <Row className="justify-content-center">
-          {
-            //style={{ display: "flex", flexWrap: "wrap" }}>
-          }
           {Object.entries(this.state.list).map(([item, info], i) => (
             <Col
               xs={11}
@@ -415,24 +387,3 @@ class Menu extends Component {
 }
 
 export default Menu;
-
-/*
-  <YOUR_FRONT_CCOMPONENT>
-                <Card.Body>
-                  <Card.Img
-                    variant="top"
-                    src="holder.js/100px180?text=Image cap"
-                  />
-                  <Card.Title>{item.name}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    Card Subtitle
-                  </Card.Subtitle>
-                  <Card.Text>{item.benefits}</Card.Text>
-                </Card.Body>{" "}
-              </YOUR_FRONT_CCOMPONENT>
-
-              <YOUR_BACK_COMPONENT>
-                This is the back of the card.
-                <button onClick={this.handleClick}>Click to flip</button>
-              </YOUR_BACK_COMPONENT>
-              */

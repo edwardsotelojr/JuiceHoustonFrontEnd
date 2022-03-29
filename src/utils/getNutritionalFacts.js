@@ -2,7 +2,6 @@
 import { listt, dailyRecommendation } from "../MenuList.js";
 
 export default function getNutritionalFacts(drink) {
-  //var nf = item(drink)
   const nf = {
     calories: 0,
     totalFat: 0,
@@ -33,20 +32,26 @@ export default function getNutritionalFacts(drink) {
     zinc: 0,
     protein: 0,
   };
+  var removeUnits;
   var regex = /[+-]?\d+(\.\d+)?/g;
   for (const [i, amount] of Object.entries(drink)) {
     for (var j = 0; j < amount; j++) {
       for (const [key, value] of Object.entries(nf)) {
-        var removeUnits = String(listt[i][key])
+        if(typeof(listt[i][key]) == "number"){
+        removeUnits = String(listt[i][key])
           .match(regex)
           .map(function (v) {
             return parseFloat(v);
           });
           nf[key] = nf[key] + removeUnits[0];
+        }
+        else{ 
+          removeUnits = parseFloat(String(listt[i][key]).replace(/[a-z]/gi, ''))  
+          nf[key] = nf[key] + removeUnits;
+        }
       }
     }
   }
-  console.log("nf ", nf)
   return nf;
 }
 
@@ -80,7 +85,6 @@ export function getTop6Menu(info) {
   "totalCarbohydrate", "totalFat", "sugar", "cholesterol"]
 var removedInfo = info;
 var dr = dailyRecommendation;
-var regex = /[+-]?\d+(\.\d+)?/g;
 var percentage = 0;
 var ranking = [];
 var removedUnit = 0.0

@@ -1,7 +1,7 @@
 import React from "react";
 import "../index.css";
 import Home from "../pages/Home";
-import { Link, Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 import EditUser from "../containers/editUser";
 import resetPassword from "../containers/resetPassword";
 import Signin from "../pages/Signin";
@@ -20,7 +20,6 @@ import store from "../redux/store";
 import Header from "../containers/Header";
 import history from "../history";
 
-//const store = makeStore();
 // Check for token to keep user logged in
 if (localStorage.jwtToken != undefined) {
   // Set auth token header auth

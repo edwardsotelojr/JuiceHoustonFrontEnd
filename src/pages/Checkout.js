@@ -352,7 +352,7 @@ class Checkout extends React.Component {
       var d = [];
       for (const [key, value] of Object.entries(ingredients)) {
         d.push(
-          <p style={{ marginBottom: 0 }}>
+          <p style={{ marginBottom: 0, fontSize: "15px" }}>
             {key}: {value}oz.
           </p>
         );
@@ -460,7 +460,7 @@ class Checkout extends React.Component {
                                           }}
                                         >
 
-                                          {item.content} ${item.cost.toFixed(2)}
+                                          <b>{item.content}</b> ${item.cost.toFixed(2)}
                                           {renderIngredients(item.ingredients)}
                                         </div>
                                       );
