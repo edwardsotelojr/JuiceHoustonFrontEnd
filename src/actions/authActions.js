@@ -1,8 +1,4 @@
-import {
-  LOGIN_ERROR,
-  SET_CURRENT_USER,
-  USER_LOADING,
-} from "./types";
+import { LOGIN_ERROR, SET_CURRENT_USER, USER_LOADING } from "./types";
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
@@ -11,8 +7,10 @@ import history from "../history";
 // Login - get user token
 export const signin = (userData) => (dispatch) => {
   axios
-    .post("http://localhost:8000/login", userData, {headers: { 
-      'content-type': 'application/json'}
+    .post("http://localhost:8000/login", userData, {
+      headers: {
+        "content-type": "application/json",
+      },
     })
     .then((res) => {
       // Save to localStorage
@@ -30,9 +28,11 @@ export const signin = (userData) => (dispatch) => {
         payload: null,
       });
       document.querySelector(".dropdown-menu.show").classList.remove("show");
-      if(window.location.pathname == "/Order" || 
-      window.location.pathname == "/Menu" ||
-      window.location.pathname == "/"){
+      if (
+        window.location.pathname == "/Order" ||
+        window.location.pathname == "/Menu" ||
+        window.location.pathname == "/"
+      ) {
         return;
       }
       history.push("/");
@@ -47,14 +47,14 @@ export const signin = (userData) => (dispatch) => {
 
 // Login - get user token
 export const signinAtCheckout = (token) => (dispatch) => {
-  dispatch(setUserLoading())
+  dispatch(setUserLoading());
   localStorage.setItem("jwtToken", token);
-      // Set token to Auth header
-      setAuthToken(token);
-      // Decode token to get user data
-      const decoded = jwt_decode(token);
-      // Set current user
-      dispatch(setCurrentUser(decoded.user));
+  // Set token to Auth header
+  setAuthToken(token);
+  // Decode token to get user data
+  const decoded = jwt_decode(token);
+  // Set current user
+  dispatch(setCurrentUser(decoded.user));
 };
 
 // Set logged in user
@@ -76,10 +76,9 @@ export const logoutUser = () => (dispatch) => {
   localStorage.removeItem("jwtToken");
   // Remove auth header for future requests
   setAuthToken(false);
-  console.log("logoutUser");
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
-  if(window.location.pathname == "/checkout"){
+  if (window.location.pathname == "/checkout") {
     return;
   }
   history.push("/");

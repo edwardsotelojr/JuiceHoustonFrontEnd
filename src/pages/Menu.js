@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { list, listt, dailyRecommendation } from "../MenuList";
 import capitalizeFirstLetter from '../utils/capitalFirstLetter'
-import facts, { keywords } from "../Facts";
+import  { keywords } from "../Facts";
 import { Container, Row, Col, Card } from "react-bootstrap";
-import "./Menu.css";
+import "../css/Menu.css";
 import ReactCardFlip from "react-card-flip";
-import "../styles/Card.css";
+import "../css/Card.css";
 import flip from "../assets/flip.png";
 import {getTop6Menu} from "../utils/getNutritionalFacts"
-import "./Order.css"
+import "../css/Order.css"
 class Menu extends Component {
   constructor(props) {
     super(props);

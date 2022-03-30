@@ -1,26 +1,13 @@
 import { connect } from 'react-redux'
 import User from '../pages/User'
-import { getUserOrders, getDrink } from '../actions/orderActions';
 
-const mapStateToProps = (state) => {console.log("state ", state);
+const mapStateToProps = (state) => {
     return ({
-        user: state.auth,
-        userOrders: state.order.userOrders,
-        loading: state.order.loading,
-
+        user: state.auth
     })
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return{
-        getUserOrders: (user_id) => 
-        dispatch(getUserOrders(user_id)),
-        getDrink: (drinkId) =>
-        dispatch(getDrink(drinkId))
-    }
-}
-
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
 )(User)

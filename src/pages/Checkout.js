@@ -13,7 +13,6 @@ import {
   Alert,
 } from "react-bootstrap";
 import { CheckoutForm } from "../components/CheckoutForm";
-import "./DragThingsToBoxesDemo.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {
   Elements,

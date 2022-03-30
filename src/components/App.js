@@ -1,11 +1,11 @@
 import React from "react";
-import "../index.css";
+import "../css/index.css";
 import Home from "../pages/Home";
 import { Router, Route, Switch } from "react-router-dom";
 import EditUser from "../containers/editUser";
 import resetPassword from "../containers/resetPassword";
 import Signin from "../pages/Signin";
-import Verify from "../containers/Verify"
+import Verify from "../containers/Verify";
 import Signup from "../containers/newUser";
 import Order from "../containers/Order";
 import User from "../containers/User";
@@ -27,7 +27,6 @@ if (localStorage.jwtToken != undefined) {
   setAuthToken(token);
   // Decode token and get user info and exp
   const decoded = jwt_decode(localStorage.jwtToken);
-  console.log(decoded)
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded.user));
   // Check for expired token
@@ -42,23 +41,22 @@ if (localStorage.jwtToken != undefined) {
 class App extends Component {
   render() {
     return (
-      <Router history={history} >
+      <Router history={history}>
         <Header />
-        <div style={{ position: 'relative', top: '59px'}}>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/verify" component={Verify} />
-          <Route path="/signin" component={Signin} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/menu" component={Menu} />
-          <Route path="/order" component={Order} />
-          <Route path="/user" component={User} />
-          <Route path="/edit" component={EditUser} />
-          <Route path="/checkout" component={Checkout}/>
-          <Route path="/resetPassword" component={resetPassword}/>
-          <Route path="/orderConfirmation" component={OrderConfirmation}/>
-        </Switch>
-        
+        <div style={{ position: "relative", top: "59px" }}>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/verify" component={Verify} />
+            <Route path="/signin" component={Signin} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/menu" component={Menu} />
+            <Route path="/order" component={Order} />
+            <Route path="/user" component={User} />
+            <Route path="/edit" component={EditUser} />
+            <Route path="/checkout" component={Checkout} />
+            <Route path="/resetPassword" component={resetPassword} />
+            <Route path="/orderConfirmation" component={OrderConfirmation} />
+          </Switch>
         </div>
       </Router>
     );

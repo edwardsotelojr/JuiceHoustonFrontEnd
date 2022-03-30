@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./Order.css";
+import "../css/Order.css";
 import { list } from "../MenuList";
 import getNutritionalFacts, { getTop6 } from "../utils/getNutritionalFacts";
 import capitalizeFirstLetter from "../utils/capitalFirstLetter";
@@ -195,7 +195,6 @@ class Order extends Component {
 
   // get percentage and ounces
   getPercentage() {
-    console.log("here");
     var num = 0;
     Object.entries(this.state.drinks[this.state.currentDrink]).map(
       // get new volume of drink

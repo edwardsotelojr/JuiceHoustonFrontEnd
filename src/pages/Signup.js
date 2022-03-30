@@ -78,9 +78,9 @@ class Signup extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.validateForm()
-    if(this.state.formValid == false){
-      return
+    this.validateForm();
+    if (this.state.formValid == false) {
+      return;
     }
     const {
       name,
@@ -128,7 +128,7 @@ class Signup extends Component {
           top: 0,
           behavior: "smooth",
         });
-      })
+      });
   };
 
   validation(e) {
@@ -207,22 +207,32 @@ class Signup extends Component {
           [e.target.name + "Valid"]: valid,
           ["passwordBorder"]: border,
           [e.target.name + "Border"]: border,
-        }, function () {this.validateForm(); }
+        },
+        function () {
+          this.validateForm();
+        }
       );
     } else {
       this.setState(
         {
           [e.target.name + "Valid"]: valid,
           [e.target.name + "Border"]: border,
-        }, function () {this.validateForm(); }
+        },
+        function () {
+          this.validateForm();
+        }
       );
     }
   }
 
   handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    }, function () {this.validateForm(); }
+    this.setState(
+      {
+        [e.target.name]: e.target.value,
+      },
+      function () {
+        this.validateForm();
+      }
     );
     if (e.target.name == "homeType" && e.target.value == "house") {
       this.setState({
@@ -239,8 +249,10 @@ class Signup extends Component {
           suiteNumberValid: true,
           suiteNumber: "",
           gateCode: "",
-        }, function () {this.validateForm(); }
-
+        },
+        function () {
+          this.validateForm();
+        }
       );
     } else {
       this.setState(
@@ -249,11 +261,13 @@ class Signup extends Component {
           suiteNumberValid: false,
           suiteNumber: "",
           gateCode: "",
-        }, function () {this.validateForm(); }
+        },
+        function () {
+          this.validateForm();
+        }
       );
     }
   }
-  //TODO: fix zipcode validation. in range for delievry.
   validateForm() {
     const {
       nameValid,
@@ -282,11 +296,6 @@ class Signup extends Component {
   }
 
   render() {
-    const { errors } = this.state;
-
-    // newBounds.extend(new LatLng({ latitude: 29.651783, longitude: -95.519794}),
-    //   new LatLng({latitude: 29.960267, longitude: -95.223487}));
-
     return (
       <Container>
         <Row style={{ paddingTop: "13px" }}>
@@ -501,7 +510,9 @@ class Signup extends Component {
                   <FormControlLabel
                     value="apartment"
                     name="homeType"
-                    control={<Radio checked={this.state.homeType == "apartment"} />}
+                    control={
+                      <Radio checked={this.state.homeType == "apartment"} />
+                    }
                     label="apartment"
                   />
                 </RadioGroup>
@@ -598,7 +609,10 @@ class Signup extends Component {
                     this.setState(
                       {
                         checkBoxValid: !this.state.checkBoxValid,
-                      } , function () {this.validateForm(); }
+                      },
+                      function () {
+                        this.validateForm();
+                      }
                     );
                   }}
                 />

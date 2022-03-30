@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Button, Col, Row, Alert } from "react-bootstrap";
-import "./Verify.css";
+import "../css/Verify.css";
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
@@ -18,7 +18,7 @@ class Verify extends Component {
       error: false,
       match: false,
       msg: "d",
-      showSignup: false
+      showSignup: false,
     };
     this.handleTextChange = this.handleTextChange.bind(this);
     this.isReady = this.isReady.bind(this);
@@ -26,14 +26,12 @@ class Verify extends Component {
     this.verifyUser = this.verifyUser.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     window.scrollTo({
-      top: 0
+      top: 0,
     });
-
   }
   isReady = () => {
-    console.log(this.state.n4);
     if (
       parseInt(this.state.n1) > -1 &&
       parseInt(this.state.n2) > -1 &&
@@ -54,9 +52,9 @@ class Verify extends Component {
     if (!/[0-9]/.test(e.key)) {
       e.preventDefault();
     }
-    if(e.key == "Enter"){
-      if(this.state.ready == true){
-        this.verifyUser()
+    if (e.key == "Enter") {
+      if (this.state.ready == true) {
+        this.verifyUser();
       }
     }
   }
@@ -69,20 +67,21 @@ class Verify extends Component {
       },
       () => this.isReady()
     );
-    if(e.target.value == "") {return}
+    if (e.target.value == "") {
+      return;
+    }
     if (id < 5) {
       // Get the next input field using it's name
       const nextfield = document.querySelector(`input[name="n${id + 1}"]`);
       // If found, focus the next field
       if (nextfield !== null) {
-        nextfield.focus()
-        nextfield.select()
+        nextfield.focus();
+        nextfield.select();
       }
     }
   }
 
   verifyUser = () => {
-    console.log("verifyUser()")
     axios
       .patch("http://localhost:8000/verify", {
         pin: this.state.n1 + this.state.n2 + this.state.n3 + this.state.n4,
@@ -90,60 +89,81 @@ class Verify extends Component {
       })
       .then((res) => {
         if (res.data.msg == "pin matched") {
-          console.log("pin is a match");
-          console.log(res.data)
-          this.setState({error: false, match: true, msg: res.data.msg})
+          this.setState({ error: false, match: true, msg: res.data.msg });
           localStorage.setItem("jwtToken", res.data.token);
           // Set token to Auth header
           setAuthToken(res.data.token);
           // Decode token to get user data
           const decoded = jwt_decode(res.data.token);
-          console.log("decoded ", decoded.user);
           // Set current user
           this.props.setCurrentUser(decoded.user);
         } else if (res.data.msg == "incorrect pin") {
-          this.setState({ error: true, msg: res.data.msg + ". "
-          + res.data.attemptsLeft + " attempt left." });
+          this.setState({
+            error: true,
+            msg: res.data.msg + ". " + res.data.attemptsLeft + " attempt left.",
+          });
           console.log("pin is not a match");
         } else if (res.data.msg == "user not founded.") {
           this.setState({ error: true, msg: res.data.msg, showSignup: true });
         } else if (res.data.msg == "user is deleted") {
-          this.setState({error: true, match: false, msg: res.data.msg, showSignup: true})
+          this.setState({
+            error: true,
+            match: false,
+            msg: res.data.msg,
+            showSignup: true,
+          });
         } else if (res.data.msg == "error to delete user") {
         } else {
-          this.setState({error: true, match: false, msg: res.data.msg, showSignup: true})
+          this.setState({
+            error: true,
+            match: false,
+            msg: res.data.msg,
+            showSignup: true,
+          });
         }
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        if(this.state.match){
-          history.push('/user')
+        if (this.state.match) {
+          history.push("/user");
         }
-    });
+      });
   };
 
   render() {
     return (
       <Container fluid style={{ height: "100vh", backgroundColor: "#fffced" }}>
-        <Row style={{height: "20px"}}/>
+        <Row style={{ height: "20px" }} />
         {this.state.error ? (
           <Row className="justify-content-center">
-            <Alert variant={"danger"} style={{margin: 0, marginBottom: '5px'}}>{this.state.msg}
+            <Alert
+              variant={"danger"}
+              style={{ margin: 0, marginBottom: "5px" }}
+            >
+              {this.state.msg}
             </Alert>
           </Row>
         ) : (
           <></>
         )}
-          {this.state.showSignup ? (
+        {this.state.showSignup ? (
           <Row className="justify-content-center">
             <button onClick={() => history.goBack()}>Go Back</button>
-        </Row>) : <></>} 
-        
+          </Row>
+        ) : (
+          <></>
+        )}
+
         {this.state.match ? (
           <Row className="justify-content-center">
-            <Alert variant={"success"} style={{margin: 0, marginBottom: '5px'}}>{this.state.msg}</Alert>
+            <Alert
+              variant={"success"}
+              style={{ margin: 0, marginBottom: "5px" }}
+            >
+              {this.state.msg}
+            </Alert>
           </Row>
         ) : (
           <></>

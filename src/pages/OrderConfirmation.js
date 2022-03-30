@@ -7,8 +7,6 @@ class OrderConfirmation extends Component {
       order: props.location.state,
     };
   }
-  renderDrinks() {}
-
   render() {
     console.log("props: ", this.state.order);
     return (
@@ -26,7 +24,7 @@ class OrderConfirmation extends Component {
         <Row className="justify-content-center" style={{ marginTop: "10px" }}>
           {this.state.order.drinks.map((drink, i) => (
             <Col
-            key={i}
+              key={i}
               xs={"auto"}
               style={{
                 paddingLeft: "5px",
@@ -36,7 +34,7 @@ class OrderConfirmation extends Component {
                 borderColor: "black",
                 borderStyle: "solid",
                 borderWidth: "2px",
-                margin: '5px'
+                margin: "5px",
               }}
             >
               <p
@@ -47,13 +45,13 @@ class OrderConfirmation extends Component {
                   fontWeight: "bold",
                 }}
               >
-                Juice {i+1}
+                Juice {i + 1}
               </p>
-              {Object.keys(drink.ingredients).map((ingredient, j) => 
+              {Object.keys(drink.ingredients).map((ingredient, j) => (
                 <p style={{ fontSize: "15px", margin: 0 }}>
-                 {drink.ingredients[ingredient]}oz {ingredient}
+                  {drink.ingredients[ingredient]}oz {ingredient}
                 </p>
-              )}
+              ))}
               <p
                 style={{
                   marginTop: "1px",
@@ -82,7 +80,7 @@ class OrderConfirmation extends Component {
                   bottom: 0,
                   margin: 0,
                   padding: 0,
-                  left: '30%',
+                  left: "30%",
                   textAlign: "center",
                 }}
               >
