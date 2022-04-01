@@ -102,98 +102,6 @@ export const dailyRecommendation = {
 };
 
 export const listt = {
-  "Fuji Apple": {
-    calories: 16,
-    totalCarbohydrate: "3.86g",
-    sugar: "2.85g",
-    totalFat: "0.04g",
-    vitaminA: "0.00085mg",
-    vitaminB1: "0.005mg",
-    vitaminB2: "0.007mg",
-    vitaminB3: "0.027mg",
-    vitaminB5: "0.021mg",
-    vitaminB6: "0.014mg",
-    vitaminC: "0.0mg",
-    vitaminD: "0.0mg",
-    vitaminE: "0.05mg",
-    vitaminK: "0.0005mg",
-    betaine: "0.0mg",
-    choline: "1.4mg",
-    calcium: "1.70mg",
-    copper: "0.009mg",
-    iron: "0.04mg",
-    magnesium: "1.42mg",
-    manganese: "0.010mg",
-    phosphorus: "2.83mg",
-    potassium: "28.35mg",
-    selenium: "0mg",
-    sodium: "0.57mg",
-    zinc: "0.01mg",
-    protein: "0.08g",
-    facts: [""],
-  },
-  "Gala Apple": {
-    calories: 17,
-    totalFat: "0.03g",
-    sodium: "0.28mg",
-    totalCarbohydrate: "4.20g",
-    sugar: "2.94g",
-    protein: "0.04g",
-    vitaminA: "0.0mg",
-    vitaminB1: "0.003mg",
-    vitaminB2: "0.020mg",
-    vitaminB3: "0.026mg",
-    vitaminB5: "0.162mg",
-    vitaminB6: "0.009mg",
-    vitaminB12: "0.0mg",
-    vitaminC: "25.3mg",
-    vitaminD: "0.0mg",
-    vitaminE: "0.22mg",
-    vitaminK: "0.0288mg",
-    betaine: "0.0mg",
-    choline: "5.3mg",
-    calcium: "1.98mg",
-    copper: "0.01mg",
-    iron: "0.02mg",
-    magnesium: "1.42mg",
-    manganese: "0.011mg",
-    phosphorus: "2.27mg",
-    potassium: "30.05mg",
-    selenium: "0.0mg",
-    sodium: "0.0mg",
-    zinc: "0.01mg",
-    facts: [""],
-  },
-  "Golden Delicious Apple": {
-    calories: 16,
-    totalCarbohydrate: "3.86g",
-    sugar: "2.85g",
-    totalFat: "0.04g",
-    vitaminA: "0.00085mg",
-    vitaminB1: "0.005mg",
-    vitaminB2: "0.007mg",
-    vitaminB3: "0.027mg",
-    vitaminB5: "0.021mg",
-    vitaminB6: "0.014mg",
-    vitaminC: "0.0mg",
-    vitaminD: "0.0mg",
-    vitaminE: "0.05mg",
-    vitaminK: "0.0005mg",
-    betaine: "0.0mg",
-    choline: "1.4mg",
-    calcium: "1.70mg",
-    copper: "0.009mg",
-    iron: "0.04mg",
-    magnesium: "1.42mg",
-    manganese: "0.010mg",
-    phosphorus: "2.83mg",
-    potassium: "28.35mg",
-    selenium: "0mg",
-    sodium: "0.57mg",
-    zinc: "0.01mg",
-    protein: "0.08g",
-    facts: [""],
-  },
 
   "Granny Smith Apple": {
     calories: 16,
@@ -1114,84 +1022,7 @@ export const listt = {
 };
 
 export const list = {
-  "Fuji Apple": {
-    img: fujiApple,
-    taste: "sweetest",
-    calories: 18,
-    totalFat: "0.05g",
-    sodium: "0.3mg",
-    totalCarbohydrate: "4.45g",
-    sugar: "3.3g",
-    protein: "0.4g",
-    facts: [
-      "The Fuji apple has the highest overall concentration of bioflavonoids out of all apples.  Bioflavonoids protect you from diseases",
-      "One study found that drinking apple juice reduced the production of beta-amyloid (caused Alzheimer's) in mice",
-      "The sweetest apple",
-      "high flavonol",
-      "antioxidant and anti-inflammatory properties",
-      "Improve insulin resistance",
-    ],
-    shortFacts: [
-      "Source of stuff",
-      "Good for this and that, that, and this.",
-      "It taste good!",
-    ],
-    minerals: {
-      magnesium: 0.06,
-    },
-    color: "#edd098",
-    costPerOunce: 0.3,
-  },
-  "Gala Apple": {
-    taste: "sweet",
-    img: galaApple,
-    calories: 17,
-    totalFat: "0.03g",
-    sodium: "0.28mg",
-    totalCarbohydrate: "4.20g",
-    sugar: "2.94g",
-    protein: "0.04g",
-    facts: ["Great source of antioxidant."],
-    shortFacts: [
-      "Source of stuff",
-      "Good for this and that, that, and this.",
-      "It taste good!",
-    ],
-    minerals: {
-      magnesium: 0.06,
-    },
-    color: "#be883a",
-    costPerOunce: 0.3,
-  },
-  "Golden Delicious Apple": {
-    img: goldenDeliciousApple,
-    calories: 16,
-    totalCarbohydrate: "3.86g",
-    sugar: "2.85g",
-    totalFat: "0.04g",
-    protein: "0.08g",
-    facts: ["antioxidant and anti-inflammatory properties"],
-    shortFacts: [
-      "Source of stuff",
-      "Good for this and that, that, and this.",
-      "It taste good!",
-    ],
-    color: "#be8739",
-    costPerOunce: 0.15,
-  },
-  "Granny Smith Apple": {
-    taste: "tarty",
-    img: grannySmithApple,
-    calories: 16,
-    totalCarbohydrate: "3.9g",
-    sugar: "2.9g",
-    totalFat: "0g",
-    protein: "0.08g",
-    facts: [""],
-    
-    color: "#ebb107",
-    costPerOunce: 0.31,
-  },
+
   "Red Delicious Apple": {
     img: redDeliciousApple,
     calories: 18,
@@ -1199,10 +1030,35 @@ export const list = {
     sugar: "2.97g",
     totalFat: "0.1g",
     protein: "0.05g",
-    facts: [""],
+    facts: [
+    "Apples contain quercetin, which may have \
+    anti-inflammatory, antiviral, anticancer, and antidepressant \
+    effects, according to animal studies.",
+    "Apples contains catechin, an antioxidant \
+    hathat has been shown to improve brain \
+    and muscle function in animal studies.",
+    "Apples contain bioactive compounds \
+    that may help promote healthful gut bacteria, which may help \
+    optimize the health of people with obesity.", 
+ ],
     
-    color: "#af7605",
-    costPerOunce: 0.23,
+    color: "#ac7648",//"#af7605"
+    costPerOunce: 0.25,
+  },
+  "Granny Smith Apple": {
+    img: grannySmithApple,
+    calories: 16,
+    totalCarbohydrate: "3.9g",
+    sugar: "2.9g",
+    totalFat: "0g",
+    protein: "0.08g",
+    facts: ["Contains chlorogenic acid which has been found to \
+    lower blood sugar and cause weight loss in some studies.",
+  "Many test-tube and animal studies suggest that apple phytonutrients \
+  can protect against cancers of the lungs and colon."],
+    taste: "sour",
+    color: "#e0e7a1",//"#ebb107"
+    costPerOunce: 0.30,
   },
   Beets: {
     img: beets,
@@ -1223,12 +1079,13 @@ export const list = {
      mutations of cells. Such compounds include betalains, which are pigments \
      that give beets their red and yellow color. Betalains\
      possess a number of anti-inflammatory properties.",
-      "high in copper, an important mineral required for energy production and \
+      "High in copper, an important mineral required for energy production and \
      the synthesis of certain neurotransmitters.",
     ],
     
-    color: "#cc253d",
-    costPerOunce: 0.56,
+    color: "#360302",//"#cc253d",
+    costPerOunce: 0.35,
+    taste: "earthy"
   },
   Broccoli: {
     img: broccoli,
@@ -1246,11 +1103,12 @@ export const list = {
     and extensively studied plant compounds in broccoli, sulforaphane \
     may protect against various types of cancer.",
       "Two of the main carotenoids in broccoli, lutein and\
-   zeaxanthin, are associated with a decreased risk of age-related eye disorders ",
+   zeaxanthin, are associated with a decreased risk of age-related eye disorders.",
     ],
     
-    color: "#6e9e33",
-    costPerOunce: 0.47,
+    color: "#2c5000",//"#6e9e33",
+    costPerOunce: 0.33,
+    taste: "fucking gross"
   },
   Cantaloupe: {
     img: cantaloupe,
@@ -1263,11 +1121,11 @@ export const list = {
       "Great source of vitamin A and C, and vitamin B9.",
       "Cantaloupes are filled with electrolytes.",
       "Compounds called phytonutrients in cantaloupes give\
-   it anti-inflammatory properties",
+   it anti-inflammatory properties.",
     ],
     
-    color: "#f88c18",
-    costPerOunce: 0.36,
+    color: "#d3673d",//"#f88c18",
+    costPerOunce: 0.28,
   },
   Carrot: {
     img: carrots,
@@ -1289,8 +1147,8 @@ export const list = {
       "Researchers reported that higher levels of carotenoids in the blood were associated with a lower risk of breast cancer returning.",
     ],
     
-    color: "#f3881d",
-    costPerOunce: 0.45,
+    color: "#ae4800",//"#f3881d",
+    costPerOunce: 0.27,
   },
   Celery: {
     img: celery,
@@ -1309,8 +1167,8 @@ export const list = {
      healthy blood flow.",
     ],
     
-    color: "#7bb604",
-    costPerOunce: 0.3,
+    color: "#7e8b41",//"#7bb604",
+    costPerOunce: 0.25,
   },
   Cucumber: {
     img: cucumber,
@@ -1329,8 +1187,8 @@ export const list = {
       "High in Vitamin K. May help with blood clotting, and it support bone health.",
     ],
     
-    color: "#b1c91e",
-    costPerOunce: 0.51,
+    color: "#737e1e",//"#b1c91e",
+    costPerOunce: 0.22,
   },
   Ginger: {
     img: ginger,
@@ -1350,9 +1208,9 @@ export const list = {
    such as morning sickness.",
       "May relieve pain.",
     ],
-    
-    color: "#d3ba76",
-    costPerOunce: 0.26,
+    taste: "extremely spicy",
+    color: "#dec152",//"#d3ba76",
+    costPerOunce: 0.60,
   },
   "Green Grapes": {
     img: greenGrapes,
@@ -1371,8 +1229,8 @@ preventing weight gain. However, research in humans is lacking.",
       "Grapes are a natural source of melatonin, a hormone that may improve your sleep quality.",
     ],
     
-    color: "#c8cf3e",
-    costPerOunce: 0.36,
+    color: "#9ab56b",//"#c8cf3e",
+    costPerOunce: 0.38,
   },
   "Red Grapes": {
     img: redGrapes,
@@ -1382,17 +1240,17 @@ preventing weight gain. However, research in humans is lacking.",
     totalFat: "0.05g",
     protein: "0.20g",
     facts: [
-      " The skins of red grapes contain \
+      "The skins of red grapes contain \
     the phytochemical resveratrol, which appears \
     to protect against several chronic diseases and conditions.",
-      " The skins of red grapes contain the phytochemical resveratrol,\
+      "The skins of red grapes contain the phytochemical resveratrol,\
    which appears to protect against several chronic diseases and conditions.",
       "Compounds found in grapes may help protect against high cholesterol \
   levels by decreasing cholesterol absorption.",
     ],
     
-    color: "#b33133",
-    costPerOunce: 0.5,
+    color: "#c9775a",//"#b33133",
+    costPerOunce: 0.30,
   },
   Grapefruit: {
     img: grapefruit,
@@ -1404,7 +1262,7 @@ preventing weight gain. However, research in humans is lacking.",
     facts: [
       "Eating grapefruit regularly may \
     have the potential to prevent insulin resistance,\
-     which can lead to diabetes",
+     which can lead to diabetes.",
       "Grapefruit contains several types of antioxidants \
     that may help prevent the development of some chronic \
     conditions, including heart disease and cancer.",
@@ -1412,8 +1270,8 @@ preventing weight gain. However, research in humans is lacking.",
   formation of calcium oxalate kidney stones.",
     ],
     
-    color: "#f07f52",
-    costPerOunce: 0.49,
+    color: "#f27861",//"#f07f52",
+    costPerOunce: 0.34,
   },
   "Honeydew Melon": {
     img: honeydew,
@@ -1428,7 +1286,7 @@ preventing weight gain. However, research in humans is lacking.",
       "Honeydew contains multiple nutrients that are vital for\
      bone health, including vitamin B9, vitamin K and magnesium.",
       "Honeydew melon is about 90% water and contains electrolytes,\
-      such as potassium, magnesium, sodium and calcium",
+      such as potassium, magnesium, sodium and calcium.",
     ],
     
     color: "#b6c854",
@@ -1453,7 +1311,7 @@ preventing weight gain. However, research in humans is lacking.",
       "Kale contains sulforaphane, a substance that has been shown \
   to help fight the formation of cancer at the molecular level",
       "Kale is high in minerals, some of which many people are deficient in.\
-Calcium, potassium and magnesium",
+Calcium, potassium and magnesium.",
       "Kale is high in lutein and zeaxanthin, nutrients that have been linked \
 to a drastically reduced risk of macular degeneration and cataracts.",
     ],
@@ -1474,7 +1332,7 @@ to a drastically reduced risk of macular degeneration and cataracts.",
   and vitamin E, a fat-soluble nutrient that has antioxidant\
    effects and plays an important role in immune health.",
       "Kiwi contain carotenoids. Studies show that diets high in carotenoids \
-  may help protect against certain health conditions, including heart disease",
+  may help protect against certain health conditions, including heart disease.",
       "Kiwellin and kissper are proteins in kiwi that may have anti-inflammatory properties.",
       "Kiwi contains vitamin K and traces of calcium and phosphorus, all of which contribute to bone health.",
     ],
@@ -1508,7 +1366,7 @@ to a drastically reduced risk of macular degeneration and cataracts.",
     totalFat: "0.04g",
     protein: "0.26g",
     facts: [
-      "Research has associated a diet that emphasizes vegetables with better bone health",
+      "Research has associated a diet that emphasizes vegetables with better bone health.",
     ],
     
     color: "#cce364",
@@ -1528,7 +1386,7 @@ to a drastically reduced risk of macular degeneration and cataracts.",
       "Romaine is a good source of phenolic compounds, particularly \
     caffeic acid and chlorogenic acid. These antioxidants are \
     associated with a lower risk of heart disease, inflammation, \
-    and certain cancers",
+    and certain cancers.",
     ],
     
     color: "#b7c808",
@@ -1568,7 +1426,7 @@ to a drastically reduced risk of macular degeneration and cataracts.",
      disease, cancer, and death from all causes.",
       "Although oranges\
      are not a good source of iron, the vitamin C within oranges, \
-      enhances your body’s ability to absorb iron",
+      enhances your body’s ability to absorb iron.",
     ],
     
     color: "#eba328",
@@ -1585,7 +1443,7 @@ to a drastically reduced risk of macular degeneration and cataracts.",
       "Parsley is packed with vitamin K, an essential \
     nutrient for bone health.",
       "Lutein, beta carotene, and zeaxanthin are three carotenoids\
-   in parsley that help protect your eyes and promote healthy vision",
+   in parsley that help protect your eyes and promote healthy vision.",
       "Parsley is a nutrient-dense herb that may improve heart health.",
     ],
     
@@ -1625,7 +1483,7 @@ relief for those with inflammatory arthritis.",
       "Contain beneficial plant compounds like antioxidants,\
      which can help protect your body from aging and disease.",
       "Studies indicate that compounds found in peaches may improve\
-     your skin’s ability to retain moisture — thus improving skin texture",
+     your skin’s ability to retain moisture — thus improving skin texture.",
       "Research shows that peaches may help reduce allergy symptoms by\
      preventing the release of histamines in the blood.\
      Histamines are part of your body’s defense system and trigger \
@@ -1673,7 +1531,7 @@ relief for those with inflammatory arthritis.",
       "Evidence suggests strawberries \
   lowers the post-meal increase in blood sugar\
    in some people with obesity or excess weight.",
-      "Excellent source of vitamin C, potassium, and antioxidants",
+      "Excellent source of vitamin C, potassium, and antioxidants.",
     ],
     
     color: "#f17263",
@@ -1709,13 +1567,12 @@ relief for those with inflammatory arthritis.",
     totalFat: "0g",
     protein: "g",
     facts: [
-      "Good source of Vitamin A and C",
-      "a rich source of citrulline, an amino acid that\
-     may improve exercise performance",
+      "Good source of Vitamin A and C.",
+      "A rich source of citrulline, an amino acid that\
+     may improve exercise performance.",
       "The combination of antioxidants, lycopene,\
       and vitamin C in watermelon may help lower \
-      inflammation and oxidative damage",
-      "",
+      inflammation and oxidative damage."
     ],
     
     color: "#c92a28",

@@ -667,7 +667,7 @@ class Order extends Component {
           <tbody>
             <tr>
               <td>
-                <div className="headerr">Nutritionn Facts</div>
+                <div className="headerr">Nutrition Facts</div>
               </td>
             </tr>
             <tr style={{ height: "7px" }}>
@@ -941,7 +941,6 @@ class Order extends Component {
           <Col
             lg={4}
             md={6}
-            //className="d-flex align-items-center justify-content-between"
             key={key}
             style={{
               borderColor: "white",
@@ -949,7 +948,7 @@ class Order extends Component {
               borderStyle: "solid",
               borderRadius: "25px",
               padding: "7px",
-              backgroundColor: item.color + "80",
+              backgroundColor: item.color + "90",
             }}
           >
             <Row style={{ margin: 0 }}>
@@ -976,8 +975,9 @@ class Order extends Component {
                     md="9"
                     style={{ paddingLeft: 0, paddingRight: 0 }}
                   >
-                    <h5 style={{ paddingLeft: "5px", marginTop: "2px" }}>
+                    <h5 style={{ paddingLeft: "3px", marginTop: "6px" }}>
                       {key}
+                      <p style={{margin: "0px 0px 0px 8px", display:"inline-block", fontSize: "12px"}}>{item.taste ? item.taste : ""}</p>
                     </h5>
                   </Col>
                 </Row>

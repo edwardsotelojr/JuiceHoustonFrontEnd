@@ -24,9 +24,9 @@ export const CheckoutForm = (props) => {
   const handleSubmit = async (ev) => {
     ev.preventDefault();
     props.sendData("lol");
-    console.log(props.order.totalCost);
+    return;
     axios
-      .post("http://localhost:8000/create-payment-intent", {
+      .post(process.env.BE + "create-payment-intent", {
         price: props.order.totalCost.toString().replace(".", ""),
       })
       .then((res) => {
@@ -60,7 +60,7 @@ export const CheckoutForm = (props) => {
             setPaymentError(false);
             setPaymentErrorMsg("");
             axios
-              .post("http://localhost:8000/placeOrder", props.order)
+              .post(process.env.BE + "placeOrder", props.order)
               .then((res) => {
                 if (res.data.msg == "success") {
                   history.push({

@@ -195,21 +195,6 @@ class Menu extends Component {
     )
   }
 
-  addHyperText(text, key) {
-    var updatedText = (
-      <p>
-        {text}
-        <a href={"d"}>lol</a>
-      </p>
-    );
-    for (var i = 0; i < keywords.length; i++) {
-      if (text.includes(keywords[i])) {
-      }
-    }
-
-    return <p key={key}>{text}</p>;
-  }
-
   render() {
     return (
       <Container
@@ -256,51 +241,45 @@ class Menu extends Component {
               }}
             >
               <ReactCardFlip
-                //onClick={() => this.cardFlip(index)}
                 isFlipped={this.state.isFlipped[i]}
                 flipDirection="horizontal"
                 containerStyle={{
                   zIndex: 1,
-                  //borderRadius: "9px",
-                  //padding: "10px",
-                  //width: "225px",
-                  //height: "290px",
-                  backgroundColor: item.color,
-                  opacity: 0.92
+                  backgroundColor: item.color + "80",
                 }}
               >
                 <Container
                   style={{
                     padding: "11px",
-                    backgroundColor: info.color,
+                    backgroundColor: info.color + "90",
                     border: "solid #eeeeee",
                     borderRadius: "15px",
                   }}
                 >
                   <Row style={{ margin: "0px 0px 10px 0px" }}>
-                    <Col xs={5}>
+                    <Col xs={"auto"} >
                       <Card.Img
                         variant="top"
                         src={info.img}
                         alt=""
                         style={{
-                          marginLeft: "-10px",
                           width: "60px",
                           height: "60px",
                           borderRadius: "18px",
                         }}
                       />
                     </Col>
-                    <Col xs={7} style={{ paddingLeft: "0" }}>
+                    <Col xs={"auto"} style={{ paddingLeft: "3px", paddingRight: "3px" }}>
                       <Card.Title style={{ fontSize: "1.1rem", marginBottom: "0.35rem"}}>
                         {item}
                       </Card.Title>
                       <Card.Subtitle
                       style={{}}
                     >
-                      ${info.costPerOunce} / oz.
+                      ${Number(info.costPerOunce).toFixed(2)} / oz. 
+                      <p style={{fontSize: "12px", margin: 0}}>{info.taste ? info.taste : ""}</p>
                     </Card.Subtitle>
-                    </Col>{" "}
+                    </Col>
                   </Row>
                   <Row style={{ margin: "0px 0px 10px 0px" }}>
                    
@@ -314,8 +293,7 @@ class Menu extends Component {
                     }}
                   >
                     {info.facts.map((fact, index) => {
-                      return this.addHyperText(fact, index);
-                    })}
+                      return <p key={index}>{fact}</p>                    })}
                   </Row>
                   <button
                     style={{
@@ -328,7 +306,6 @@ class Menu extends Component {
                   >
                     <img width="40px" height="40px" src={flip}></img>
                   </button>
-                  {/* size for the button being absolute in position*/}
                   <Row style={{ height: "32px" }}></Row>
                 </Container>
 

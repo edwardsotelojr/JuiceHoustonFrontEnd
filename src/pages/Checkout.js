@@ -19,6 +19,7 @@ import {
   ElementsConsumer,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import moment from "moment-timezone"
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -308,7 +309,7 @@ class Checkout extends React.Component {
       destItems.splice(destination.index, 0, removed);
       const juiceNumber = parseInt(result.draggableId[5]);
       console.log(juiceNumber);
-      const deliveryDate = columns[destination.droppableId].name;
+      const deliveryDate = moment.tz(new Date(columns[destination.droppableId].name), "America/Chicago").format("MM/DD/YYYY")
       var deliveryDates = [...this.state.deliveryDates];
       deliveryDates[juiceNumber - 1] = deliveryDate;
       this.setState((prevState) => ({
@@ -777,13 +778,6 @@ class Checkout extends React.Component {
                 )}
               </ElementsConsumer>
             </Elements>
-            {/*<Button
-              id={"placeOrderButton"}
-              disabled={!this.state.placeOrderReady}
-              onClick={this.onSubmit}
-            >
-              Place Order
-            </Button>*/}
           </Col>
         </Row>
       </Container>
