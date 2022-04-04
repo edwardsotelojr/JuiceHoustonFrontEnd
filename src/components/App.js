@@ -19,6 +19,7 @@ import { Component } from "react";
 import store from "../redux/store";
 import Header from "../containers/Header";
 import history from "../history";
+require('dotenv').config()
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken != undefined) {

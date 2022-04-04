@@ -6,8 +6,9 @@ import history from "../history";
 
 // Login - get user token
 export const signin = (userData) => (dispatch) => {
+  console.log(process.env.REACT_APP_BE)
   axios
-    .post(process.env.BE + ":8000/login", userData, {
+    .post(process.env.REACT_APP_BE + "login", userData, {
       headers: {
         "content-type": "application/json",
       },

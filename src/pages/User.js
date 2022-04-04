@@ -28,7 +28,7 @@ class User extends React.Component {
         .toString()
         .slice(0, 15);
       axios
-        .patch("http://localhost:8000/updateDrink", {
+        .patch(process.env.BE + "updateDrink", {
           drinkId: this.state.changableDrinks[i]._id,
           deliveryDate: strDate,
         })
@@ -51,7 +51,7 @@ class User extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`http://localhost:8000/orders/`, {
+      .get(process.env.BE + `orders/`, {
         params: { email: this.state.user.email },
       })
       .then((res) => {

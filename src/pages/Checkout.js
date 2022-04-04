@@ -1,4 +1,4 @@
-import React from "react"; 
+import React from "react";
 import axios from "axios";
 import {
   Container,
@@ -7,19 +7,17 @@ import {
   Col,
   Form,
   Button,
-  Popover,
+  Alert,
   Overlay,
   Fade,
-  Alert,
+  Popover,
 } from "react-bootstrap";
 import { CheckoutForm } from "../components/CheckoutForm";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import {
-  Elements,
-  ElementsConsumer,
-} from "@stripe/react-stripe-js";
+import { Elements, ElementsConsumer } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import moment from "moment-timezone"
+import moment from "moment-timezone";
+import zipcodes from "../zipcode";
 
 class Checkout extends React.Component {
   constructor(props) {
@@ -31,7 +29,7 @@ class Checkout extends React.Component {
         content: "Juice " + (i + 1),
         ingredients: props.location.state.drinks[i],
         color: props.location.state.color[i],
-        cost: props.location.state.cost[i]
+        cost: props.location.state.cost[i],
       };
     }
     var name = "";
@@ -43,7 +41,6 @@ class Checkout extends React.Component {
     var suiteNumber = "";
     var instructions = "";
     if (Object.keys(this.props.user).length != 0) {
-      console.log("here");
       name = this.props.user.name;
       email = this.props.user.email;
       address = this.props.user.address;
@@ -98,7 +95,7 @@ class Checkout extends React.Component {
       deliveryDates: ["", "", "", "", ""],
       name: name,
       email: email,
-      emaill: "",
+      loginEmail: "",
       password: "",
       phone: phone,
       address: address,
@@ -116,7 +113,6 @@ class Checkout extends React.Component {
       suiteNumberValid: true,
       gateCodeValid: true,
       instructionsValid: true,
-
       nameBorder: {},
       emailBorder: {},
       phoneBorder: {},
@@ -126,9 +122,8 @@ class Checkout extends React.Component {
       gateCodeBorder: {},
       agreementBorder: {},
       instructionsBorder: {},
-      placeOrderReady: false,
+      orderReady: false,
     };
-
     this.nameTarget = React.createRef();
     this.emailTarget = React.createRef();
     this.phoneTarget = React.createRef();
@@ -138,43 +133,47 @@ class Checkout extends React.Component {
     this.gateCodeTarget = React.createRef();
     this.agreementTarget = React.createRef();
     this.instructionsTarget = React.createRef();
-
     this.selectedDay = this.selectedDay.bind(this);
     this.daysAvailable = this.daysAvailable.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.placeOrderReady = this.placeOrderReady.bind(this);
+    this.validation = this.validation.bind(this);
+
   }
 
   componentDidMount() {
     this.daysAvailable();
-    const price = this.props.location.state.totalCost.toFixed(2);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     }); // reset the scroll position to the top left of the document.  }
-   
+  }
+
+  componentDidUpdate() {
+    console.log("update");
+    this.placeOrderReady();
   }
 
   handleLogin = (e) => {
     e.preventDefault();
-    var user = { email: this.state.emaill, password: this.state.password };
-    axios.post("http://localhost:8000/login", user).then((res) => {
-      if(res.status == 200){
-      console.log(res)
-      this.setState({
-        name: res.data.user.name,
-        email: res.data.user.email,
-        address: res.data.user.address,
-        zipcode: res.data.user.zipcode,
-        phone: res.data.user.phone,
-        instructions: res.data.user.instructions,
-        gateCode: res.data.user.gateCode,
-        suiteNumber: res.data.user.suiteNumber,
-      });
-      document.getElementById("siginForm").style.display = "none";
-      this.props.signinAtCheckout(res.data.token)
-    }
+    var user = { email: this.state.loginEmail, password: this.state.password };
+    axios.post(process.env.BE+ "login", user).then((res) => {
+      if (res.status == 200) {
+        console.log(res);
+        this.setState({
+          name: res.data.user.name,
+          email: res.data.user.email,
+          address: res.data.user.address,
+          zipcode: res.data.user.zipcode,
+          phone: res.data.user.phone,
+          instructions: res.data.user.instructions,
+          gateCode: res.data.user.gateCode,
+          suiteNumber: res.data.user.suiteNumber,
+        });
+        document.getElementById("siginForm").style.display = "none";
+        this.props.signinAtCheckout(res.data.token);
+      }
     });
   };
 
@@ -222,7 +221,7 @@ class Checkout extends React.Component {
     const list = Object.keys(drink).map((p, index) => {
       if (drink[p] > 0) {
         return (
-          <p key={index} style={{ marginBottom: ".3rem" }} key={index}>
+          <p key={index} style={{ marginBottom: ".3rem" }}>
             {p}: {drink[p]}oz.
           </p>
         );
@@ -247,19 +246,63 @@ class Checkout extends React.Component {
   }
 
   onChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+    this.setState(
+      {
+        [e.target.name]: e.target.value,
+      }
+    );
+  }
 
-    const name = e.target.name + "Border";
-    if (this.state[name] == {}) {
-      console.log("empty");
+  validation = () => {
+    var zipcodeValid = false;
+    var border = { borderColor: "red" };
+    for (var z in zipcodes) {
+      if (zipcodes[z] == Number(this.state.zipcode)) {
+        zipcodeValid = true;
+      }
     }
-  }
-
-  componentDidUpdate() {
-    this.placeOrderReady();
-  }
+    if (!zipcodeValid) {
+      this.setState({ zipcodeValid: false, zipcodeBorder: border });
+      ;
+    } else {
+      this.setState({ zipcodeValid: true, zipcodeBorder: {} });
+    }
+    if (this.state.name.length >= 1 && this.state.name.length < 15) {
+      this.setState({ nameValid: true, nameBorder: {} });
+    } else {
+      this.setState({ nameValid: false, nameBorder: border });
+    }
+    if (this.state.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
+      this.setState({ emailValid: true, emailBorder: {} });
+    } else {
+      this.setState({ emailValid: false, emailBorder: border });
+    }
+    if (String(this.state.phone).length == 10) {
+      this.setState({ phoneValid: true, phoneBorder: {} });
+    } else {
+      this.setState({ phoneValid: false, phoneBorder: border });
+    }
+    if (this.state.address.length > 0 && this.state.address.length < 50) {
+      this.setState({ addressValid: true, addressBorder: {} });
+    } else {
+      this.setState({ addressValid: false, addressBorder: border });
+    }
+    if (this.state.suiteNumber.length > 20) {
+      this.setState({ suiteNumberValid: false, suiteNumberBorder: border });
+    } else {
+      this.setState({ suiteNumberValid: true, suiteNumberBorder: {} });
+    }
+    if (this.state.gateCode.length > 20) {
+      this.setState({ gateCodeValid: false, gateCodeBorder: border });
+    } else {
+      this.setState({ gateCodeValid: true, gateCodeBorder: {} });
+    }
+    if (this.state.instructions.length > 500) {
+      this.setState({ instructionsValid: false, instructionsBorder: border });
+    } else {
+      this.setState({ instructionsValid: true, instructionsBorder: {} });
+    }
+  };
 
   placeOrderReady = () => {
     if (this.state.columns.Dates.items.length != 0) {
@@ -288,16 +331,13 @@ class Checkout extends React.Component {
       gateCodeValid &&
       instructionsValid
     ) {
-      console.log("ready ");
-      if (!this.state.placeOrderReady) this.setState({ placeOrderReady: true });
+      if (this.state.orderReady != true) this.setState({ orderReady: true });
     } else {
-      if (this.state.placeOrderReady != false)
-        this.setState({ placeOrderReady: false });
+      if (this.state.orderReady != false) this.setState({ orderReady: false });
     }
   };
 
   onDragEnd = (result, columns) => {
-    console.log(result);
     if (!result.destination) return;
     const { source, destination } = result;
     if (source.droppableId !== destination.droppableId) {
@@ -308,8 +348,9 @@ class Checkout extends React.Component {
       const [removed] = sourceItems.splice(source.index, 1);
       destItems.splice(destination.index, 0, removed);
       const juiceNumber = parseInt(result.draggableId[5]);
-      console.log(juiceNumber);
-      const deliveryDate = moment.tz(new Date(columns[destination.droppableId].name), "America/Chicago").format("MM/DD/YYYY")
+      const deliveryDate = moment
+        .tz(new Date(columns[destination.droppableId].name), "America/Chicago")
+        .format("MM/DD/YYYY");
       var deliveryDates = [...this.state.deliveryDates];
       deliveryDates[juiceNumber - 1] = deliveryDate;
       this.setState((prevState) => ({
@@ -340,19 +381,16 @@ class Checkout extends React.Component {
       });
     }
   };
-  getData(val){
-    console.log(val)
-  }
 
   render() {
     const stripePromise = loadStripe(
       "pk_test_51JdrbbJhLWcBt73zLaa0UNkmKAAonyh9sRyrmkaMUgufzOeuvL4Vu9cNJcfdGykBSxkQPJOWkICvYoqw3r7q0AzD00Trf0E3aP"
-    );
+    )
     const renderIngredients = (ingredients) => {
       var d = [];
       for (const [key, value] of Object.entries(ingredients)) {
         d.push(
-          <p style={{ marginBottom: 0, fontSize: "15px" }}>
+          <p key={key} style={{ marginBottom: 0, fontSize: "15px" }}>
             {key}: {value}oz.
           </p>
         );
@@ -384,18 +422,10 @@ class Checkout extends React.Component {
       agreement: this.state.agreement,
       totalCost: this.state.totalCost.toFixed(2),
       drinks: drinks,
-    }
-
-    
-    // Get a reference to a mounted CardElement. Elements knows how
-    // to find your CardElement because there can only ever be one of
-    // each type of element.
+    };
 
     return (
-      <Container
-        fluid
-        style={{ backgroundColor: "rgb(255, 255, 240)" }}
-      >
+      <Container fluid style={{ backgroundColor: "rgb(255, 255, 240)" }}>
         <br />
         <Row>
           <DragDropContext
@@ -459,8 +489,8 @@ class Checkout extends React.Component {
                                             ...provided.draggableProps.style,
                                           }}
                                         >
-
-                                          <b>{item.content}</b> ${item.cost.toFixed(2)}
+                                          <b>{item.content}</b> $
+                                          {item.cost.toFixed(2)}
                                           {renderIngredients(item.ingredients)}
                                         </div>
                                       );
@@ -501,10 +531,10 @@ class Checkout extends React.Component {
                     <Form.Group controlId="formBasicEmail">
                       <Form.Label>Email address</Form.Label>
                       <Form.Control
-                        value={this.state.emaill}
+                        value={this.state.loginEmail}
                         onChange={(e) => {
                           e.stopPropagation();
-                          this.setState({ emaill: e.target.value });
+                          this.setState({ loginEmail: e.target.value });
                         }}
                         type="email"
                         placeholder="Enter email"
@@ -556,14 +586,13 @@ class Checkout extends React.Component {
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Name</Form.Label>
               <Form.Control
-                onBlur={this.validation}
-                ref={this.nameTarget}
                 onChange={this.onChange}
                 value={this.state.name}
                 name="name"
                 type="text"
                 style={this.state.nameBorder}
                 placeholder="Enter name"
+                ref={this.nameTarget}
               />
               <Overlay
                 transition={Fade}
@@ -573,20 +602,21 @@ class Checkout extends React.Component {
               >
                 <Popover
                   id="popover-contained"
-                  style={{ padding: "3px 5px 3px 5px" }}
+                  style={{ padding: "3px 5px 3px 5px", zIndex: "5" }}
                 >
-                  between 1 and 20 characters
+                  invalid name
                 </Popover>
               </Overlay>
+            </Form.Group>
+            <Form.Group>
               <Form.Label>Email address</Form.Label>
               <Form.Control
-                ref={this.emailTarget}
                 type="email"
                 onChange={this.onChange}
                 value={this.state.email}
                 name="email"
                 placeholder="Enter email"
-                onBlur={this.validation}
+                ref={this.emailTarget}
                 style={this.state.emailBorder}
               />
               <Overlay
@@ -597,22 +627,24 @@ class Checkout extends React.Component {
               >
                 <Popover
                   id="popover-contained"
-                  style={{ padding: "3px 5px 3px 5px" }}
+                  style={{ padding: "3px 5px 3px 5px", zIndex: "5" }}
                 >
                   invalid email
                 </Popover>
               </Overlay>
+            </Form.Group>
+            <Form.Group>
               <Form.Label>Phone</Form.Label>
               <Form.Control
-                ref={this.phoneTarget}
-                onBlur={this.validation}
                 onChange={this.onChange}
-                style={this.state.phoneBorder}
                 type="tel"
                 value={this.state.phone}
                 name="phone"
                 placeholder="Enter phone"
+                style={this.state.phoneBorder}
+                ref={this.phoneTarget}
               />
+
               <Overlay
                 transition={Fade}
                 target={this.phoneTarget.current}
@@ -621,33 +653,47 @@ class Checkout extends React.Component {
               >
                 <Popover
                   id="popover-contained"
-                  style={{ padding: "5px 5px 0px 5px" }}
+                  style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
                 >
-                  <p> phone number is not valid. </p>
+                  <p> phone number not valid. </p>
                 </Popover>
               </Overlay>
+            </Form.Group>
+            <Form.Group>
               <Form.Label>Address</Form.Label>
               <Form.Control
-                onBlur={this.validation}
                 onChange={this.onChange}
                 type="text"
-                ref={this.addressTarget}
-                style={this.state.addressBorder}
                 value={this.state.address}
                 name="address"
                 placeholder="Enter address"
+                style={this.state.addressBorder}
+                ref={this.addressTarget}
               />
+              <Overlay
+                transition={Fade}
+                target={this.addressTarget.current}
+                show={Object.entries(this.state.addressBorder).length === 1}
+                placement="top"
+              >
+                <Popover
+                  id="popover-contained"
+                  style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
+                >
+                  <p> address is not valid. </p>
+                </Popover>
+              </Overlay>
+            </Form.Group>
+            <Form.Group>
               <Form.Label>Zipcode</Form.Label>
               <Form.Control
                 onChange={this.onChange}
                 type="number"
                 name="zipcode"
-                onBlur={this.validation}
-                defaultValue={this.props.user.zipcode}
                 placeholder="Enter zipcode"
-                ref={this.zipcodeTarget}
-                style={this.state.zipcodeBorder}
                 value={this.state.zipcode}
+                style={this.state.zipcodeBorder}
+                ref={this.zipcodeTarget}
               />
               <Overlay
                 transition={Fade}
@@ -657,67 +703,70 @@ class Checkout extends React.Component {
               >
                 <Popover
                   id="popover-contained"
-                  style={{ padding: "3px 5px 3px 5px" }}
+                  style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
                 >
-                  zipcode outside of delivery range.
+                  <p> zipcode not in range for delivery. </p>
                 </Popover>
               </Overlay>
             </Form.Group>
-            <Form.Label>Gate Code</Form.Label>
-            <Form.Control
-              onBlur={this.validation}
-              onChange={this.onChange}
-              ref={this.gateCodeTarget}
-              value={this.state.gateCode}
-              name="gateCode"
-              type="text"
-              style={this.state.gateCodeBorder}
-              placeholder="Enter gate code (optional)"
-            />
-            <Overlay
-              transition={Fade}
-              target={this.gateCodeTarget.current}
-              show={Object.entries(this.state.gateCodeBorder).length === 1}
-              placement="top"
-            >
-              <Popover
-                id="popover-contained"
-                style={{ padding: "3px 5px 3px 5px" }}
+            <Form.Group>
+              <Form.Label>Gate Code</Form.Label>
+              <Form.Control
+                onChange={this.onChange}
+                value={this.state.gateCode}
+                name="gateCode"
+                type="text"
+                placeholder="Enter gate code (optional)"
+                ref={this.gateCodeTarget}
+                style={this.state.gateCodeBorder}
+              />
+              <Overlay
+                transition={Fade}
+                target={this.gateCodeTarget.current}
+                show={Object.entries(this.state.gateCodeBorder).length === 1}
+                placement="top"
               >
-                Gate code cant be this long dawg.
-              </Popover>
-            </Overlay>
-            <Form.Label>Suite Number</Form.Label>
-            <Form.Control
-              onBlur={this.validation}
-              ref={this.suiteNumberTarget}
-              onChange={this.onChange}
-              name="suiteNumber"
-              type="text"
-              value={this.state.suiteNumber}
-              style={this.state.suiteNumberBorder}
-              placeholder="Enter Suite Number (optional)"
-            />
-            <Overlay
-              transition={Fade}
-              target={this.suiteNumberTarget.current}
-              show={Object.entries(this.state.suiteNumberBorder).length === 1}
-              placement="top"
-            >
-              <Popover
-                id="popover-contained"
-                style={{ padding: "3px 5px 3px 5px" }}
+                <Popover
+                  id="popover-contained"
+                  style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
+                >
+                  <p> gate code not valid </p>
+                </Popover>
+              </Overlay>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Suite Number</Form.Label>
+              <Form.Control
+                onChange={this.onChange}
+                name="suiteNumber"
+                type="text"
+                value={this.state.suiteNumber}
+                placeholder="Enter Suite Number (optional)"
+                ref={this.suiteNumberTarget}
+                style={this.state.suiteNumberBorder}
+              />
+
+              <Overlay
+                transition={Fade}
+                target={this.suiteNumberTarget.current}
+                show={Object.entries(this.state.suiteNumberBorder).length === 1}
+                placement="top"
               >
-                Suite Number not real.
-              </Popover>
-            </Overlay>
+                <Popover
+                  id="popover-contained"
+                  style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
+                >
+                  <p> suite number not valid </p>
+                </Popover>
+              </Overlay>
+            </Form.Group>
             <div style={{ height: "20px" }}></div>
           </Col>
           <Col>
             <div style={{ height: "7px" }} />
+
             <Form.Label>Instructions</Form.Label>
             <Form.Control
-              onBlur={this.validation}
               onChange={this.onChange}
               as="textarea"
               name="instructions"
@@ -726,6 +775,7 @@ class Checkout extends React.Component {
               value={this.state.instructions}
               placeholder="optional"
             />
+
             <Overlay
               transition={Fade}
               target={this.instructionsTarget.current}
@@ -734,9 +784,9 @@ class Checkout extends React.Component {
             >
               <Popover
                 id="popover-contained"
-                style={{ padding: "5px 5px 0px 5px" }}
+                style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
               >
-                <p> instructions too long for database. wtf </p>
+                <p> instructions not valid </p>
               </Popover>
             </Overlay>
             <Card>
@@ -773,8 +823,14 @@ class Checkout extends React.Component {
             <Elements stripe={stripePromise}>
               <ElementsConsumer>
                 {({ elements, stripe }) => (
-                  <CheckoutForm elements={elements} stripe={stripe} sendData={this.getData}
-                   order={order}/>
+                  <CheckoutForm
+                    elements={elements}
+                    stripe={stripe}
+                    ready={this.state.orderReady}
+                    validation={this.validation}
+                    //promptError={this.promptError()}
+                    order={order}
+                  />
                 )}
               </ElementsConsumer>
             </Elements>
