@@ -8,7 +8,6 @@ class OrderConfirmation extends Component {
     };
   }
   render() {
-    console.log("props: ", this.state.order);
     return (
       <Container style={{ paddingTop: "30px", backgroundColor: "#fffced" }}>
         <Row className="justify-content-center">

@@ -24,7 +24,7 @@ export const CheckoutForm = (props) => {
   const handleSubmit = async (ev) => {
     ev.preventDefault();
     const url = process.env.REACT_APP_BE
-
+    console.log("handle submit")
     if(!stripe || !elements) return
     props.validation()
     if(!props.ready){
