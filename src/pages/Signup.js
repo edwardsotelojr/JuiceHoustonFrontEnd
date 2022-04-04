@@ -107,7 +107,7 @@ class Signup extends Component {
       termsOfAgreement: checkBoxValid,
     };
     axios
-      .post(process.env.BE + "signup", newUser)
+      .post(process.env.REACT_APP_BE + "signup", newUser)
       .then((res) => {
         if (res.status == 200) {
           history.push({

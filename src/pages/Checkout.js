@@ -158,7 +158,7 @@ class Checkout extends React.Component {
   handleLogin = (e) => {
     e.preventDefault();
     var user = { email: this.state.loginEmail, password: this.state.password };
-    axios.post(process.env.BE+ "login", user).then((res) => {
+    axios.post(process.env.REACT_APP_BE+ "login", user).then((res) => {
       if (res.status == 200) {
         console.log(res);
         this.setState({

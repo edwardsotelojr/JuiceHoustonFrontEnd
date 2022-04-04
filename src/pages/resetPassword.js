@@ -30,7 +30,7 @@ class resetPassword extends Component {
 
   axiosFunc = () => {
     axios
-      .patch(process.env.BE + "sendTemporaryPassword", {
+      .patch(process.env.REACT_APP_BE + "sendTemporaryPassword", {
         email: this.state.email,
         phone: this.state.phone,
       })
@@ -58,7 +58,7 @@ class resetPassword extends Component {
     e.preventDefault();
     if (this.validation) {
       axios
-        .patch(process.env.BE + "resetPassword", {
+        .patch(process.env.REACT_APP_BE + "resetPassword", {
           email: this.state.email,
           password: this.state.cPassword,
           newPassword: this.state.nPassword,
