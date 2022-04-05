@@ -28,7 +28,6 @@ export const signin = (userData) => (dispatch) => {
         type: LOGIN_ERROR,
         payload: null,
       });
-      document.querySelector(".dropdown-menu.show").classList.remove("show");
       if (
         window.location.pathname == "/Order" ||
         window.location.pathname == "/Menu" ||

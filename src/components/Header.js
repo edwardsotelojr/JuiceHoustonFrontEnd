@@ -39,12 +39,7 @@ class Header extends Component {
         dropdown = (
           <>
             <Dropdown.Item
-              href="/user"
-              onClick={() =>
-                document
-                  .querySelector(".dropdown-menu.show")
-                  .classList.remove("show")
-              }
+              href="/user" onClick={() => this.setState({isOpen: false})}
             >
               {this.props.user.name}
             </Dropdown.Item>

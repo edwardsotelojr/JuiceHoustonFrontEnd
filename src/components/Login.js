@@ -60,9 +60,7 @@ class Login extends Component {
         <Link
           style={{ paddingLeft: "10px", color: "#9bd16e"}}
           to="/Signup"
-          onClick={() =>
-            (document.querySelector(".dropdown-menu.show").style.display =
-              "none")
+          onClick={() => {}
           }
         >
           signup

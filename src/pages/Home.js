@@ -49,7 +49,7 @@ function Home() {
             <p> Customize Fresh Juice deliver to you early in the morning</p>
             <Container fluid style={{ marginTop: "0px" }}>
               <Row>
-                <Col xs={12} sm={12} md={4}>
+                <Col xs={12} sm={12} md={4} style={{paddingLeft: 0, paddingRight: 0}}>
                   <div
                     className="item_text phone"
                     data-aos="fade-up"
@@ -76,11 +76,11 @@ function Home() {
                       height={48}
                       width={48}
                       src={juices}
-                      style={{ float: "right" }}
+                      style={{ float: "right", marginTop: "7px" }}
                     />
                   </div>
                 </Col>
-                <Col xs={12} sm={12} md={4}>
+                <Col xs={12} sm={12} md={4} style={{paddingLeft: '4px', paddingRight: '4px'}}>
                   <div
                     className="item_text"
                     data-aos="fade-up"
@@ -106,7 +106,7 @@ function Home() {
                     </p>
                   </div>
                 </Col>
-                <Col xs={12} sm={12} md={4}>
+                <Col xs={12} sm={12} md={4} style={{paddingLeft: 0, paddingRight: 0}}>
                   <div
                     className="item_text"
                     data-aos="fade-up"
@@ -139,7 +139,7 @@ function Home() {
                       height={45}
                       width={45}
                       src={tasty}
-                      style={{ float: "left" }}
+                      style={{ float: "left", marginTop:'15px' }}
                     />
                   </div>
                 </Col>
@@ -161,7 +161,7 @@ function Home() {
                     data-aos-duration="1500"
                   >
                     <Dropdown>
-                      <Dropdown.Toggle style={{backgroundColor: "#5ccc00"}} id="dropdown-basic">
+                      <Dropdown.Toggle style={{backgroundColor: "#A6EB6C", opacity: ".90", borderColor: "#7CBEEB"}} id="dropdown-basic">
                         Available zipcodes for delivery
                       </Dropdown.Toggle>
 
@@ -171,7 +171,7 @@ function Home() {
                           maxHeight: "160px",
                           minWidth: "100%",
                           textAlign: "center",
-                        }}
+                        }} 
                       >
                         {zipcodes.map((zip, index) => (
                           <Dropdown.Item key={index}>{zip}</Dropdown.Item>

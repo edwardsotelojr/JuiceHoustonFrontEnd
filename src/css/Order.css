@@ -22,8 +22,8 @@
 /* Smartphones (landscape) ---------- */
 @media screen and (min-width: 321px){
     .ed{
-        width: 115px !important;
-        height: 150px !important;
+        width: 110px !important;
+        height: 130px !important;
     }
     .drinkRowName{
         font-size: smaller;
@@ -52,8 +52,8 @@
         display: none !important;
     }
     .ed{
-        width: 120px !important;
-        height: 150px !important;
+        width: 110px !important;
+        height: 120px !important;
     }}
 /* Tablets, iPads (portrait) ---------- */
 @media screen and (min-width: 771px){
@@ -62,7 +62,7 @@
     }
     .ed{
         width: 40% !important;
-        height: 160px !important;
+        height: 130px !important;
     }
     .drinkRowName{
         font-size: medium;
@@ -98,8 +98,8 @@
         display: none;
     }
     .ed{
-        width: 32% !important;
-        height: 145px !important;
+        width: 31% !important;
+        height: 135px !important;
     }
     .drinkRowName{
         font-size: medium;

@@ -338,8 +338,7 @@ class Order extends Component {
     if (this.state.ounces[this.state.currentDrink] >= 16) {
       return;
     }
-    if (value == undefined || value == "") {
-      // if value is nil
+    if (value == undefined || value == "") { // if value is nil
       st[this.state.currentDrink] = {
         ...st[this.state.currentDrink],
         [itemName]: 1,
@@ -360,13 +359,11 @@ class Order extends Component {
         );
       });
     } else if (
-      this.state.percentages[this.state.currentDrink] == 100 && // if drink is full
-      value > this.state.drinks[this.state.currentDrink][itemName]
+      this.state.percentages[this.state.currentDrink] == 100 && // drink is full
+      value > this.state.drinks[this.state.currentDrink][itemName]// n value is > than 16
     ) {
-      // and value is higher than previous value
       return;
-    } else if (value >= 0 && value <= this.state.size) {
-      // between range
+    } else if (value >= 0 && value <= 15) {// between range
       st[this.state.currentDrink] = {
         ...st[this.state.currentDrink],
         [itemName]: parseInt(value) + 1,
@@ -395,12 +392,10 @@ class Order extends Component {
     let top6 = [...this.state.top6];
     let drinkNF = [...this.state.drinksNutrition];
     const cDrink = this.state.currentDrink;
-    if (value == undefined || value == "" || value == 0) {
-      // if value is nil
+    if (value == undefined || value == "" || value == 0) { //produce has no value in state
       return;
-    } else {
-      // between range
-      st[this.state.currentDrink] = {
+    } else { // in range 
+      st[this.state.currentDrink] = { 
         ...st[this.state.currentDrink],
         [itemName]: parseInt(value) - 1,
       };
@@ -458,10 +453,10 @@ class Order extends Component {
         rightSide.style.display = "none";
         if (ounces > 6) {
           checkoutButton.style.left = "269px";
-          clearButton.style.left = "173px";
+          clearButton.style.left = "174px";
           scrollToTop.style.left = "228px";
         } else {
-          checkoutButton.style.left = "276px";
+          checkoutButton.style.left = "271px";
           clearButton.style.left = "180px";
           scrollToTop.style.left = "235px";
         }
@@ -504,7 +499,7 @@ class Order extends Component {
           clearButton.style.left = "173px";
           scrollToTop.style.left = "228px";
         } else {
-          checkoutButton.style.left = "266px";
+          checkoutButton.style.left = "271px";
           clearButton.style.left = "180px";
           scrollToTop.style.left = "235px";
         }
@@ -561,11 +556,11 @@ class Order extends Component {
         checkoutButton.style.zIndex = 100;
         rightSide.style.display = "none";
         if (ounces > 6) {
-          checkoutButton.style.left = "269px";
-          clearButton.style.left = "173px";
+          checkoutButton.style.left = "263px";
+          clearButton.style.left = "174px";
           scrollToTop.style.left = "228px";
         } else {
-          checkoutButton.style.left = "276px";
+          checkoutButton.style.left = "271px";
           clearButton.style.left = "180px";
           scrollToTop.style.left = "235px";
         }
@@ -609,11 +604,11 @@ class Order extends Component {
         checkoutButton.style.top = "54px";
         checkoutButton.style.zIndex = 100;
         if (ounces > 6) {
-          checkoutButton.style.left = "269px";
-          clearButton.style.left = "173px";
+          checkoutButton.style.left = "264px";
+          clearButton.style.left = "174px";
           scrollToTop.style.left = "228px";
         } else {
-          checkoutButton.style.left = "266px";
+          checkoutButton.style.left = "271px";
           clearButton.style.left = "180px";
           scrollToTop.style.left = "235px";
         }
@@ -858,9 +853,8 @@ class Order extends Component {
                 <div className="line">
                   <div className="labellight">
                     * Based on a regular 2000 calorie diet
-                    <br />
-                    <br />
-                    <i>
+                    <br/>
+                    <i style={{marginTop: '5px'}}>
                       Nutritional details are an estimate and should only be
                       used as a guide for approximation.
                     </i>
@@ -1251,7 +1245,7 @@ class Order extends Component {
                     id="scrollToTop"
                     style={{
                       display: "none",
-                      padding: ".1rem .4rem",
+                      padding: ".05rem .4rem",
                       borderRadius: "7px",
                     }}
                     onClick={this.scrollToTop}
@@ -1618,8 +1612,7 @@ class Order extends Component {
                               <div className="labellight">
                                 * Based on a regular 2000 calorie diet
                                 <br />
-                                <br />
-                                <i>
+                                <i style={{marginTop: '5px'}}>
                                   Nutritional details are an estimate and should
                                   only be used as a guide for approximation.
                                 </i>
