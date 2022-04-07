@@ -1,10 +1,7 @@
-import fujiApple from "./assets/fuji-apple.jpg";
-import galaApple from "./assets/gala-apple.jpg";
-import goldenDeliciousApple from "./assets/golden-delicious-apple.jpg";
+
 import grannySmithApple from "./assets/granny-smith-apple.jpg";
 import redDeliciousApple from "./assets/red-delicious-apple.jpg";
 import beets from "./assets/beetss.png";
-import broccoli from "./assets/broccoli.jpg";
 import cantaloupe from "./assets/cantaloupe.jpg";
 import carrots from "./assets/carrots.jpg";
 import celery from "./assets/celery.jpg";
@@ -17,16 +14,13 @@ import honeydew from "./assets/honeydew.jpg";
 import kale from "./assets/kale.jpg";
 import kiwi from "./assets/kiwi.jpg";
 import lemons from "./assets/lemons.jpg";
-import icebergLettuce from "./assets/iceberg-lettuce.jpg";
-import romaineLettuce from "./assets/romaine-lettuce.jpg";
 import lime from "./assets/lime.jpg";
+import mango from './assets/mango.jpg'
 import oranges from "./assets/oranges.jpg";
-import parsley from "./assets/parsley.jpg";
 import pineapple from "./assets/pineapple.jpg";
 import peaches from "./assets/peaches.jpg";
 import pears from "./assets/pears.jpg";
 import strawberries from "./assets/strawberries.jpg";
-import tomatoes from "./assets/tomatoes.jpg";
 import watermelon from "./assets/watermelon.jpg";
 
 export const minerals = {
@@ -44,7 +38,8 @@ export const minerals = {
   chromium: "Chromium",
   cholesterol: "Cholesterol",
   copper: "Copper",
-  vitaminB6: "vitaminB6",
+  vitaminB6: "vitamin B6",
+  vitaminB9: "vitamin B9",
   iodine: "Iodine",
   iron: "Iron",
   magnesium: "Magnesium",
@@ -69,6 +64,7 @@ export const minerals = {
 export const dailyRecommendation = {
   vitaminA: ".900mg",
   vitaminB6: "1.7mg",
+  vitaminB9: ".400mg",
   vitaminB12: "0.0024mg",
   vitaminC: "90mg",
   vitaminD: "0.020mg",
@@ -114,7 +110,7 @@ export const listt = {
     vitaminB3: "0.027mg",
     vitaminB5: "0.021mg",
     vitaminB6: "0.014mg",
-    vitaminB6: "0mg",
+    vitaminB9: "0mg",
     vitaminC: "0.0mg",
     vitaminD: "0.0mg",
     vitaminE: "0.05mg",
@@ -131,8 +127,7 @@ export const listt = {
     selenium: "0.0mg",
     sodium: "0.57mg",
     zinc: "0.01mg",
-    protein: "0.08g",
-    facts: [""],
+    protein: "0.08g"
   },
   "Red Delicious Apple": {
     calories: 18,
@@ -145,6 +140,7 @@ export const listt = {
     vitaminB3: "0.026mg",
     vitaminB5: "0.014mg",
     vitaminB6: "0.010mg",
+    vitaminB9: "0.00mg",
     vitaminB12: "0mg",
     vitaminC: "0.0mg",
     vitaminD: "0.0mg",
@@ -162,8 +158,7 @@ export const listt = {
     selenium: "0.0mg",
     sodium: "0.00mg",
     zinc: "0.01mg",
-    protein: "0.05g",
-    facts: [""],
+    protein: "0.05g"
   },
   Beets: {
     calories: 12,
@@ -176,7 +171,7 @@ export const listt = {
     vitaminB3: "0.095mg",
     vitaminB5: "0.044mg",
     vitaminB6: "0.019mg",
-    vitaminB6: "0.0309mg",
+    vitaminB9: "0.0309mg",
     vitaminB12: "0mg",
     vitaminC: "1.4mg",
     vitaminD: "0.0mg",
@@ -194,40 +189,7 @@ export const listt = {
     selenium: "0.2mg",
     sodium: "22.11mg",
     zinc: "0.10mg",
-    protein: "0.46g",
-    facts: [""],
-  },
-  Broccoli: {
-    calories: 9.6,
-    totalCarbohydrate: "1.88g",
-    sugar: "0.48g",
-    totalFat: "0.10g",
-    vitaminA: "0.00879mg",
-    vitaminB1: "0.020mg",
-    vitaminB2: "0.033mg",
-    vitaminB3: "0.181mg",
-    vitaminB5: "0.162mg",
-    vitaminB6: "0.050mg",
-    vitaminB6: "0.01786mg",
-    vitaminB12: "0.0mg",
-    vitaminC: "25.3mg",
-    vitaminD: "0.0mg",
-    vitaminE: "0.22mg",
-    vitaminK: "0.0288mg",
-    betaine: "0.0mg",
-    choline: "5.3mg",
-    calcium: "13.32mg",
-    copper: "0.014mg",
-    iron: "0.21mg",
-    magnesium: "5.95mg",
-    manganese: "0.060mg",
-    phosphorus: "18.71mg",
-    potassium: "89.58mg",
-    selenium: "0.0007mg",
-    sodium: "9.36mg",
-    zinc: "0.12mg",
-    protein: "0.80g",
-    facts: [""],
+    protein: "0.46g"
   },
   Cantaloupe: {
     calories: 9.6,
@@ -240,7 +202,7 @@ export const listt = {
     vitaminB3: "0.208mg",
     vitaminB5: "0.030mg",
     vitaminB6: "0.020mg",
-    vitaminB6: "0.00397mg",
+    vitaminB9: "0.00397mg",
     vitaminB12: "0.0mg",
     vitaminC: "10.4mg",
     vitaminD: "0.0mg",
@@ -258,8 +220,7 @@ export const listt = {
     selenium: "0.0001mg",
     sodium: "4.54mg",
     zinc: "0.05mg",
-    protein: "0.24g",
-    facts: [""],
+    protein: "0.24g"
   },
   Carrot: {
     calories: 12,
@@ -272,7 +233,7 @@ export const listt = {
     vitaminB3: "0.279mg",
     vitaminB5: "0.077mg",
     vitaminB6: "0.039mg",
-    vitaminB6: "0.00539mg",
+    vitaminB9: "0.00539mg",
     vitaminB12: "0.0mg",
     vitaminC: "1.7mg",
     vitaminD: "0.0mg",
@@ -291,8 +252,7 @@ export const listt = {
     selenium: "0.0mg",
     sodium: "19.56mg",
     zinc: "0.07mg",
-    protein: "0.26g",
-    facts: [""],
+    protein: "0.26g"
   },
   Celery: {
     calories: 4,
@@ -305,7 +265,7 @@ export const listt = {
     vitaminB3: "0.091mg",
     vitaminB5: "0.070mg",
     vitaminB6: "0.021mg",
-    vitaminB6: "0.01021mg",
+    vitaminB9: "0.01021mg",
     vitaminB12: "0.0mg",
     vitaminC: "0.9mg",
     vitaminD: "0.0mg",
@@ -324,8 +284,7 @@ export const listt = {
     selenium: "0.0001mg",
     sodium: "22.68mg",
     zinc: "0.04mg",
-    protein: "0.20g",
-    facts: [""],
+    protein: "0.20g"
   },
   Cucumber: {
     calories: 4.3,
@@ -338,7 +297,7 @@ export const listt = {
     vitaminB3: "0.028mg",
     vitaminB5: "0.0mg",
     vitaminB6: "0.011mg",
-    vitaminB6: "0.00198mg",
+    vitaminB9: "0.00198mg",
     vitaminB12: "0.0mg",
     vitaminC: "0.8mg",
     vitaminD: "0.0mg",
@@ -357,8 +316,7 @@ export const listt = {
     selenium: "0.0001mg",
     sodium: "0.57mg",
     zinc: "0.06mg",
-    protein: "0.18g",
-    facts: [""],
+    protein: "0.18g"
   },
   Ginger: {
     calories: 23,
@@ -371,7 +329,7 @@ export const listt = {
     vitaminB3: "0.213mg",
     vitaminB5: "0.058mg",
     vitaminB6: "0.045mg",
-    vitaminB6: "0.00312mg",
+    vitaminB9: "0.00312mg",
     vitaminB12: "0.0mg",
     vitaminC: "1.4mg",
     vitaminD: "0.0mg",
@@ -390,8 +348,7 @@ export const listt = {
     selenium: "0.0002mg",
     sodium: "3.69mg",
     zinc: "0.10mg",
-    protein: "0.52g",
-    facts: [""],
+    protein: "0.52g"
   },
   "Green Grapes": {
     calories: 20,
@@ -404,7 +361,7 @@ export const listt = {
     vitaminB3: "0.053mg",
     vitaminB5: "0.0mg",
     vitaminB6: "0.024mg",
-    vitaminB6: "0.00057mg",
+    vitaminB9: "0.00057mg",
     vitaminB12: "0.0mg",
     vitaminC: "0.9mg",
     vitaminD: "0.0mg",
@@ -423,8 +380,7 @@ export const listt = {
     selenium: "0.0mg",
     sodium: "0.57mg",
     zinc: "0.02mg",
-    protein: "0.20g",
-    facts: [""],
+    protein: "0.20g"
   },
   "Red Grapes": {
     calories: 20,
@@ -437,7 +393,7 @@ export const listt = {
     vitaminB3: "0.053mg",
     vitaminB5: "0.0mg",
     vitaminB6: "0.024mg",
-    vitaminB6: "0.00057mg",
+    vitaminB9: "0.00057mg",
     vitaminB12: "0.0mg",
     vitaminC: "0.9mg",
     vitaminD: "0.0mg",
@@ -456,8 +412,7 @@ export const listt = {
     selenium: "0.0mg",
     sodium: "0.57mg",
     zinc: "0.02mg",
-    protein: "0.20g",
-    facts: [""],
+    protein: "0.20g"
   },
   Grapefruit: {
     calories: 12,
@@ -470,7 +425,7 @@ export const listt = {
     vitaminB3: "0.058mg",
     vitaminB5: "0.0mg",
     vitaminB6: "0.015mg",
-    vitaminB6: "0.00369mg",
+    vitaminB9: "0.00369mg",
     vitaminB12: "0.0mg",
     vitaminC: "8.8mg",
     vitaminD: "0.0mg",
@@ -489,8 +444,7 @@ export const listt = {
     selenium: "0.0mg",
     sodium: "0.0mg",
     zinc: "0.02mg",
-    protein: "0.22g",
-    facts: [""],
+    protein: "0.22g"
   },
   "Honeydew Melon": {
     calories: 10,
@@ -503,7 +457,7 @@ export const listt = {
     vitaminB3: "0.119mg",
     vitaminB5: "0.0mg",
     vitaminB6: "0.025mg",
-    vitaminB6: "0.00539mg",
+    vitaminB9: "0.00539mg",
     vitaminB12: "0.0mg",
     vitaminC: "5.1mg",
     vitaminD: "0.0mg",
@@ -522,40 +476,7 @@ export const listt = {
     selenium: "0.0002mg",
     sodium: "5.10mg",
     zinc: "0.03mg",
-    protein: "0.15g",
-    facts: [""],
-  },
-  "Iceberg Lettuce": {
-    calories: 4,
-    totalCarbohydrate: "0.84g",
-    sugar: "0.56g",
-    totalFat: "0.04g",
-    vitaminA: "0.00709mg",
-    vitaminB1: "0.012mg",
-    vitaminB2: "0.007mg",
-    vitaminB3: "0.035mg",
-    vitaminB5: "0.026mg",
-    vitaminB6: "0.012mg",
-    floate: "0.00822mg",
-    vitaminB12: "0.0mg",
-    vitaminC: "0.8mg",
-    vitaminD: "0.0mg",
-    vitaminE: "0.05mg",
-    vitaminK: "0.0068mg",
-    betaine: "0.0mg",
-    choline: "1.9mg",
-    calcium: "5.10mg",
-    copper: "0.007mg",
-    fluoride: "0.0mg",
-    iron: "0.12mg",
-    magnesium: "1.98mg",
-    manganese: "0.035mg",
-    phosphorus: "5.67mg",
-    potassium: "39.97mg",
-    selenium: "0.0mg",
-    sodium: "2.83mg",
-    zinc: "0.04mg",
-    protein: "0.26g",
+    protein: "0.15g"
   },
   Kale: {
     calories: 9.9,
@@ -568,7 +489,7 @@ export const listt = {
     vitaminB3: "0.335mg",
     vitaminB5: "0.105mg",
     vitaminB6: "0.042mg",
-    vitaminB6: "0.01758mg",
+    vitaminB9: "0.01758mg",
     vitaminB12: "0.0mg",
     vitaminC: "26.5mg",
     vitaminD: "0.0mg",
@@ -588,7 +509,6 @@ export const listt = {
     sodium: "15.03mg",
     zinc: "0.11mg",
     protein: "0.83g",
-    facts: [""],
   },
   Kiwi: {
     calories: 16,
@@ -601,7 +521,7 @@ export const listt = {
     vitaminB3: "0.105mg",
     vitaminB5: "0.0mg",
     vitaminB6: "0.017mg",
-    vitaminB6: "0.00737mg",
+    vitaminB9: "0.00737mg",
     vitaminB12: "0.0mg",
     vitaminC: "21.2mg",
     vitaminD: "0.0mg",
@@ -620,8 +540,7 @@ export const listt = {
     selenium: "0.0001mg",
     sodium: "1.42mg",
     zinc: "0.04mg",
-    protein: "0.30g",
-    facts: [""],
+    protein: "0.30g"
   },
   Lemons: {
     calories: 8.2,
@@ -634,7 +553,7 @@ export const listt = {
     vitaminB3: "0.028mg",
     vitaminB5: "0.0mg",
     vitaminB6: "0.023mg",
-    vitaminB6: "0.00312mg",
+    vitaminB9: "0.00312mg",
     vitaminB12: "0.0mg",
     vitaminC: "15..0mg",
     vitaminD: "0.0mg",
@@ -654,73 +573,6 @@ export const listt = {
     sodium: "0.57mg",
     zinc: "0.02mg",
     protein: "0.31g",
-    facts: [""],
-  },
-  "Iceberg Lettuce": {
-    calories: 4,
-    totalCarbohydrate: "0.84g",
-    sugar: "0.56g",
-    totalFat: "0.04g",
-    vitaminA: "0.00709mg",
-    vitaminB1: "0.012mg",
-    vitaminB2: "0.007mg",
-    vitaminB3: "0.035mg",
-    vitaminB5: "0.026mg",
-    vitaminB6: "0.012mg",
-    floate: "0.00822mg",
-    vitaminB12: "0.0mg",
-    vitaminC: "0.8mg",
-    vitaminD: "0.0mg",
-    vitaminE: "0.05mg",
-    vitaminK: "0.0068mg",
-    betaine: "0.0mg",
-    choline: "1.9mg",
-    calcium: "5.10mg",
-    copper: "0.007mg",
-    fluoride: "0.0mg",
-    iron: "0.12mg",
-    magnesium: "1.98mg",
-    manganese: "0.035mg",
-    phosphorus: "5.67mg",
-    potassium: "39.97mg",
-    selenium: "0.0mg",
-    sodium: "2.83mg",
-    zinc: "0.04mg",
-    protein: "0.26g",
-    facts: [""],
-  },
-  "Romaine Lettuce": {
-    calories: 4.3,
-    totalCarbohydrate: "0.81g",
-    sugar: "0.22g",
-    totalFat: "0.04g",
-    vitaminA: "0.10489mg",
-    vitaminB1: "0.020mg",
-    vitaminB2: "0.023mg",
-    vitaminB3: "0.106mg",
-    vitaminB5: "0.0mg",
-    vitaminB6: "0.026mg",
-    vitaminB6: "0.01077mg",
-    vitaminB12: "0.0mg",
-    vitaminC: "2.6mg",
-    vitaminD: "0.0mg",
-    vitaminE: "0.06mg",
-    vitaminK: "0.0358mg",
-    betaine: "0.0mg",
-    choline: "3.9mg",
-    calcium: "10.21mg",
-    copper: "0.008mg",
-    fluoride: "0.0mg",
-    iron: "0.24mg",
-    magnesium: "3.69mg",
-    manganese: "0.0mg",
-    phosphorus: "8.22mg",
-    potassium: "55.0mg",
-    selenium: "0.0002mg",
-    sodium: "7.94mg",
-    zinc: "0.05mg",
-    protein: "0.39g",
-    facts: [""],
   },
   Lime: {
     calories: 8.5,
@@ -733,7 +585,7 @@ export const listt = {
     vitaminB3: "0.057mg",
     vitaminB5: "0.0mg",
     vitaminB6: "0.012mg",
-    vitaminB6: "0.00227mg",
+    vitaminB9: "0.00227mg",
     vitaminB12: "0.0mg",
     vitaminC: "8.2mg",
     vitaminD: "0.0mg",
@@ -752,8 +604,39 @@ export const listt = {
     selenium: "0.00011mg",
     sodium: "0.57mg",
     zinc: "0.03mg",
-    protein: "0.2g",
-    facts: [""],
+    protein: "0.2g"
+  },
+  Mango: {
+    calories: 17,
+    totalCarbohydrate: "4.3g",
+    sugar: "3.9g",
+    totalFat: "0.1g",
+    vitaminA: "0.01531mg",
+    vitaminB1: "0.008mg",
+    vitaminB2: "0.011mg",
+    vitaminB3: "0.190mg",
+    vitaminB5: "0.056mg",
+    vitaminB6: "0.034mg",
+    vitaminB9: "0.01219mg",
+    vitaminB12: "0mg",
+    vitaminC: "10.3mg",
+    vitaminD: "0mg",
+    vitaminE: "0.26mg",
+    vitaminK: "0.0012mg",
+    betaine: "0mg",
+    choline: "2.2mg",
+    calcium: "3.12mg",
+    copper: "0.03mg",
+    fluoride: "0mg",
+    iron: "0.05mg",
+    magnesium: "2.83mg",
+    manganese: "0.018mg",
+    phosphorus: "3.97mg",
+    potassium: "47.63mg",
+    selenium: "0.00017mg",
+    sodium: "028mg",
+    zinc: "0.03mg",
+    protein: "0.23g"
   },
   Oranges: {
     calories: 13,
@@ -766,7 +649,7 @@ export const listt = {
     vitaminB3: "0.08mg",
     vitaminB5: "0mg",
     vitaminB6: "0.017mg",
-    vitaminB6: "0.0085mg",
+    vitaminB9: "0.0085mg",
     vitaminB12: "0mg",
     vitaminC: "15.1mg",
     vitaminD: "0mg",
@@ -785,41 +668,7 @@ export const listt = {
     selenium: "0.00014mg",
     sodium: "0mg",
     zinc: "0.02mg",
-    protein: "0.27g",
-    facts: [""],
-  },
-  Parsley: {
-    calories: 10,
-    totalCarbohydrate: "1.8g",
-    sugar: "0.2g",
-    totalFat: "0.2g",
-    vitaminA: "0.11935mg",
-    vitaminB1: "0.024mg",
-    vitaminB2: "0.028mg",
-    vitaminB3: "0.372mg",
-    vitaminB5: "0mg",
-    vitaminB6: "0.026mg",
-    vitaminB6: "0.04309mg",
-    vitaminB12: "0mg",
-    vitaminC: "37.7mg",
-    vitaminD: "0mg",
-    vitaminE: "0.21mg",
-    vitaminK: "0.4649mg",
-    betaine: "0mg",
-    choline: "3.6mg",
-    calcium: "39.12mg",
-    copper: "0.04mg",
-    fluoride: "0mg",
-    iron: "1.76mg",
-    magnesium: "14.17mg",
-    manganese: "0mg",
-    phosphorus: "16.44mg",
-    potassium: "157.06mg",
-    selenium: "0.00003mg",
-    sodium: "15.88mg",
-    zinc: "0.3mg",
-    protein: "0.84g",
-    facts: [""],
+    protein: "0.27g"
   },
   Pineapple: {
     calories: 14,
@@ -832,7 +681,7 @@ export const listt = {
     vitaminB3: "0.142mg",
     vitaminB5: "0mg",
     vitaminB6: "0.032mg",
-    vitaminB6: "0.0051mg",
+    vitaminB9: "0.0051mg",
     vitaminB12: "0mg",
     vitaminC: "13.6mg",
     vitaminD: "0mg",
@@ -851,8 +700,7 @@ export const listt = {
     selenium: "0.00003mg",
     sodium: "0.28mg",
     zinc: "0.03mg",
-    protein: "0.15g",
-    facts: [""],
+    protein: "0.15g"
   },
   Peaches: {
     calories: 12,
@@ -865,7 +713,7 @@ export const listt = {
     vitaminB3: "0.228mg",
     vitaminB5: "0mg",
     vitaminB6: "0.007mg",
-    vitaminB6: "0.0017mg",
+    vitaminB9: "0.0017mg",
     vitaminB12: "0mg",
     vitaminC: "1.2mg",
     vitaminD: "0mg",
@@ -884,8 +732,7 @@ export const listt = {
     selenium: "0.0006mg",
     sodium: "3.69mg",
     zinc: "0.07mg",
-    protein: "0.26g",
-    facts: [""],
+    protein: "0.26g"
   },
   Pears: {
     calories: 16,
@@ -898,7 +745,7 @@ export const listt = {
     vitaminB3: "0.046mg",
     vitaminB5: "0mg",
     vitaminB6: "0.008mg",
-    vitaminB6: "0.00198mg",
+    vitaminB9: "0.00198mg",
     vitaminB12: "0mg",
     vitaminC: "1.2mg",
     vitaminD: "0mg",
@@ -917,8 +764,7 @@ export const listt = {
     selenium: "0.00003mg",
     sodium: "0.28mg",
     zinc: "0.03mg",
-    protein: "0.1g",
-    facts: [""],
+    protein: "0.1g"
   },
   Strawberries: {
     calories: 9.1,
@@ -931,7 +777,7 @@ export const listt = {
     vitaminB3: "0.109mg",
     vitaminB5: "0.035mg",
     vitaminB6: "0.013mg",
-    vitaminB6: "0.0068mg",
+    vitaminB9: "0.0068mg",
     vitaminB12: "0mg",
     vitaminC: "16.7mg",
     vitaminD: "0mg",
@@ -950,41 +796,7 @@ export const listt = {
     selenium: "0.00011mg",
     sodium: "0.28mg",
     zinc: "0.04mg",
-    protein: "0.19g",
-    facts: [""],
-  },
-  Tomatoes: {
-    calories: 5.1,
-    totalCarbohydrate: "1.1g",
-    sugar: "0.8g",
-    totalFat: "0.1g",
-    vitaminA: "0.01191mg",
-    vitaminB1: "0.01mg",
-    vitaminB2: "0.005mg",
-    vitaminB3: "0.168mg",
-    vitaminB5: "0mg",
-    vitaminB6: "0.023mg",
-    vitaminB6: "0.00425mg",
-    vitaminB12: "0mg",
-    vitaminC: "3.9mg",
-    vitaminD: "0mg",
-    vitaminE: "0.15mg",
-    vitaminK: "0.0022mg",
-    betaine: "0mg",
-    choline: "1.9mg",
-    calcium: "2.83mg",
-    copper: "0.02mg",
-    fluoride: "0mg",
-    iron: "0.08mg",
-    magnesium: "3.12mg",
-    manganese: "0mg",
-    phosphorus: "6.8mg",
-    potassium: "67.19mg",
-    selenium: "0mg",
-    sodium: "1.42mg",
-    zinc: "0.05mg",
-    protein: "0.25g",
-    facts: [""],
+    protein: "0.19g"
   },
   Watermelon: {
     calories: 8.5,
@@ -997,7 +809,7 @@ export const listt = {
     vitaminB3: "0.050mg",
     vitaminB5: "0.063mg",
     vitaminB6: "0.013mg",
-    vitaminB6: "0.00085mg",
+    vitaminB9: "0.00085mg",
     vitaminB12: "0mg",
     vitaminC: "2.3mg",
     vitaminD: "0mg",
@@ -1016,8 +828,7 @@ export const listt = {
     selenium: "0.00011mg",
     sodium: "0.28mg",
     zinc: "0.03mg",
-    protein: "0.17g",
-    facts: [""],
+    protein: "0.17g"
   },
 };
 
@@ -1086,29 +897,6 @@ export const list = {
     color: "#360302",//"#cc253d",
     costPerOunce: 0.35,
     taste: "earthy"
-  },
-  Broccoli: {
-    img: broccoli,
-    calories: 9.6,
-    totalCarbohydrate: "1.88g",
-    sugar: "0.48g",
-    totalFat: "0.10g",
-    protein: "0.80g",
-    facts: [
-      "Broccoli is high in many nutrients,\
-     including fiber, vitamin C, vitamin K, iron, and\
-      potassium. It also boasts more protein than most other vegetables.",
-      "Broccoli is rich in various antioxidants and plant compounds, which \
-    contribute to its health benefits. One of the most abundant \
-    and extensively studied plant compounds in broccoli, sulforaphane \
-    may protect against various types of cancer.",
-      "Two of the main carotenoids in broccoli, lutein and\
-   zeaxanthin, are associated with a decreased risk of age-related eye disorders.",
-    ],
-    
-    color: "#2c5000",//"#6e9e33",
-    costPerOunce: 0.33,
-    taste: "fucking gross"
   },
   Cantaloupe: {
     img: cantaloupe,
@@ -1289,8 +1077,8 @@ preventing weight gain. However, research in humans is lacking.",
       such as potassium, magnesium, sodium and calcium.",
     ],
     
-    color: "#b6c854",
-    costPerOunce: 0.43,
+    color: "#676f1a",
+    costPerOunce: 0.34,
   },
   Kale: {
     img: kale,
@@ -1309,15 +1097,15 @@ preventing weight gain. However, research in humans is lacking.",
       "Kale contains substances that bind bile acids and lower \
     cholesterol levels in the body.",
       "Kale contains sulforaphane, a substance that has been shown \
-  to help fight the formation of cancer at the molecular level",
+  to help fight the formation of cancer at the molecular level.",
       "Kale is high in minerals, some of which many people are deficient in.\
 Calcium, potassium and magnesium.",
       "Kale is high in lutein and zeaxanthin, nutrients that have been linked \
 to a drastically reduced risk of macular degeneration and cataracts.",
     ],
     
-    color: "#8f9731",
-    costPerOunce: 0.38,
+    color: "#181e00",
+    costPerOunce: 0.75,
   },
   Kiwi: {
     img: kiwi,
@@ -1337,8 +1125,8 @@ to a drastically reduced risk of macular degeneration and cataracts.",
       "Kiwi contains vitamin K and traces of calcium and phosphorus, all of which contribute to bone health.",
     ],
     
-    color: "#99b802",
-    costPerOunce: 0.43,
+    color: "#8d9735",
+    costPerOunce: 0.60,
   },
   Lemons: {
     img: lemons,
@@ -1355,42 +1143,8 @@ to a drastically reduced risk of macular degeneration and cataracts.",
   stones, but the results have been mixed.",
     ],
     
-    color: "#e2e2b8",
-    costPerOunce: 0.57,
-  },
-  "Iceberg Lettuce": {
-    img: icebergLettuce,
-    calories: 4,
-    totalCarbohydrate: "0.84g",
-    sugar: "0.56g",
-    totalFat: "0.04g",
-    protein: "0.26g",
-    facts: [
-      "Research has associated a diet that emphasizes vegetables with better bone health.",
-    ],
-    
-    color: "#cce364",
-    costPerOunce: 0.47,
-  },
-  "Romaine Lettuce": {
-    img: romaineLettuce,
-    calories: 4.3,
-    totalCarbohydrate: "0.81g",
-    sugar: "0.22g",
-    totalFat: "0.04g",
-    protein: "0.39g",
-    facts: [
-      "An excellent source of vitamin B9 and \
-    vitamin K and A. This nutrient acts as a potent\
-     antioxidant and is vital for skin, eye, and immune health.",
-      "Romaine is a good source of phenolic compounds, particularly \
-    caffeic acid and chlorogenic acid. These antioxidants are \
-    associated with a lower risk of heart disease, inflammation, \
-    and certain cancers.",
-    ],
-    
-    color: "#b7c808",
-    costPerOunce: 0.37,
+    color: "#c0c5b6",
+    costPerOunce: 0.76,
   },
   Lime: {
     img: lime,
@@ -1409,8 +1163,27 @@ to a drastically reduced risk of macular degeneration and cataracts.",
     and lower overall weight.",
     ],
     
-    color: "#ccbb53",
-    costPerOunce: 0.27,
+    color: "#afab82",
+    costPerOunce: 0.42,
+  },
+  Mango: {
+    img: mango,
+    calories: 14,
+    totalCarbohydrate: "3.7g",
+    sugar: "2.8g",
+    totalFat: "g",
+    protein: "g",
+    facts: ["High in vitamin C, \
+     which aids immunity, iron absorption, and cell growth and repair.",
+     "Mangoes are packed with polyphenols, which are plant compounds that \
+     act as antioxidants to protect your body.",
+     "Among the polyphenols, mangiferin has gained the most \
+     interest and is sometimes called a “super antioxidant” since it’s especially powerful.",
+     "Contains magnesium and potassium, which help maintain a healthy blood flow."
+    ],
+    
+    color: "#e5aa28",
+    costPerOunce: 0.61,
   },
   Oranges: {
     img: oranges,
@@ -1429,26 +1202,8 @@ to a drastically reduced risk of macular degeneration and cataracts.",
       enhances your body’s ability to absorb iron.",
     ],
     
-    color: "#eba328",
-    costPerOunce: 0.67,
-  },
-  Parsley: {
-    img: parsley,
-    calories: 12,
-    totalCarbohydrate: "g",
-    sugar: "g",
-    totalFat: "g",
-    protein: "g",
-    facts: [
-      "Parsley is packed with vitamin K, an essential \
-    nutrient for bone health.",
-      "Lutein, beta carotene, and zeaxanthin are three carotenoids\
-   in parsley that help protect your eyes and promote healthy vision.",
-      "Parsley is a nutrient-dense herb that may improve heart health.",
-    ],
-    
-    color: "#77b70d",
-    costPerOunce: 0.35,
+    color: "#dba81f",
+    costPerOunce: 0.60,
   },
   Pineapple: {
     img: pineapple,
@@ -1461,7 +1216,7 @@ to a drastically reduced risk of macular degeneration and cataracts.",
       "Many studies have suggested that increasing \
     consumption of plant foods like pineapples decreases \
     the risk of obesity, overall mortality, diabetes, and heart disease.",
-      "Also may promote a healthy complexion and hair, increased energy, and \
+      "May promote a healthy complexion and hair, increased energy, and \
   an overall lower weight.",
       "Pineapples contain bromelain, a group of digestive enzymes that may \
  help break down protein and aid digestion. Bromelain’s anti-inflammatory\
@@ -1469,7 +1224,7 @@ to a drastically reduced risk of macular degeneration and cataracts.",
 relief for those with inflammatory arthritis.",
     ],
     
-    color: "#e4ca00",
+    color: "#aca266",
     costPerOunce: 0.41,
   },
   Peaches: {
@@ -1497,6 +1252,7 @@ relief for those with inflammatory arthritis.",
   },
   Pears: {
     img: pears,
+    taste: "Best tasting",
     calories: 12,
     totalCarbohydrate: "g",
     sugar: "g",
@@ -1515,7 +1271,7 @@ relief for those with inflammatory arthritis.",
     ],
     
     color: "#dcb049",
-    costPerOunce: 0.32,
+    costPerOunce: 0.40,
   },
   Strawberries: {
     img: strawberries,
@@ -1535,29 +1291,7 @@ relief for those with inflammatory arthritis.",
     ],
     
     color: "#f17263",
-    costPerOunce: 0.54,
-  },
-  Tomatoes: {
-    img: tomatoes,
-    calories: 12,
-    totalCarbohydrate: "g",
-    sugar: "g",
-    totalFat: "g",
-    protein: "g",
-    facts: [
-      "Tomatoes are rich in lycopene and other\
-     plant compounds that may be beneficial to skin health.",
-      " Tomatoes may help protect against cancer,\
-       maintain healthy blood pressure, and reduce blood glucose \
-       in people with diabetes.",
-      "Tomatoes contain vitamin B9. This helps to balance homocysteine levels.\
-   The homocysteine is an amino acid that results from protein breakdown.\
-    The management of homocysteine levels by vitamin B9 reduces the \
-    risk factors for heart disease.",
-    ],
-    
-    color: "#ca3323",
-    costPerOunce: 0.4,
+    costPerOunce: 0.51,
   },
   Watermelon: {
     img: watermelon,

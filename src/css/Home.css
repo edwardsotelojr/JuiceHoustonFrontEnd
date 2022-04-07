@@ -1,45 +1,341 @@
-.numberBox{
-	float: left;
-	margin-top: 12px;
-	margin-right: 5px;
-	border-radius: 4px;
+.numberBox {
+  float: left;
+  margin-top: 12px;
+  margin-right: 5px;
+  border-radius: 4px;
 }
 
-  .one {
-	/* background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%); */
-	color: #fff;
-	width: 100vw;
-	height: 95vh;
-	scroll-snap-align: start;
+
+@media only screen and (max-width: 470px) {
+	.juiceHoustonTitle{
+		font-family: 'Helvetica Neue', 'Arial', sans-serif;
+		font-weight: 170;
+		font-variant-ligatures: 'normal';
+		font-size: 3.0rem;
+		letter-spacing: 1px;
+	}
+
+	.subtitle{
+		font-size: 18px;
+	}
+	.thirdCol{
+		margin-left: 50px;
+	}
+  .juicerCol {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 5px;
+    text-align: center;
   }
-  
-  .three {
-	/* background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%); */
-	color: #fff;
-	width: 100vw;
-	height:95vh;
-	scroll-snap-align: start;
+  .juicerImg {
+    height: 150px;
+    width: 120px;
+  }
+  .juicerText {
+    font-size: 26px;
+    color: white;
+    display: inline-block;
+    text-align: left;
+    align-self: center;
+    font-weight: bold;
+	font-weight: 850;
+	padding-left: 5px;
+    margin-bottom: 0px;
   }
 
-.milk-bottle {
-	width: 40%;
-	height: 16%;
+  .juiceCol {
+    margin-top: -18px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: 5px;
+    text-align: center;
+  }
+  .juiceImg {
+    height: 180px;
+    width: 120px;	
+	margin-left: -5px;
+
+  }
+  .juiceText {
+    text-align: right;
+    font-weight: bold;
+	margin-right: -5px;
+    font-size: 22px;
+	font-weight: 880;
+    align-self: center;
+    color: white;
+    margin-bottom: 0;
+    display: inline-block;
+  }
+  .smileyCol {
+    margin-top: -2px;
+    text-align: center;
+  }
+  .smileyImg {
+    height: 90px;
+    width: 96px;
+	margin-top: -72px;
+  }
+  .smileyText {
+	text-align: left;
+    font-weight: 880;
+    font-size: 25px;
+	width: 68%;
+    color: white;
+    margin-bottom: 0;
+    display: inline-block;
+    padding-left: 9px;
+    max-lines: 2;
+  }
 }
 
-.mask-rect {
-	animation: fill 1s ease-in-out infinite;
+@media screen and (max-width: 850px) and (min-width: 470px){
+	.juiceHoustonTitle{
+		font-family: 'Helvetica Neue', 'Arial', sans-serif;
+		font-weight: 170;
+		font-variant-ligatures: 'normal';
+		font-size: 3.2rem;
+		letter-spacing: 1px;
+	}
+
+	.subtitle{
+		font-size: 18px;
+	}
+	.step1{
+		font-size: 25px;
+	}
+	.step2{
+		font-size: 24px;
+	}
+	.numberBox{
+		margin-top: 12px;
+	}
+	.juicerCol {
+		padding-left: 5px;
+		padding-right: 5px;
+		margin-left: 30px;
+		text-align: center;
+	  }
+	  .juicerImg {
+		height: 180px;
+		width: 130px;
+	  }
+	  .juicerText {
+		font-size: 25px;
+		color: white;
+		display: inline-block;
+		text-align: left;
+		align-self: center;
+		font-weight: bold;
+		margin-bottom: 0px;
+		font-weight: 850;
+	  }
+	  .juiceCol {
+		margin-top: -25px;
+		padding-left: 5px;
+		padding-right: 5px;
+		margin-right: 30px;
+		text-align: center;
+	  }
+	  .juiceImg {
+		height: 180px;
+		width: 110px;
+	  }
+	  .juiceText {
+		text-align: right;
+		font-weight: bold;
+		font-size: 24px;
+		font-weight: 880;
+		align-self: center;
+		color: white;
+		margin-bottom: 0;
+		display: inline-block;
+	  }
+	  .smileyCol {
+		margin-top: -7px;
+		padding-left: 5px;
+		padding-right: 5px;
+		margin-right: 35px;
+		text-align: center;
+	  }
+	  .smileyImg {
+		height: 100px;
+		width: 70px;
+		margin-top: -45px;
+	  }
+	  .smileyText {
+		  width: 65%;
+		text-align: left;
+		font-weight: bold;
+		font-size: 25px;
+		font-weight: 850;
+		align-self: center;
+		color: white;
+		margin-bottom: 0;
+		display: inline-block;
+		padding-left: 13px;
+	  }
+
 }
 
-/* Smartphones (portrait) ---------- */
-@media screen and (min-width: 320px) and (max-width: 480px){
-    .phone{
-       margin-top: 0 !important;
-    }
-   
-    }
 
-@keyframes fill {
-	0% { height: 0; }
-	50% { height: 100%; }
-	100% { height: 0; }
+@media screen and (max-width: 1200px) and (min-width: 850px){
+	.juiceHoustonTitle{
+		font-family: 'Helvetica Neue', 'Arial', sans-serif;
+		font-weight: 170;
+		font-variant-ligatures: 'normal';
+		font-size: 3.4rem;
+		letter-spacing: 1px;
+	}
+	.juicerCol {
+		padding-left: 5px;
+		padding-right: 5px;
+		margin-left: 30px;
+		text-align: center;
+	  }
+	  .juicerImg {
+		height: 200px;
+		width: 150px;
+	  }
+	  .juicerText {
+		font-size: 40px;
+		color: white;
+		display: inline-block;
+		text-align: left;
+		align-self: center;
+		font-weight: bold;
+		margin-bottom: 0px;
+		font-weight: 850;
+	  }
+	  .juiceCol {
+		margin-top: -40px;
+		padding-left: 5px;
+		padding-right: 5px;
+		margin-right: 30px;
+		text-align: center;
+	  }
+	  .juiceImg {
+		height: 200px;
+		width: 120px;
+	  }
+	  .juiceText {
+		text-align: right;
+		font-weight: bold;
+		font-size: 34px;
+		font-weight: 850;
+		align-self: center;
+		color: white;
+		margin-bottom: 0;
+		display: inline-block;
+	  }
+	  .smileyCol {
+		margin-top: -30px;
+		padding-left: 5px;
+		padding-right: 5px;
+		margin-right: 35px;
+		text-align: center;
+	  }
+	  .smileyImg {
+		height: 120px;
+		width: 100px;
+		margin-top: -22px;
+
+	  }
+	  .smileyText {
+		text-align: right;
+		font-weight: bold;
+		font-size: 30px;
+		font-weight: 850;
+		align-self: center;
+		color: white;
+		margin-bottom: 0;
+		display: inline-block;
+		padding-left: 13px;
+	  }
+	}
+
+
+@media only screen and (min-width: 1200px) {
+	.juiceHoustonTitle{
+		font-family: 'Helvetica Neue', 'Arial', sans-serif;
+		font-weight: 170;
+		font-variant-ligatures: 'normal';
+		font-size: 3.8rem;
+		letter-spacing: 1px;
+	}
+	.subtitle{
+		font-size: 18px;
+	}
+	.step1{
+		font-size: 31px;
+	}
+	.step2{
+		font-size: 28px;
+	}
+	.numberBox{
+		margin-top: 15px;
+	}
+  .juicerCol {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 30px;
+    text-align: center;
+  }
+  .juicerImg {
+    height: 300px;
+    width: 240px;
+  }
+  .juicerText {
+    font-size: 49px;
+    color: white;
+    display: inline-block;
+    text-align: left;
+    align-self: center;
+    font-weight: bold;
+    margin-bottom: 0px;
+    font-weight: 900;
+  }
+  .juiceCol {
+    margin-top: -40px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: 30px;
+    text-align: center;
+  }
+  .juiceImg {
+    height: 250px;
+    width: 150px;
+  }
+  .juiceText {
+    text-align: right;
+    font-weight: bold;
+    font-size: 43px;
+    font-weight: 900;
+    align-self: center;
+    color: white;
+    margin-bottom: 0;
+    display: inline-block;
+  }
+  .smileyCol {
+    margin-top: -40px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: 35px;
+    text-align: center;
+  }
+  .smileyImg {
+    height: 160px;
+    width: 150px;
+  }
+  .smileyText {
+    text-align: right;
+    font-weight: bold;
+    font-size: 38px;
+    font-weight: 900;
+    align-self: center;
+    color: white;
+    margin-bottom: 0;
+    display: inline-block;
+    padding-left: 13px;
+  }
 }
