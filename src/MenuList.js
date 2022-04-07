@@ -854,7 +854,7 @@ export const list = {
  ],
     
     color: "#ac7648",//"#af7605"
-    costPerOunce: 0.25,
+    costPerOunce: 0.27,
   },
   "Granny Smith Apple": {
     img: grannySmithApple,
@@ -869,7 +869,7 @@ export const list = {
   can protect against cancers of the lungs and colon."],
     taste: "sour",
     color: "#e0e7a1",//"#ebb107"
-    costPerOunce: 0.30,
+    costPerOunce: 0.31,
   },
   Beets: {
     img: beets,
@@ -913,7 +913,7 @@ export const list = {
     ],
     
     color: "#d3673d",//"#f88c18",
-    costPerOunce: 0.28,
+    costPerOunce: 0.29,
   },
   Carrot: {
     img: carrots,
@@ -936,7 +936,7 @@ export const list = {
     ],
     
     color: "#ae4800",//"#f3881d",
-    costPerOunce: 0.27,
+    costPerOunce: 0.28,
   },
   Celery: {
     img: celery,
@@ -956,7 +956,7 @@ export const list = {
     ],
     
     color: "#7e8b41",//"#7bb604",
-    costPerOunce: 0.25,
+    costPerOunce: 0.26,
   },
   Cucumber: {
     img: cucumber,
@@ -976,7 +976,7 @@ export const list = {
     ],
     
     color: "#737e1e",//"#b1c91e",
-    costPerOunce: 0.22,
+    costPerOunce: 0.25,
   },
   Ginger: {
     img: ginger,
@@ -1018,7 +1018,7 @@ preventing weight gain. However, research in humans is lacking.",
     ],
     
     color: "#9ab56b",//"#c8cf3e",
-    costPerOunce: 0.38,
+    costPerOunce: 0.40,
   },
   "Red Grapes": {
     img: redGrapes,
@@ -1038,7 +1038,7 @@ preventing weight gain. However, research in humans is lacking.",
     ],
     
     color: "#c9775a",//"#b33133",
-    costPerOunce: 0.30,
+    costPerOunce: 0.35,
   },
   Grapefruit: {
     img: grapefruit,
@@ -1078,7 +1078,7 @@ preventing weight gain. However, research in humans is lacking.",
     ],
     
     color: "#676f1a",
-    costPerOunce: 0.34,
+    costPerOunce: 0.30,
   },
   Kale: {
     img: kale,
@@ -1164,7 +1164,7 @@ to a drastically reduced risk of macular degeneration and cataracts.",
     ],
     
     color: "#afab82",
-    costPerOunce: 0.42,
+    costPerOunce: 0.46,
   },
   Mango: {
     img: mango,
@@ -1183,7 +1183,7 @@ to a drastically reduced risk of macular degeneration and cataracts.",
     ],
     
     color: "#e5aa28",
-    costPerOunce: 0.61,
+    costPerOunce: 0.60,
   },
   Oranges: {
     img: oranges,
@@ -1203,7 +1203,7 @@ to a drastically reduced risk of macular degeneration and cataracts.",
     ],
     
     color: "#dba81f",
-    costPerOunce: 0.60,
+    costPerOunce: 0.58,
   },
   Pineapple: {
     img: pineapple,
@@ -1291,7 +1291,7 @@ relief for those with inflammatory arthritis.",
     ],
     
     color: "#f17263",
-    costPerOunce: 0.51,
+    costPerOunce: 0.49,
   },
   Watermelon: {
     img: watermelon,
@@ -1310,6 +1310,6 @@ relief for those with inflammatory arthritis.",
     ],
     
     color: "#c92a28",
-    costPerOunce: 0.3,
+    costPerOunce: 0.35,
   },
 };

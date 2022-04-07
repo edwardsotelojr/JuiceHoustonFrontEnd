@@ -104,8 +104,7 @@ function Home() {
             </p>
           </div>
         </Col>
-        <Col xs={12} sm={12} md={4} style={{ alignSelf: "end", textAlign: "center", paddingLeft: 0, paddingRight: 0}}
-        className="center-block">
+        <Col xs={12} sm={12} md={4} style={{textAlign: "center"}}>
           <div
             className="item_text"
             data-aos="fade-up"
@@ -122,8 +121,9 @@ function Home() {
             <img src={three} height="18px" width="18px" className="numberBox" />
             <p  className="step1" 
               style={{
+                textAlign: "center",
                 float: "left",
-                width: "69%",
+                width: "76%",
                 marginBottom: "2px",
               }}
             >
@@ -230,7 +230,7 @@ function Home() {
           </div>
         </Col>
         </Row>
-        <Row  style={{paddingBottom: "30px", marginTop: '-15px'}}>
+        <Row  style={{paddingBottom: "80px", marginTop: '-15px'}}>
         <Col xs={12} sm={11} className="smileyCol">
           <div
             data-aos="fade-up"
@@ -245,6 +245,11 @@ function Home() {
             <p></p>
           </div>
         </Col>
+      </Row>
+      <Row>
+        <Col>        
+        <p style={{textAlign: "center", fontSize: "9px"}}>Questions? email me at edwardsotelojr@gmail.com </p>
+</Col>
       </Row>
     </Container>
   );

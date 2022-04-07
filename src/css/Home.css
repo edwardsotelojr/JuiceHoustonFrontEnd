@@ -80,12 +80,11 @@
 	text-align: left;
     font-weight: 880;
     font-size: 25px;
-	width: 68%;
+	width: 78%;
     color: white;
     margin-bottom: 0;
     display: inline-block;
     padding-left: 9px;
-    max-lines: 2;
   }
 }
 
@@ -327,12 +326,11 @@
     height: 160px;
     width: 150px;
   }
+
   .smileyText {
-    text-align: right;
     font-weight: bold;
     font-size: 38px;
     font-weight: 900;
-    align-self: center;
     color: white;
     margin-bottom: 0;
     display: inline-block;
