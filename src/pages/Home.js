@@ -248,7 +248,7 @@ function Home() {
       </Row>
       <Row>
         <Col>        
-        <p style={{textAlign: "center", fontSize: "9px"}}>Questions? email me at edwardsotelojr@gmail.com </p>
+        <p style={{textAlign: "center", fontSize: "9px"}}>Questions? email me at juicedhouston@gmail.com </p>
 </Col>
       </Row>
     </Container>
