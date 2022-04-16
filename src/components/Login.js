@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Alert, Form, Button, InputGroup, FormControl } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Alert, Form, Dropdown } from "react-bootstrap";
 
 class Login extends Component {
   constructor(props) {
@@ -19,7 +18,6 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password,
     };
-    console.log(userData);
     this.props.login(userData);
   };
 
@@ -57,14 +55,13 @@ class Login extends Component {
           />
         </Form.Group>
         <input type="submit" value="login" style={{ borderRadius: "4px", padding: "7px", backgroundColor: "#9bd16e" }} />
-        <Link
-          style={{ paddingLeft: "10px", color: "#9bd16e"}}
-          to="/Signup"
-          onClick={() => {}
-          }
+        <Dropdown.Item
+          style={{ paddingLeft: "10px", color: "#9bd16e", display: "inline"}}
+          href="/Signup"
+    
         >
           signup
-        </Link>
+        </Dropdown.Item>
       </Form>
     );
   }

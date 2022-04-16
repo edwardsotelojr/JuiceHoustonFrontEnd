@@ -12,7 +12,6 @@ import {
   Fade,
 } from "react-bootstrap";
 import zipcodes from "../zipcode";
-import { Radio, RadioGroup, FormControlLabel } from "@material-ui/core";
 import history from "../history";
 import axios from "axios";
 
@@ -23,7 +22,7 @@ class Signup extends Component {
       name: "",
       email: "",
       password: "",
-      passwordMatch: "",
+      repeatPassword: "",
       phone: "",
       address: "",
       homeType: "house",
@@ -79,7 +78,7 @@ class Signup extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     this.validateForm();
-    if (this.state.formValid == false) {
+    if (this.state.formValid === false) {
       return;
     }
     const {
@@ -107,14 +106,14 @@ class Signup extends Component {
       termsOfAgreement: checkBoxValid,
     };
     axios
-      .post(process.env.REACT_APP_BE + "signup", newUser)
+      .post("http://localhost:8080/signup", newUser)
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           history.push({
             pathname: "/verify",
             state: { email: newUser.email },
           });
-        } else if (res.status == 500) {
+        } else if (res.status === 500) {
           this.setState({ error: res.response.data.msg, showAlert: true });
           window.scrollTo({
             top: 0,
@@ -151,13 +150,13 @@ class Signup extends Component {
       case "password":
         valid = value.length >= 6 && value.length <= 20;
         if (valid) border = {};
-        if (Object.entries(this.state.passwordMatchBorder).length == 1) {
+        if (Object.entries(this.state.passwordMatchBorder).length === 1) {
           this.validation({
-            target: { name: "passwordMatch", value: this.state.passwordMatch },
+            target: { name: "repeatPassword", value: this.state.repeatPassword },
           });
         }
         break;
-      case "passwordMatch":
+      case "repeatPassword":
         if (this.state.passwordValid) {
           if (this.state.password === value) {
             valid = true;
@@ -167,7 +166,7 @@ class Signup extends Component {
         }
         break;
       case "phone":
-        if (value.length == 10) {
+        if (value.length === 10) {
           valid = true;
           border = {};
         }
@@ -178,7 +177,7 @@ class Signup extends Component {
         break;
       case "zipcode":
         for (var z in zipcodes) {
-          if (zipcodes[z] == Number(value)) {
+          if (zipcodes[z] === Number(value)) {
             valid = true;
             border = {};
             break;
@@ -201,11 +200,11 @@ class Signup extends Component {
       default:
         break;
     }
-    if (e.target.name == "passwordMatch") {
+    if (e.target.name === "repeatPassword") {
       this.setState(
         {
           [e.target.name + "Valid"]: valid,
-          ["passwordBorder"]: border,
+          "passwordBorder": border,
           [e.target.name + "Border"]: border,
         },
         function () {
@@ -234,7 +233,7 @@ class Signup extends Component {
         this.validateForm();
       }
     );
-    if (e.target.name == "homeType" && e.target.value == "house") {
+    if (e.target.name === "homeType" && e.target.value === "house") {
       this.setState({
         gateCode: "",
         suiteNumber: "",
@@ -242,7 +241,7 @@ class Signup extends Component {
     }
   }
   radioCheck(e) {
-    if (e.target.value == "house") {
+    if (e.target.value === "house") {
       this.setState(
         {
           homeType: "house",
@@ -396,7 +395,7 @@ class Signup extends Component {
                 <Form.Label>Repeat Password</Form.Label>
                 <Form.Control
                   type="password"
-                  name="passwordMatch"
+                  name="repeatPassword"
                   onBlur={this.validation}
                   onChange={this.handleChange}
                   ref={this.passwordMatchTarget}
@@ -495,28 +494,37 @@ class Signup extends Component {
                   </Popover>
                 </Overlay>
               </Form.Group>
-              <Form.Group>
-                <RadioGroup
-                  onBlur={this.validation}
-                  onChange={this.radioCheck}
-                  style={{ flexDirection: "row" }}
+              <Form.Group style={{ display: "inline-flex" }}>
+                <Form.Control
+                  type="radio"
+                  id="house"
+                  defaultChecked
+                  value="house"
+                  name="homeType"
+                  onClick={() => this.setState({homeType: "house"})}
+                />
+                <Form.Label
+                  htmlFor="house"
+                  style={{ marginLeft: "3px", alignSelf: "end" }}
                 >
-                  <FormControlLabel
-                    value="house"
-                    name="homeType"
-                    control={<Radio checked={this.state.homeType == "house"} />}
-                    label="house"
-                  />
-                  <FormControlLabel
-                    value="apartment"
-                    name="homeType"
-                    control={
-                      <Radio checked={this.state.homeType == "apartment"} />
-                    }
-                    label="apartment"
-                  />
-                </RadioGroup>
-                {this.state.homeType === "apartment" ? (
+                  House
+                </Form.Label>
+                <Form.Control
+                style={{marginLeft: "20px"}}
+                  type="radio"
+                  id="apartments"
+                  value="apartments"
+                  name="homeType"
+                  onClick={() => this.setState({homeType: "apartments"})}
+                />
+                <Form.Label
+                  htmlFor="apartments"
+                  style={{ marginLeft: "3px", alignSelf: "end" }}
+                >
+                  Apartments
+                </Form.Label>
+              </Form.Group>
+              {this.state.homeType === "apartments" ? (
                   <Form.Group className="mb-3">
                     <Form.Label>Gate Code</Form.Label>
                     <Form.Text
@@ -561,7 +569,6 @@ class Signup extends Component {
                 ) : (
                   <></>
                 )}
-              </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Instructions for delivery</Form.Label>
                 <Form.Text className="text-muted" style={{ float: "right" }}>

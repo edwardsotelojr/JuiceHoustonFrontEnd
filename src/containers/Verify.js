@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Verify from '../pages/Verify'
-import { setCurrentUser, verify } from '../actions/authActions';
+import { setCurrentUser } from '../actions/authActions';
 
 const mapDispatchToProps = (dispatch) => {
     return{

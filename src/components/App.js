@@ -19,10 +19,9 @@ import { Component } from "react";
 import store from "../redux/store";
 import Header from "../containers/Header";
 import history from "../history";
-require('dotenv').config()
 
 // Check for token to keep user logged in
-if (localStorage.jwtToken != undefined) {
+if (localStorage.jwtToken !== undefined) {
   // Set auth token header auth
   const token = localStorage.jwtToken;
   setAuthToken(token);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Alert, Button, Spinner, Modal } from "react-bootstrap";
 import axios from "axios";
@@ -7,9 +7,7 @@ import "../css/CheckoutForm.css"
 export const CheckoutForm = (props) => {
   const [paymentError, setPaymentError] = useState(false);
   const [paymentErrorMsg, setPaymentErrorMsg] = useState("");
-  const [succeeded, setSucceeded] = useState(false);
-  const [error, setError] = useState(null);
-  const [disabled, setDisabled] = useState(true);
+  const [succeeded] = useState(false);
   const [processing, setProcessing] = useState(false)
   const stripe = useStripe();
   const elements = useElements();
@@ -17,13 +15,11 @@ export const CheckoutForm = (props) => {
   // handle input errors
   const handleChange = async (event) => {
     console.log(event.error)
-    setDisabled(event.empty);
-    setError(event.error ? event.error.message : "");
   };
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    const url = process.env.REACT_APP_BE
+    const url = "http://localhost:8080/"
     console.log("handle submit")
     if(!stripe || !elements) return
     props.validation()
@@ -39,13 +35,14 @@ export const CheckoutForm = (props) => {
         price: props.order.totalCost.toString().replace(".", ""),
       })
       .then((res) => {
-        if (res.data.msg == "error") {
+        if (res.data.msg === "error") {
           console.log("error on payment");
           setPaymentError(true);
           setPaymentErrorMsg("error on payment");
           setProcessing(false)
           return;
         }
+        console.log(res.data)
         stripe
           .confirmCardPayment(res.data.clientSecret, {
             payment_method: {
@@ -59,7 +56,7 @@ export const CheckoutForm = (props) => {
           .then((r) => {
             if (r.hasOwnProperty("error")) {
               // => true){
-              if (r.error.message == "Your card number is invalid.") {
+              if (r.error.message === "Your card number is invalid.") {
                 setProcessing(false)
                 setPaymentError(true);
                 setPaymentErrorMsg("Your card number is invalid.");
@@ -76,7 +73,7 @@ export const CheckoutForm = (props) => {
             axios
               .post(url + "placeOrder", props.order)
               .then((res) => {
-                if (res.data.msg == "success") {
+                if (res.data.msg === "success") {
                   setProcessing(false)
                   history.push({
                     pathname: "/orderConfirmation",

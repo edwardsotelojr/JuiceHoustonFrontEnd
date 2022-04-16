@@ -25,7 +25,6 @@ import watermelon from "./assets/watermelon.jpg";
 
 export const minerals = {
   vitaminA: "Vitamin A",
-  vitaminB6: "Vitamin B6",
   vitaminB12: "Vitamin B12",
   vitaminC: "Vitamin C",
   vitaminD: "Vitamin D",
@@ -77,7 +76,6 @@ export const dailyRecommendation = {
   chromium: "0.035mg",
   cholesterol: "300mg",
   copper: "0.9mg",
-  vitaminB6: "0.400mg",
   iodine: "0.150mg",
   iron: "18mg",
   magnesium: "420mg",

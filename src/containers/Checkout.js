@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Checkout from '../pages/Checkout'
-import { signinAtCheckout, signin } from "../actions/authActions"
+import { signinAtCheckout } from "../actions/authActions"
 
 const mapStateToProps = (state) => ({
     user: state.auth.user

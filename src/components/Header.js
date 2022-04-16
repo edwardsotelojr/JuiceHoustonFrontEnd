@@ -2,9 +2,7 @@ import "../css/Header.css";
 import React, { Component } from "react";
 import Login from "./Login";
 import {
-  Collapse,
   Navbar,
-  NavbarToggler,
   NavbarBrand,
   Nav,
   NavItem,
@@ -15,13 +13,12 @@ import logo from "../assets/logo.png";
 class Header extends Component {
   constructor(props) {
     super(props);
-
-    this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
       navCollapsed: true,
       showNavbar: false,
     };
+    this.toggle = this.toggle.bind(this);
   }
 
   toggle() {
@@ -29,6 +26,7 @@ class Header extends Component {
       isOpen: !this.state.isOpen,
     });
   }
+
   render() {
     let dropdown;
     let title;
@@ -38,11 +36,7 @@ class Header extends Component {
         title = this.props.auth.user.name;
         dropdown = (
           <>
-            <Dropdown.Item
-              href="/user" onClick={() => this.setState({isOpen: false})}
-            >
-              {this.props.user.name}
-            </Dropdown.Item>
+            <Dropdown.Item href="/user">{this.props.user.name}</Dropdown.Item>
             <Dropdown.Item href="/" onClick={this.props.logout}>
               Logout
             </Dropdown.Item>
@@ -66,7 +60,7 @@ class Header extends Component {
           width: "100vw",
         }}
       >
-        <NavbarBrand href="/" style={{ paddingTop: "2px", paddingBottom: 0 }}>
+        <NavbarBrand href="/" style={{ paddingTop: "2px", paddingBottom: 0, marginRight: 0 }}>
           <img
             src={logo}
             height="45"
@@ -74,17 +68,15 @@ class Header extends Component {
             alt="React Bootstrap logo"
           />
         </NavbarBrand>
-        <NavbarToggler onClick={this.toggle} />
-        <Collapse isOpen={this.state.isOpen} navbar>
-          <Nav className="ml-auto" navbar>
-            <NavItem>
-              <NavLink href="/Menu">Menu</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/Order">Order</NavLink>
-            </NavItem>
-            <NavItem style={{ alignSelf: "center" }}>
-              <Dropdown style={{ marginRight: "5px" }}>
+        <Nav className="ml-auto" navbar style={{paddingTop: "6px"}}>
+          <NavItem>
+            <NavLink href="/Menu">Menu</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="/Order">Order</NavLink>
+          </NavItem>
+          <NavItem style={{ alignSelf: "center" }}>
+             <Dropdown style={{ marginRight: "5px" }} >
                 <Dropdown.Toggle
                   className="btn-sm"
                   style={{ backgroundColor: "#9bd16e", borderColor: "#fff" }}
@@ -92,13 +84,12 @@ class Header extends Component {
                 >
                   {title}
                 </Dropdown.Toggle>
-                <Dropdown.Menu style={{ marginTop: "20px" }}>
+                <Dropdown.Menu style={{ marginTop: "20px" }} >
                   {dropdown}
                 </Dropdown.Menu>
               </Dropdown>
-            </NavItem>
-          </Nav>
-        </Collapse>
+          </NavItem>
+        </Nav>
       </Navbar>
     );
   }

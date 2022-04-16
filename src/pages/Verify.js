@@ -52,8 +52,8 @@ class Verify extends Component {
     if (!/[0-9]/.test(e.key)) {
       e.preventDefault();
     }
-    if (e.key == "Enter") {
-      if (this.state.ready == true) {
+    if (e.key === "Enter") {
+      if (this.state.ready === true) {
         this.verifyUser();
       }
     }
@@ -67,7 +67,7 @@ class Verify extends Component {
       },
       () => this.isReady()
     );
-    if (e.target.value == "") {
+    if (e.target.value === "") {
       return;
     }
     if (id < 5) {
@@ -83,12 +83,12 @@ class Verify extends Component {
 
   verifyUser = () => {
     axios
-      .patch(process.env.REACT_APP_BE + "verify", {
+      .patch("http://localhost:8080/verify", {
         pin: this.state.n1 + this.state.n2 + this.state.n3 + this.state.n4,
         userEmail: this.props.location.state.email,
       })
       .then((res) => {
-        if (res.data.msg == "pin matched") {
+        if (res.data.msg === "pin matched") {
           this.setState({ error: false, match: true, msg: res.data.msg });
           localStorage.setItem("jwtToken", res.data.token);
           // Set token to Auth header
@@ -97,22 +97,22 @@ class Verify extends Component {
           const decoded = jwt_decode(res.data.token);
           // Set current user
           this.props.setCurrentUser(decoded.user);
-        } else if (res.data.msg == "incorrect pin") {
+        } else if (res.data.msg === "incorrect pin") {
           this.setState({
             error: true,
             msg: res.data.msg + ". " + res.data.attemptsLeft + " attempt left.",
           });
           console.log("pin is not a match");
-        } else if (res.data.msg == "user not founded.") {
+        } else if (res.data.msg === "user not founded.") {
           this.setState({ error: true, msg: res.data.msg, showSignup: true });
-        } else if (res.data.msg == "user is deleted") {
+        } else if (res.data.msg === "user is deleted") {
           this.setState({
             error: true,
             match: false,
             msg: res.data.msg,
             showSignup: true,
           });
-        } else if (res.data.msg == "error to delete user") {
+        } else if (res.data.msg === "error to delete user") {
         } else {
           this.setState({
             error: true,

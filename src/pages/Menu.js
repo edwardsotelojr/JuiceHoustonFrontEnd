@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { list, listt, dailyRecommendation } from "../MenuList";
 import capitalizeFirstLetter from '../utils/capitalFirstLetter'
-import  { keywords } from "../Facts";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import "../css/Menu.css";
 import ReactCardFlip from "react-card-flip";
@@ -304,7 +303,7 @@ class Menu extends Component {
                     }}
                     onClick={() => this.flipCard(i)}
                   >
-                    <img width="40px" height="40px" src={flip}></img>
+                    <img width="40px" height="40px" src={flip} alt="flip icon"></img>
                   </button>
                   <Row style={{ height: "32px" }}></Row>
                 </Container>

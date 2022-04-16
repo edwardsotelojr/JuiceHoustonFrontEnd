@@ -4,9 +4,6 @@
         width: 180px !important;
         height: 220px !important;
     }
-    .miniScreen{
-        display: block;
-    }
    
     }
 /* Smartphones (portrait) ---------- */
@@ -37,9 +34,6 @@
     .drinkRow{
         overflow: auto;
         white-space: nowrap;
-    }
-    .miniScreen{
-        display: none;
     }
     .miniDrink{
         width: 30px;

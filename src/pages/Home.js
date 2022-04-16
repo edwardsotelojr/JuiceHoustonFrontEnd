@@ -5,7 +5,7 @@ import three from "../assets/three.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "../css/Item.css";
-import { Container, Row, Col, Dropdown, Image } from "react-bootstrap";
+import { Container, Row, Col, Dropdown } from "react-bootstrap";
 import "../css/Home.css";
 import juices from "../assets/Juices.png";
 import masked from "../assets/masked.png";
@@ -30,7 +30,7 @@ function Home() {
     //background: "linear-gradient(180deg, #8ec5fc -10%, #7c73ff 90%)"
     <Container fluid style={{background: "linear-gradient(180deg, #8ec5fc -10%, #7c73ff 90%)",
     overflowX: 'hidden'}}>
-      <div style={{height: "78vh"}}>
+      <div style={{height: "78vh", minHeight: "550px"}}>
       <Row className="justify-content-center">
         <div
           data-aos="fade-up"
@@ -66,14 +66,15 @@ function Home() {
             data-aos-once="true"
             data-aos-mirror="false"
           >
-            <img className="numberBox" src={one} height="18px" width="18px" />
-            <p className="step1" style={{ float: "left", marginBottom: "2px" }}>
+            <img className="numberBox" src={one} height="18px" width="18px" alt="number box" />
+            <p className="step1" style={{ float: "left", marginBottom: "2px" }} alt="step1">
               Create your juices
             </p>
             <img
               height={48}
               width={48}
               src={juices}
+              alt="juices"
               style={{ float: "right", marginTop: "2px" }}
             />
           </div>
@@ -98,13 +99,13 @@ function Home() {
               display: "inline-block",
             }}
           >
-            <img src={two} height="18px" width="18px" className="numberBox" />
+            <img src={two} height="18px" width="18px" className="numberBox"  alt="step2" />
             <p className="step2" style={{ marginBottom: "2px" }}>
-              Select the days you want your juices deliver in the morning
+              Select the days you want your juices delivered in the morning
             </p>
           </div>
         </Col>
-        <Col xs={12} sm={12} md={4} style={{textAlign: "center"}}>
+        <Col xs={10} sm={12} md={4} style={{textAlign: "center"}}>
           <div
             className="item_text"
             data-aos="fade-up"
@@ -118,7 +119,7 @@ function Home() {
               display: "inline-block",
             }}
           >
-            <img src={three} height="18px" width="18px" className="numberBox" />
+            <img src={three} height="18px" width="18px" className="numberBox"  alt="step3"/>
             <p  className="step1" 
               style={{
                 textAlign: "center",
@@ -127,7 +128,8 @@ function Home() {
                 marginBottom: "2px",
               }}
             >
-              Wake up and enjoy your juice! <img
+              Wake up and enjoy your juice! 
+              <img alt="smiley face"
               height={45}
               width={45}
               src={tasty}
@@ -195,7 +197,7 @@ function Home() {
           }}
             data-aos-once="true"
           >
-            <img
+            <img  alt="juicer"
               src={juicer} className="juicerImg"
               style={{ display: "inline-block" }}
             />
@@ -223,7 +225,7 @@ function Home() {
               Made the night before delivery for the
               most freshest juice
             </p>
-            <img
+            <img  alt="juice"
               src={juice}
               className="juiceImg"
             />
@@ -237,7 +239,7 @@ function Home() {
             data-aos-duration="1500"
             data-aos-once="true"
           >
-            <img src={masked} className="smileyImg" />
+            <img src={masked}  alt="masked emoji" className="smileyImg" />
             <p className="smileyText"
             >
               Juices are made in a clean environment

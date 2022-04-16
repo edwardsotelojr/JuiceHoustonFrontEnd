@@ -40,7 +40,7 @@ class Checkout extends React.Component {
     var gateCode = "";
     var suiteNumber = "";
     var instructions = "";
-    if (Object.keys(this.props.user).length != 0) {
+    if (Object.keys(this.props.user).length !== 0) {
       name = this.props.user.name;
       email = this.props.user.email;
       address = this.props.user.address;
@@ -58,7 +58,7 @@ class Checkout extends React.Component {
       prices: props.location.state.cost,
       drinksNutrition: props.location.state.drinksNutrition,
       columns: {
-        ["Dates"]: {
+        Dates: {
           name: "Juices",
           items: drinks,
         },
@@ -158,8 +158,8 @@ class Checkout extends React.Component {
   handleLogin = (e) => {
     e.preventDefault();
     var user = { email: this.state.loginEmail, password: this.state.password };
-    axios.post(process.env.REACT_APP_BE+ "login", user).then((res) => {
-      if (res.status == 200) {
+    axios.post("http://localhost:8080/login", user).then((res) => {
+      if (res.status === 200) {
         console.log(res);
         this.setState({
           name: res.data.user.name,
@@ -183,20 +183,20 @@ class Checkout extends React.Component {
     var arrayOfDays = [];
     const hour = dat.getHours();
     if (hour < 18) {
+      var next;
       //not available next day
       for (var i = 1; i <= 7; i++) {
-        var next = new Date(dat.getTime());
+        next = new Date(dat.getTime());
         next.setDate(first + i);
         arrayOfDays.push(next.toString().slice(0, 15));
       }
     } else {
-      for (var i = 2; i <= 8; i++) {
-        var next = new Date(dat.getTime());
-        next.setDate(first + i);
+      for (var j = 2; j <= 8; j++) {
+        next = new Date(dat.getTime());
+        next.setDate(first + j);
         arrayOfDays.push(next.toString().slice(0, 15));
       }
     }
-    var i = 0;
     this.setState({ arrayOfDays });
     Object.entries(this.state.columns).forEach(([key, value]) => {
       if (key === "Dates") {
@@ -226,6 +226,7 @@ class Checkout extends React.Component {
           </p>
         );
       }
+      return <p style={{margin: 0, padding: 0}}></p>
     });
     return list;
   }
@@ -257,7 +258,7 @@ class Checkout extends React.Component {
     var zipcodeValid = false;
     var border = { borderColor: "red" };
     for (var z in zipcodes) {
-      if (zipcodes[z] == Number(this.state.zipcode)) {
+      if (zipcodes[z] === Number(this.state.zipcode)) {
         zipcodeValid = true;
       }
     }
@@ -277,7 +278,7 @@ class Checkout extends React.Component {
     } else {
       this.setState({ emailValid: false, emailBorder: border });
     }
-    if (String(this.state.phone).length == 10) {
+    if (String(this.state.phone).length === 10) {
       this.setState({ phoneValid: true, phoneBorder: {} });
     } else {
       this.setState({ phoneValid: false, phoneBorder: border });
@@ -292,11 +293,6 @@ class Checkout extends React.Component {
     } else {
       this.setState({ suiteNumberValid: true, suiteNumberBorder: {} });
     }
-    if (this.state.gateCode.length > 20) {
-      this.setState({ gateCodeValid: false, gateCodeBorder: border });
-    } else {
-      this.setState({ gateCodeValid: true, gateCodeBorder: {} });
-    }
     if (this.state.instructions.length > 500) {
       this.setState({ instructionsValid: false, instructionsBorder: border });
     } else {
@@ -305,7 +301,7 @@ class Checkout extends React.Component {
   };
 
   placeOrderReady = () => {
-    if (this.state.columns.Dates.items.length != 0) {
+    if (this.state.columns.Dates.items.length !== 0) {
       return;
     }
     console.log("here in placeorderready");
@@ -331,9 +327,9 @@ class Checkout extends React.Component {
       gateCodeValid &&
       instructionsValid
     ) {
-      if (this.state.orderReady != true) this.setState({ orderReady: true });
+      if (this.state.orderReady !== true) this.setState({ orderReady: true });
     } else {
-      if (this.state.orderReady != false) this.setState({ orderReady: false });
+      if (this.state.orderReady !== false) this.setState({ orderReady: false });
     }
   };
 
@@ -384,8 +380,8 @@ class Checkout extends React.Component {
 
   render() {
     const stripePromise = loadStripe(
-      "pk_test_51JdrbbJhLWcBt73zLaa0UNkmKAAonyh9sRyrmkaMUgufzOeuvL4Vu9cNJcfdGykBSxkQPJOWkICvYoqw3r7q0AzD00Trf0E3aP"
-    )
+      "pk_test_51KlnUvDKMUqfLfDsFZUrlNhytVusq47A7uMggc1c4obJErexiWXhDIyEtxXFySL8KQEm8TXel0zUD1P6YUcjcFUK00Co8Cxx4X"
+      )
     const renderIngredients = (ingredients) => {
       var d = [];
       for (const [key, value] of Object.entries(ingredients)) {
@@ -511,7 +507,7 @@ class Checkout extends React.Component {
           </DragDropContext>
         </Row>
         <Row>
-          {Object.keys(this.props.user).length == 0 ? (
+          {Object.keys(this.props.user).length === 0 ? (
             <Col>
               {this.state.loginButtonPressed ? (
                 <div>

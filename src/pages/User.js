@@ -28,12 +28,12 @@ class User extends React.Component {
         .toString()
         .slice(0, 15);
       axios
-        .patch(process.env.REACT_APP_BE + "updateDrink", {
+        .patch("http://localhost:8080/updateDrink", {
           drinkId: this.state.changableDrinks[i]._id,
           deliveryDate: strDate,
         })
         .then((res) => {
-          if (res.data == "success") {
+          if (res.data === "success") {
             this.setState({ show: false });
           }
         })
@@ -51,7 +51,7 @@ class User extends React.Component {
 
   componentDidMount() {
     axios
-      .get(process.env.REACT_APP_BE + `orders/`, {
+      .get("http://localhost:8080/orders/", {
         params: { email: this.state.user.email },
       })
       .then((res) => {
@@ -74,7 +74,7 @@ class User extends React.Component {
       if (
         new Date(drink.deliveryDate) < new Date(lastDay) &&
         new Date() < new Date(drink.deliveryDate) &&
-        drink.delivered == false
+        drink.delivered === false
       ) {
         //changable
         this.setState((prevState) => ({
@@ -93,7 +93,7 @@ class User extends React.Component {
     }
     var i = 0;
     while (currentDate < lastDate) {
-      if (currentDate.format("MM/DD/YYYY") == dDate.format("MM/DD/YYYY")) {
+      if (currentDate.format("MM/DD/YYYY") === dDate.format("MM/DD/YYYY")) {
         arr.push(
           <option name={i} value={currentDate.format("MM/DD/YYYY")}>
             {currentDate.format("MM/DD/YYYY")}
@@ -115,7 +115,7 @@ class User extends React.Component {
   orderChangable(order) {
     // return true or false
     for (var i = 0; i < order.drinks.length; i++) {
-      if (order.drinks[i].delivered == false) return true;
+      if (order.drinks[i].delivered === false) return true;
     }
     if (new Date() < Date(order.lastDay)) return true;
     return false;
@@ -130,7 +130,7 @@ class User extends React.Component {
         ></div>
       );
     }
-    if (this.state.user.email == undefined) return <p>not logged in</p>;
+    if (this.state.user.email === undefined) return <p>not logged in</p>;
     return (
       <Container
         style={{ marginTop: "10px", backgroundColor: "rgb(255, 255 ,240)" }}
@@ -149,7 +149,7 @@ class User extends React.Component {
                   {this.state.user.phone.toString().substring(3, 6)}-
                   {this.state.user.phone.toString().substring(6, 10)}
                 </h4>
-                {this.state.user.instructions != "" ? (
+                {this.state.user.instructions !== "" ? (
                   <p>Instructions: {this.state.user.instructions}</p>
                 ) : (
                   <></>

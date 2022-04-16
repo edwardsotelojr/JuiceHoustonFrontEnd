@@ -5,7 +5,6 @@ export default function getNutritionalFacts(drink) {
   const nf = {
     calories: 0,
     totalFat: 0,
-    sodium: 0,
     totalCarbohydrate: 0,
     sugar: 0,
     vitaminA: 0,
@@ -36,7 +35,7 @@ export default function getNutritionalFacts(drink) {
   var regex = /[+-]?\d+(\.\d+)?/g;
   for (const [i, amount] of Object.entries(drink)) {
     for (var j = 0; j < amount; j++) {
-      for (const [key, value] of Object.entries(nf)) {
+      for (const [key] of Object.entries(nf)) {
         if(typeof(listt[i][key]) == "number"){
         removeUnits = String(listt[i][key])
           .match(regex)

@@ -19,7 +19,6 @@ class Order extends Component {
     const nf = {
       calories: 0,
       totalFat: 0,
-      sodium: 0,
       totalCarbohydrate: 0,
       sugar: 0,
       vitaminA: 0,
@@ -115,8 +114,8 @@ class Order extends Component {
     var drinks = [...this.state.drinks];
     var drink = { ...drinks[this.state.currentDrink] };
     var contentOunces = 0;
-    for (var p in drink) {
-      drink[p] = 0;
+    for (var d in drink) {
+      drink[d] = 0;
     }
     for (var p in content) {
       contentOunces = this.state.size * (content[p] / 100);
@@ -180,7 +179,7 @@ class Order extends Component {
         // if produce has a value greater than 0
         for (const produce in list) {
           // for each item in menu list
-          if (list[produce].name == p) {
+          if (list[produce].name === p) {
             calories =
               calories +
               list[produce].calories *
@@ -222,7 +221,7 @@ class Order extends Component {
       if (this.state.drinks[this.state.currentDrink][p] > 0) {
         for (const produce in list) {
           // for each item in menu list
-          if (produce == p) {
+          if (produce === p) {
             // if item equal produce name
             for (
               var i = 0;
@@ -235,7 +234,7 @@ class Order extends Component {
         }
       }
     }
-    if (arrayOfColors.length == 0) {
+    if (arrayOfColors.length === 0) {
       newColors[this.state.currentDrink] = "";
     } else {
       newColors[this.state.currentDrink] = mixColors(arrayOfColors);
@@ -259,8 +258,8 @@ class Order extends Component {
     let top6 = [...this.state.top6];
     let drinkNF = [...this.state.drinksNutrition];
     const cDrink = this.state.currentDrink;
-    if (v == undefined || v == "") {
-      if (value.length == 0) {
+    if (v === undefined || v === "") {
+      if (value.length === 0) {
         st[this.state.currentDrink] = {
           ...st[this.state.currentDrink],
           [name]: 0,
@@ -287,13 +286,13 @@ class Order extends Component {
         );
       });
     } else if (
-      this.state.percentages[this.state.currentDrink] == 100 && // if drink is full
+      this.state.percentages[this.state.currentDrink] === 100 && // if drink is full
       value > this.state.drinks[this.state.currentDrink][e.target.name]
     ) {
       // and value is higher than previous value
       return;
     } else if (v >= 0 && v <= this.state.size) {
-      if (value.length == 0) {
+      if (value.length === 0) {
         st[this.state.currentDrink] = {
           ...st[this.state.currentDrink],
           [name]: 0,
@@ -338,7 +337,7 @@ class Order extends Component {
     if (this.state.ounces[this.state.currentDrink] >= 16) {
       return;
     }
-    if (value == undefined || value == "") { // if value is nil
+    if (value === undefined || value === "") { // if value is nil
       st[this.state.currentDrink] = {
         ...st[this.state.currentDrink],
         [itemName]: 1,
@@ -359,7 +358,7 @@ class Order extends Component {
         );
       });
     } else if (
-      this.state.percentages[this.state.currentDrink] == 100 && // drink is full
+      this.state.percentages[this.state.currentDrink] === 100 && // drink is full
       value > this.state.drinks[this.state.currentDrink][itemName]// n value is > than 16
     ) {
       return;
@@ -392,7 +391,7 @@ class Order extends Component {
     let top6 = [...this.state.top6];
     let drinkNF = [...this.state.drinksNutrition];
     const cDrink = this.state.currentDrink;
-    if (value == undefined || value == "" || value == 0) { //produce has no value in state
+    if (value === undefined || value === "" || value === 0) { //produce has no value in state
       return;
     } else { // in range 
       st[this.state.currentDrink] = { 
@@ -432,23 +431,23 @@ class Order extends Component {
     const checkoutButton = document.getElementById("checkoutButton");
     const ounces = this.state.ounces[this.state.currentDrink];
     // Small screen. fixed div
-    if (this.state.ounces[this.state.currentDrink] == 0) {
+    if (this.state.ounces[this.state.currentDrink] === 0) {
       if (window.scrollY > 319 && window.outerWidth < 575) {
         div.style.backgroundColor = "aliceblue";
         div.style.position = "fixed";
-        div.style.top = "54px";
+        div.style.top = "64px";
         div.style.left = "15px";
         div.style.zIndex = 100;
         div.style.width = "max-content";
         scrollToTop.style.display = "block";
         scrollToTop.style.position = "fixed";
-        scrollToTop.style.top = "54px";
+        scrollToTop.style.top = "64px";
         scrollToTop.style.zIndex = 100;
         clearButton.style.position = "fixed";
-        clearButton.style.top = "54px";
+        clearButton.style.top = "64px";
         clearButton.style.zIndex = 100;
         checkoutButton.style.position = "fixed";
-        checkoutButton.style.top = "54px";
+        checkoutButton.style.top = "64px";
         checkoutButton.style.zIndex = 100;
         rightSide.style.display = "none";
         if (ounces > 6) {
@@ -479,20 +478,20 @@ class Order extends Component {
       else if (window.scrollY > 80 && window.outerWidth >= 575) {
         div.style.backgroundColor = "aliceblue";
         div.style.position = "fixed";
-        div.style.top = "54px";
+        div.style.top = "64px";
         div.style.left = "15px";
         div.style.zIndex = 100;
         div.style.width = "max-content";
         scrollToTop.style.display = "block";
         scrollToTop.style.position = "fixed";
-        scrollToTop.style.top = "54px";
+        scrollToTop.style.top = "64px";
         scrollToTop.style.zIndex = 100;
         clearButton.style.position = "fixed";
         clearButton.style.position = "fixed";
-        clearButton.style.top = "54px";
+        clearButton.style.top = "64px";
         rightSide.style.display = "block";
         checkoutButton.style.position = "fixed";
-        checkoutButton.style.top = "54px";
+        checkoutButton.style.top = "64px";
         checkoutButton.style.zIndex = 100;
         if (ounces > 6) {
           checkoutButton.style.left = "269px";
@@ -533,7 +532,7 @@ class Order extends Component {
       }
     } else {
       if (window.scrollY > 379 && window.outerWidth < 575) {
-        if (this.state.colors[this.state.currentDrink] == "") {
+        if (this.state.colors[this.state.currentDrink] === "") {
           div.style.backgroundColor = "aliceblue";
         } else {
           div.style.backgroundColor =
@@ -782,7 +781,7 @@ class Order extends Component {
                   border="0"
                   className="vitamins"
                 >
-                  {this.state.ounces[currentDrink] != 0 ? (
+                  {this.state.ounces[currentDrink] !== 0 ? (
                     <tbody>
                       <tr>
                         <td>
@@ -894,7 +893,7 @@ class Order extends Component {
           <input
             type="radio"
             key={index}
-            checked={this.state.currentDrink == index}
+            checked={this.state.currentDrink === index}
             onChange={this.onCurrentDrink}
             value={index}
             style={{ justifySelf: "center" }}
@@ -957,6 +956,7 @@ class Order extends Component {
                     }}
                   >
                     <img
+                      alt={key}
                       src={item.img}
                       style={{ borderRadius: "10px" }}
                       width="30px"
@@ -1123,7 +1123,7 @@ class Order extends Component {
                 name="3"
                 variant="info"
                 value={3}
-                checked={this.state.sizeOfOrder == 3}
+                checked={this.state.sizeOfOrder === 3}
                 onClick={() =>
                   this.setState({ sizeOfOrder: 3, currentDrink: 0 })
                 }
@@ -1136,7 +1136,7 @@ class Order extends Component {
                 variant="info"
                 type="radio"
                 value={4}
-                checked={this.state.sizeOfOrder == 4}
+                checked={this.state.sizeOfOrder === 4}
                 onClick={() =>
                   this.setState({ sizeOfOrder: 4, currentDrink: 0 })
                 }
@@ -1148,7 +1148,7 @@ class Order extends Component {
                 variant="info"
                 type="radio"
                 value={5}
-                checked={this.state.sizeOfOrder == 5}
+                checked={this.state.sizeOfOrder === 5}
                 onClick={() =>
                   this.setState({ sizeOfOrder: 5, currentDrink: 0 })
                 }
@@ -1188,7 +1188,7 @@ class Order extends Component {
             style={{
               textAlign: "center",
               paddingLeft: "0",
-              paddingRight: "3px",
+              paddingRight: "10px",
             }}
           >
             {this.renderNutritionalFactLabel(this.state.currentDrink)}
@@ -1297,7 +1297,7 @@ class Order extends Component {
                       name="3"
                       variant="info"
                       value={3}
-                      checked={this.state.sizeOfOrder == 3}
+                      checked={this.state.sizeOfOrder === 3}
                       onClick={() =>
                         this.setState({ sizeOfOrder: 3, currentDrink: 0 })
                       }
@@ -1310,7 +1310,7 @@ class Order extends Component {
                       variant="info"
                       type="radio"
                       value={4}
-                      checked={this.state.sizeOfOrder == 4}
+                      checked={this.state.sizeOfOrder === 4}
                       onClick={() =>
                         this.setState({ sizeOfOrder: 4, currentDrink: 0 })
                       }
@@ -1322,7 +1322,7 @@ class Order extends Component {
                       variant="info"
                       type="radio"
                       value={5}
-                      checked={this.state.sizeOfOrder == 5}
+                      checked={this.state.sizeOfOrder === 5}
                       onClick={() =>
                         this.setState({ sizeOfOrder: 5, currentDrink: 0 })
                       }
@@ -1504,7 +1504,7 @@ class Order extends Component {
                               border="0"
                               className="vitamins"
                             >
-                              {this.state.ounces[this.state.currentDrink] !=
+                              {this.state.ounces[this.state.currentDrink] !==
                               0 ? (
                                 <tbody>
                                   <tr>

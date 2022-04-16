@@ -6,14 +6,14 @@ import history from "../history";
 
 // Login - get user token
 export const signin = (userData) => (dispatch) => {
-  console.log(process.env.REACT_APP_BE)
   axios
-    .post(process.env.REACT_APP_BE + "login", userData, {
+    .post("http://localhost:8080/login/", userData, {
       headers: {
         "content-type": "application/json",
       },
     })
     .then((res) => {
+      console.log("res: ", res)
       // Save to localStorage
       // Set token to localStorage
       const { token } = res.data;
@@ -29,15 +29,16 @@ export const signin = (userData) => (dispatch) => {
         payload: null,
       });
       if (
-        window.location.pathname == "/Order" ||
-        window.location.pathname == "/Menu" ||
-        window.location.pathname == "/"
+        window.location.pathname === "/Order" ||
+        window.location.pathname === "/Menu" ||
+        window.location.pathname === "/"
       ) {
         return;
       }
       history.push("/");
     })
     .catch(function (error) {
+      console.log("error: ", error)
       dispatch({
         type: LOGIN_ERROR,
         payload: error.message,
@@ -78,7 +79,7 @@ export const logoutUser = () => (dispatch) => {
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
-  if (window.location.pathname == "/checkout") {
+  if (window.location.pathname === "/checkout") {
     return;
   }
   history.push("/");

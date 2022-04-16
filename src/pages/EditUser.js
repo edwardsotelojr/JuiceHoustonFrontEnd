@@ -3,7 +3,6 @@ import { Alert, Container, Row, Col,
    Overlay, Popover, Fade } from "react-bootstrap";
 import React from "react";
 import zipcodes from "../zipcode";
-import { RadioGroup, Radio, FormControlLabel} from  "@material-ui/core"; 
 import axios from 'axios'
 
 class EditUser extends React.Component {
@@ -55,7 +54,7 @@ class EditUser extends React.Component {
 
   radioCheck(e) {
     console.log("radiocheck");
-    if (e.target.value == "house") {
+    if (e.target.value === "house") {
       this.setState(
         {
           homeType: "house",
@@ -79,13 +78,13 @@ class EditUser extends React.Component {
   }
 
   onChange = (e) => {
-    if(e.target.style.length != 0){
+    if(e.target.style.length !== 0){
       this.validation(e)
     }
     this.setState({
       [e.target.name]: e.target.value,
     });
-    if (e.target.name == "homeType" && e.target.value == "house") {
+    if (e.target.name === "homeType" && e.target.value === "house") {
       this.setState({
         gateCode: "",
         suiteNumber: "",
@@ -97,7 +96,7 @@ class EditUser extends React.Component {
     e.preventDefault();
     console.log("submitted");
     this.validateForm()
-    if(this.state.formValid == false){
+    if(this.state.formValid === false){
       return
     }
     const {
@@ -119,15 +118,15 @@ class EditUser extends React.Component {
       instructions
     };
     axios
-      .patch(process.env.REACT_APP_BE + "edit/" + this.props.user._id, updateUser)
+      .patch("http://localhost:8080/edit/" + this.props.user._id, updateUser)
       .then((res) => {
         console.log(res);
-        if (res.status == 200) {
+        if (res.status === 200) {
          this.setState({success: true})
          console.log(res.data)
          const token = res.data.token;
         this.props.userUpdated(token, res.data.user)
-        } else if (res.status == 500) {
+        } else if (res.status === 500) {
           console.log("500");
           this.setState({ error: res.response.data.msg, showAlert: true });
         }
@@ -164,7 +163,7 @@ class EditUser extends React.Component {
         }
         break;
       case "phone":
-        if (value.length == 10) {
+        if (value.length === 10) {
           valid = true;
           border = {};
         }
@@ -175,7 +174,7 @@ class EditUser extends React.Component {
         break;
       case "zipcode":
         for (var z in zipcodes) {
-          if (zipcodes[z] == Number(value)) {
+          if (zipcodes[z] === Number(value)) {
             valid = true;
             border = {};
             break;
@@ -229,7 +228,6 @@ class EditUser extends React.Component {
   }
 
   render() {
-    const user = this.state.user;
     return (
       <Container style={{paddingTop: "10px"}}>
         <h1 style={{display: "inline-block"}}>Edit </h1>
@@ -363,68 +361,81 @@ class EditUser extends React.Component {
                   </Popover>
                 </Overlay>
           </Form.Group>
-         
-          <Form.Group>
-            <RadioGroup
-              onBlur={this.validation}
-              onChange={this.radioCheck}
-              style={{ flexDirection: "row" }}
-            >
-              <FormControlLabel
-                value="house"
-                name="homeType"
-                control={<Radio checked={this.state.homeType == "house"} />}
-                label="house"
-              />
-              <FormControlLabel
-                value="apartment"
-                name="homeType"
-                control={<Radio checked={this.state.homeType == "apartment"} />}
-                label="apartment"
-              />
-            </RadioGroup>
-            {this.state.homeType === "apartment" ? (
-              <Form.Group className="mb-3">
-                <Form.Label>Gate Code</Form.Label>
-                <Form.Text className="text-muted" style={{ float: "right" }}>
-                  if necessary
-                </Form.Text>
+          <Form.Group style={{ display: "inline-flex" }}>
                 <Form.Control
-                  type="text"
-                  name="gateCode"
-                  onChange={this.onChange}
-                  placeholder="Enter Gate Code"
+                  type="radio"
+                  defaultChecked
+                  id="house"
+                  value="house"
+                  name="homeType"
+                  onClick={() => this.setState({homeType: "house"})}
                 />
-                <Form.Label>Suite Number</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="suiteNumber"
-                  ref={this.suiteNumberTarget}
-                  style={this.state.suiteNumberBorder}
-                  onBlur={this.validation}
-                  onChange={this.handleChange}
-                  placeholder="Enter Suite Number"
-                />
-                <Overlay
-                  transition={Fade}
-                  target={this.suiteNumberTarget.current}
-                  show={
-                    Object.entries(this.state.suiteNumberBorder).length === 1
-                  }
-                  placement="top"
+                <Form.Label
+                  htmlFor="house"
+                  style={{ marginLeft: "3px", alignSelf: "end" }}
                 >
-                  <Popover
-                    id="popover-contained"
-                    style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
-                  >
-                    <p> Suite Number cannot be blank. </p>
-                  </Popover>
-                </Overlay>
+                  House
+                </Form.Label>
+                <Form.Control
+                style={{marginLeft: "20px"}}
+                  type="radio"
+                  id="apartments"
+                  value="apartments"
+                  name="homeType"
+                  onClick={() => this.setState({homeType: "apartments"})}
+                />
+                <Form.Label
+                  htmlFor="apartments"
+                  style={{ marginLeft: "3px", alignSelf: "end" }}
+                >
+                  Apartments
+                </Form.Label>
               </Form.Group>
-            ) : (
-              <></>
-            )}
-          </Form.Group>
+              {this.state.homeType === "apartments" ? (
+                  <Form.Group className="mb-3">
+                    <Form.Label>Gate Code</Form.Label>
+                    <Form.Text
+                      className="text-muted"
+                      style={{ float: "right" }}
+                    >
+                      if necessary
+                    </Form.Text>
+                    <Form.Control
+                      type="text"
+                      name="gateCode"
+                      onChange={this.handleChange}
+                      placeholder="Enter Gate Code"
+                    />
+                    <Form.Label>Suite Number</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="suiteNumber"
+                      ref={this.suiteNumberTarget}
+                      style={this.state.suiteNumberBorder}
+                      //onBlur={this.validation}
+                      onChange={this.handleChange}
+                      placeholder="Enter Suite Number"
+                    />
+                    <Overlay
+                      transition={Fade}
+                      target={this.suiteNumberTarget.current}
+                      show={
+                        Object.entries(this.state.suiteNumberBorder).length ===
+                        1
+                      }
+                      placement="top"
+                    >
+                      <Popover
+                        id="popover-contained"
+                        style={{ padding: "5px 5px 0px 5px", zIndex: "5" }}
+                      >
+                        <p> Suite Number cannot be blank. </p>
+                      </Popover>
+                    </Overlay>
+                  </Form.Group>
+                ) : (
+                  <></>
+                )}
           <Form.Group>
             <Form.Label>Instructions</Form.Label>
             <Form.Control

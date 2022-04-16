@@ -30,7 +30,7 @@ class resetPassword extends Component {
 
   axiosFunc = () => {
     axios
-      .patch(process.env.REACT_APP_BE + "sendTemporaryPassword", {
+      .patch("http://localhost:8080/sendTemporaryPassword", {
         email: this.state.email,
         phone: this.state.phone,
       })
@@ -43,7 +43,7 @@ class resetPassword extends Component {
 
   validation() {
     if (this.state.nPassword.length >= 6 && this.state.nPassword.length <= 20) {
-      if (this.state.cPassword != this.state.nPassword) {
+      if (this.state.cPassword !== this.state.nPassword) {
         return true; // valid form
       }
     }
@@ -58,7 +58,7 @@ class resetPassword extends Component {
     e.preventDefault();
     if (this.validation) {
       axios
-        .patch(process.env.REACT_APP_BE + "resetPassword", {
+        .patch("http://localhost:8080/resetPassword", {
           email: this.state.email,
           password: this.state.cPassword,
           newPassword: this.state.nPassword,
@@ -83,7 +83,7 @@ class resetPassword extends Component {
   };
 
   render() {
-    if (this.state.email == undefined) return <p>not logged in</p>;
+    if (this.state.email === undefined) return <p>not logged in</p>;
     return (
       <Container style={{ paddingTop: "10px" }}>
         <ModalBox
