@@ -28,7 +28,7 @@ class User extends React.Component {
         .toString()
         .slice(0, 15);
       axios
-        .patch("http://34.229.165.152:8080/updateDrink", {
+        .patch("https://34.229.165.152:8080/updateDrink", {
           drinkId: this.state.changableDrinks[i]._id,
           deliveryDate: strDate,
         })
@@ -51,7 +51,7 @@ class User extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://34.229.165.152:8080/orders/", {
+      .get("https://34.229.165.152:8080/orders/", {
         params: { email: this.state.user.email },
       })
       .then((res) => {

@@ -157,7 +157,7 @@ class Checkout extends React.Component {
   handleLogin = (e) => {
     e.preventDefault();
     var user = { email: this.state.loginEmail, password: this.state.password };
-    axios.post("http://34.229.165.152:8080/login", user).then((res) => {
+    axios.post("https://34.229.165.152:8080/login", user).then((res) => {
       if (res.status === 200) {
         this.setState({
           name: res.data.user.name,

@@ -106,7 +106,7 @@ class Signup extends Component {
       termsOfAgreement: checkBoxValid,
     };
     axios
-      .post("http://34.229.165.152:8080/signup", newUser)
+      .post("https://34.229.165.152:8080/signup", newUser)
       .then((res) => {
         if (res.status === 200) {
           history.push({
