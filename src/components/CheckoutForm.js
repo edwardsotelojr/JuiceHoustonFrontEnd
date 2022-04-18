@@ -19,7 +19,7 @@ export const CheckoutForm = (props) => {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    const url = "http://localhost:8080/"
+    const url = "http://34.229.165.152:8080/"
     console.log("handle submit")
     if(!stripe || !elements) return
     props.validation()

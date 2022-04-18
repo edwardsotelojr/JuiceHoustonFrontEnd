@@ -83,7 +83,7 @@ class Verify extends Component {
 
   verifyUser = () => {
     axios
-      .patch("http://localhost:8080/verify", {
+      .patch("http://34.229.165.152:8080/verify", {
         pin: this.state.n1 + this.state.n2 + this.state.n3 + this.state.n4,
         userEmail: this.props.location.state.email,
       })

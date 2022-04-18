@@ -587,20 +587,20 @@ class Order extends Component {
           div.style.backgroundColor = "aliceblue";
         }
         div.style.position = "fixed";
-        div.style.top = "54px";
+        div.style.top = "64px";
         div.style.left = "15px";
         div.style.zIndex = 100;
         div.style.width = "max-content";
         scrollToTop.style.display = "block";
         scrollToTop.style.position = "fixed";
-        scrollToTop.style.top = "54px";
+        scrollToTop.style.top = "64px";
         scrollToTop.style.zIndex = 100;
         clearButton.style.position = "fixed";
         clearButton.style.position = "fixed";
-        clearButton.style.top = "54px";
+        clearButton.style.top = "64px";
         rightSide.style.display = "block";
         checkoutButton.style.position = "fixed";
-        checkoutButton.style.top = "54px";
+        checkoutButton.style.top = "64px";
         checkoutButton.style.zIndex = 100;
         if (ounces > 6) {
           checkoutButton.style.left = "264px";

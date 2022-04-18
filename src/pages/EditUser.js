@@ -118,7 +118,7 @@ class EditUser extends React.Component {
       instructions
     };
     axios
-      .patch("http://localhost:8080/edit/" + this.props.user._id, updateUser)
+      .patch("http://34.229.165.152:8080/edit/" + this.props.user._id, updateUser)
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
