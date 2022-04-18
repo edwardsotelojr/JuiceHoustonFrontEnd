@@ -151,7 +151,6 @@ class Checkout extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log("update");
     this.placeOrderReady();
   }
 
@@ -160,7 +159,6 @@ class Checkout extends React.Component {
     var user = { email: this.state.loginEmail, password: this.state.password };
     axios.post("http://34.229.165.152:8080/login", user).then((res) => {
       if (res.status === 200) {
-        console.log(res);
         this.setState({
           name: res.data.user.name,
           email: res.data.user.email,
@@ -181,11 +179,12 @@ class Checkout extends React.Component {
     var dat = new Date(); // current time
     var first = dat.getDate();
     var arrayOfDays = [];
+    var i;
     const hour = dat.getHours();
     if (hour < 18) {
       var next;
       //not available next day
-      for (var i = 1; i <= 7; i++) {
+      for (i = 1; i <= 7; i++) {
         next = new Date(dat.getTime());
         next.setDate(first + i);
         arrayOfDays.push(next.toString().slice(0, 15));
@@ -197,6 +196,7 @@ class Checkout extends React.Component {
         arrayOfDays.push(next.toString().slice(0, 15));
       }
     }
+    i = 0;
     this.setState({ arrayOfDays });
     Object.entries(this.state.columns).forEach(([key, value]) => {
       if (key === "Dates") {
@@ -304,7 +304,6 @@ class Checkout extends React.Component {
     if (this.state.columns.Dates.items.length !== 0) {
       return;
     }
-    console.log("here in placeorderready");
     const {
       agreement,
       nameValid,
