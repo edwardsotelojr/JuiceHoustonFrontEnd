@@ -28,7 +28,7 @@ class User extends React.Component {
         .toString()
         .slice(0, 15);
       axios
-        .patch("https://juicedhouston.com/updateDrink", {
+        .patch("https://juicedhouston.com/api/updateDrink", {
           drinkId: this.state.changableDrinks[i]._id,
           deliveryDate: strDate,
         })
@@ -51,7 +51,7 @@ class User extends React.Component {
 
   componentDidMount() {
     axios
-      .get("https://juicedhouston.com/orders/", {
+      .get("https://juicedhouston.com/api/orders/", {
         params: { email: this.state.user.email },
       })
       .then((res) => {

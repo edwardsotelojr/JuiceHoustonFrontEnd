@@ -118,7 +118,7 @@ class EditUser extends React.Component {
       instructions
     };
     axios
-      .patch("https://juicedhouston.com/edit/" + this.props.user._id, updateUser)
+      .patch("https://juicedhouston.com/api/edit/" + this.props.user._id, updateUser)
       .then((res) => {
         console.log(res);
         if (res.status === 200) {

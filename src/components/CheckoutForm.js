@@ -19,7 +19,7 @@ export const CheckoutForm = (props) => {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    const url = "https://juicedhouston.com/"
+    const url = "https://juicedhouston.com/api/"
     console.log("handle submit")
     if(!stripe || !elements) return
     props.validation()

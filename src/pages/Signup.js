@@ -106,7 +106,7 @@ class Signup extends Component {
       termsOfAgreement: checkBoxValid,
     };
     axios
-      .post("https://juicedhouston.com/signup", newUser)
+      .post("https://juicedhouston.com/api/signup", newUser)
       .then((res) => {
         if (res.status === 200) {
           history.push({

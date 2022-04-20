@@ -30,7 +30,7 @@ class resetPassword extends Component {
 
   axiosFunc = () => {
     axios
-      .patch("https://juicedhouston.com/sendTemporaryPassword", {
+      .patch("https://juicedhouston.com/api/sendTemporaryPassword", {
         email: this.state.email,
         phone: this.state.phone,
       })
@@ -58,7 +58,7 @@ class resetPassword extends Component {
     e.preventDefault();
     if (this.validation) {
       axios
-        .patch("https://juicedhouston.com/resetPassword", {
+        .patch("https://juicedhouston.com/api/resetPassword", {
           email: this.state.email,
           password: this.state.cPassword,
           newPassword: this.state.nPassword,
