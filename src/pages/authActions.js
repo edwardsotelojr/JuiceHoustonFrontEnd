@@ -7,7 +7,7 @@ import history from "../history";
 // Login - get user token
 export const signin = (userData) => (dispatch) => {
   axios
-    .post("https://34.229.165.152:8080/login/", userData, {
+    .post("https://juicedhouston.com/login/", userData, {
       headers: {
         "content-type": "application/json",
       },
