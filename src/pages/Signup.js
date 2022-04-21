@@ -155,8 +155,18 @@ class Signup extends Component {
             target: { name: "repeatPassword", value: this.state.repeatPassword },
           });
         }
+        if(this.state.password === this.state.repeatPassword){
+          this.setState({passwordMatch: true})
+        } else{
+          this.setState({passwordMatch: false})
+        }
         break;
       case "repeatPassword":
+        if(this.state.password === this.state.repeatPassword){
+          this.setState({passwordMatch: true})
+        } else{
+          this.setState({passwordMatch: false})
+        }
         if (this.state.passwordValid) {
           if (this.state.password === value) {
             valid = true;
@@ -501,25 +511,26 @@ class Signup extends Component {
                   defaultChecked
                   value="house"
                   name="homeType"
+                  style={{width: "min-content"}}
                   onClick={() => this.setState({homeType: "house"})}
                 />
                 <Form.Label
                   htmlFor="house"
-                  style={{ marginLeft: "3px", alignSelf: "end" }}
+                  style={{ marginLeft: "3px", alignSelf: "flex-end" }}
                 >
                   House
                 </Form.Label>
                 <Form.Control
-                style={{marginLeft: "20px"}}
                   type="radio"
                   id="apartments"
                   value="apartments"
                   name="homeType"
+                  style={{marginLeft: "20px", width: "min-content"}}
                   onClick={() => this.setState({homeType: "apartments"})}
                 />
                 <Form.Label
                   htmlFor="apartments"
-                  style={{ marginLeft: "3px", alignSelf: "end" }}
+                  style={{ marginLeft: "3px", alignSelf: "flex-end" }}
                 >
                   Apartments
                 </Form.Label>
