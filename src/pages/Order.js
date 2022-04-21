@@ -475,7 +475,7 @@ class Order extends Component {
         checkoutButton.style.left = "auto";
         rightSide.style.display = "block";
       } // big screen. fixed div
-      else if (window.scrollY > 80 && window.outerWidth >= 575) {
+      else if (window.scrollY > 16 && window.outerWidth >= 581) {
         div.style.backgroundColor = "aliceblue";
         div.style.position = "fixed";
         div.style.top = "64px";
@@ -539,19 +539,19 @@ class Order extends Component {
             this.state.colors[this.state.currentDrink];
         }
         div.style.position = "fixed";
-        div.style.top = "54px";
+        div.style.top = "64px";
         div.style.left = "15px";
         div.style.zIndex = 100;
         div.style.width = "max-content";
         scrollToTop.style.display = "block";
         scrollToTop.style.position = "fixed";
-        scrollToTop.style.top = "54px";
+        scrollToTop.style.top = "64px";
         scrollToTop.style.zIndex = 100;
         clearButton.style.position = "fixed";
-        clearButton.style.top = "54px";
+        clearButton.style.top = "64px";
         clearButton.style.zIndex = 100;
         checkoutButton.style.position = "fixed";
-        checkoutButton.style.top = "54px";
+        checkoutButton.style.top = "64px";
         checkoutButton.style.zIndex = 100;
         rightSide.style.display = "none";
         if (ounces > 6) {
@@ -579,7 +579,7 @@ class Order extends Component {
         checkoutButton.style.left = "auto";
         rightSide.style.display = "block";
       } // big screen. fixed div
-      else if (window.scrollY > 80 && window.outerWidth >= 575) {
+      else if (window.scrollY > 16 && window.outerWidth >= 575) {
         if (this.state.ounces[this.state.currentDrink] > 0) {
           div.style.backgroundColor =
             this.state.colors[this.state.currentDrink];

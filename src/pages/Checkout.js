@@ -379,7 +379,7 @@ class Checkout extends React.Component {
 
   render() {
     const stripePromise = loadStripe(
-      "pk_test_51KlnUvDKMUqfLfDsFZUrlNhytVusq47A7uMggc1c4obJErexiWXhDIyEtxXFySL8KQEm8TXel0zUD1P6YUcjcFUK00Co8Cxx4X"
+      "pk_live_51KlnUvDKMUqfLfDsEIS5BBeMfEaebHyZh5YUIECv6lYI8NGbOsfp1uzh0rNeOCR9uCRMUcQPlsHeUhfAm6OukFFk00VKo3wvlp"
       )
     const renderIngredients = (ingredients) => {
       var d = [];
@@ -755,7 +755,7 @@ class Checkout extends React.Component {
                 </Popover>
               </Overlay>
             </Form.Group>
-            <div style={{ height: "20px" }}></div>
+            <div style={{ height: "10px" }}></div>
           </Col>
           <Col>
             <div style={{ height: "7px" }} />
@@ -785,21 +785,19 @@ class Checkout extends React.Component {
               </Popover>
             </Overlay>
             <Card>
-              <Card.Body style={{ maxHeight: "253px" }}>
+              <Card.Body style={{ maxHeight: "380px" }}>
                 <Card.Title>Order Agreement</Card.Title>
-                <Card.Text style={{ overflowY: "scroll", maxHeight: "168px" }}>
-                  All Sales are final. You are allow to change the delivery date
-                  for a juice before 6pm the day before previously schedule
-                  date. Juices are prepared the night before delivery, with
-                  fresh washed produce. The Juicer is cleaned before every juice
-                  is made. No cross contamination. The person making the juice
-                  is always a mask and gloves on. The juices are refrigerated
-                  upon delivery. Fresh Juices are meant to be consumed the day
-                  of delivery. Juices are placed in an shaded area when
-                  delivered, minding the duration of the shaded area. Please
-                  recycle the bottle with the cap off. If your juice get stolen,
-                  that really sucks for you, because I will do nothing about it.
-                  Thank you.
+                <Card.Text style={{ overflowY: "scroll", maxHeight: "300px" }}>
+                All Sales are final. You are allow to change the delivery date for 
+                a juice before 6pm the day before previously schedule date. Juices 
+                are prepared the night before delivery, with fresh washed produce. 
+                The Juicer is cleaned before every juice is made. No cross contamination. 
+                The person making the juice is always a mask and gloves on. The juices 
+                are refrigerated upon delivery. Fresh Juices are meant to be consumed 
+                the day of delivery. Juices are placed in an shaded area when delivered, 
+                minding the duration of the shaded area. Please recycle the bottle with 
+                the cap off. If your juice get stolen, that really sucks for you, because 
+                I will do nothing about it. Thank you.
                 </Card.Text>
               </Card.Body>
             </Card>

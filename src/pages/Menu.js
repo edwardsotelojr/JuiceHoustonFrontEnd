@@ -249,27 +249,27 @@ class Menu extends Component {
               >
                 <Container
                   style={{
-                    padding: "11px",
+                    padding: "9px",
                     backgroundColor: info.color + "90",
                     border: "solid #eeeeee",
                     borderRadius: "15px",
                   }}
                 >
                   <Row style={{ margin: "0px 0px 10px 0px" }}>
-                    <Col xs={"auto"} >
+                    <Col xs={"auto"} style={{paddingLeft: '0px', paddingRight: "0px"}} >
                       <Card.Img
                         variant="top"
                         src={info.img}
                         alt=""
                         style={{
-                          width: "60px",
-                          height: "60px",
+                          width: "53px",
+                          height: "57px",
                           borderRadius: "18px",
                         }}
                       />
                     </Col>
-                    <Col xs={"auto"} style={{ paddingLeft: "3px", paddingRight: "3px" }}>
-                      <Card.Title style={{ fontSize: "1.1rem", marginBottom: "0.35rem"}}>
+                    <Col xs={"auto"} style={{ paddingLeft: "4px", paddingRight: "0px" }}>
+                      <Card.Title style={{ fontSize: "1.05rem", marginBottom: "0.35rem"}}>
                         {item}
                       </Card.Title>
                       <Card.Subtitle
