@@ -610,13 +610,16 @@ class Signup extends Component {
                   }}
                 >
                   <Card.Text>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content. Some quick example text
-                    to build on the card title and make up the bulk of the
-                    card's content. Some quick example text to build on the card
-                    title and make up the bulk of the card's content. Some quick
-                    example text to build on the card title and make up the bulk
-                    of the card's content.
+                All Sales are final. You are allow to change the delivery date for 
+                a juice before 6pm the day before previously schedule date. Juices 
+                are prepared the night before delivery, with fresh washed produce. 
+                The Juicer is cleaned before every juice is made. No cross contamination. 
+                The person making the juice is always a mask and gloves on. The juices 
+                are refrigerated upon delivery. Fresh Juices are meant to be consumed 
+                the day of delivery. Juices are placed in an shaded area when delivered, 
+                minding the duration of the shaded area. Please recycle the bottle with 
+                the cap off. If your juice get stolen, that really sucks for you, because 
+                I will do nothing about it. Thank you.
                   </Card.Text>
                 </Card.Body>
                 <Form.Check
