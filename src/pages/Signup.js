@@ -595,10 +595,10 @@ class Signup extends Component {
                   placeholder="optional"
                 />
               </Form.Group>
-              <Card style={{ border: "none" }}>
-                <Card.Subtitle className="mb-2 text-muted">
+              <Card style={{ border: "none", marginBottom: "10px", backgroundColor: "none" }}>
+                <h6>
                   Terms of Agreements
-                </Card.Subtitle>
+                </h6>
 
                 <Card.Body
                   style={{
@@ -607,6 +607,8 @@ class Signup extends Component {
                     borderColor: "black",
                     borderStyle: "solid",
                     borderWidth: "1px",
+                    backgroundColor: "white",
+                    padding: "0.55 rem"
                   }}
                 >
                   <Card.Text>
@@ -639,7 +641,7 @@ class Signup extends Component {
                 />
               </Card>
               {this.state.formValid && (
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" style={{margin: "6px"}}>
                   Submit
                 </Button>
               )}
