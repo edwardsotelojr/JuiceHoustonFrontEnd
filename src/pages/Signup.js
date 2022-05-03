@@ -595,7 +595,7 @@ class Signup extends Component {
                   placeholder="optional"
                 />
               </Form.Group>
-              <Card style={{ border: "none", marginBottom: "10px", backgroundColor: "none" }}>
+              <Card style={{ border: "none", marginBottom: "10px", backgroundColor: "transparent" }}>
                 <h6>
                   Terms of Agreements
                 </h6>
@@ -607,8 +607,8 @@ class Signup extends Component {
                     borderColor: "black",
                     borderStyle: "solid",
                     borderWidth: "1px",
-                    backgroundColor: "white",
-                    padding: "0.55 rem"
+                    padding: "0.55 rem",
+                    backgroundColor: "white"
                   }}
                 >
                   <Card.Text>
