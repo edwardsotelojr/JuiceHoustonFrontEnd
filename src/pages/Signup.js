@@ -138,7 +138,7 @@ class Signup extends Component {
 
     switch (name) {
       case "name":
-        valid = value.length >= 1 && value.length < 15;
+        valid = value.length >= 1 && value.length < 25;
         if (valid) border = {};
         break;
       case "email":
@@ -343,7 +343,7 @@ class Signup extends Component {
                     id="popover-contained"
                     style={{ padding: "3px 5px 3px 5px", zIndex: "5" }}
                   >
-                    Character range: 1 - 15
+                    Character range: 1 - 25
                   </Popover>
                 </Overlay>
               </Form.Group>

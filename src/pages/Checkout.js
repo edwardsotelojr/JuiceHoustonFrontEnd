@@ -268,7 +268,7 @@ class Checkout extends React.Component {
     } else {
       this.setState({ zipcodeValid: true, zipcodeBorder: {} });
     }
-    if (this.state.name.length >= 1 && this.state.name.length < 15) {
+    if (this.state.name.length >= 1 && this.state.name.length < 25) {
       this.setState({ nameValid: true, nameBorder: {} });
     } else {
       this.setState({ nameValid: false, nameBorder: border });
