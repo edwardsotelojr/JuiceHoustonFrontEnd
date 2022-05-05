@@ -994,7 +994,8 @@ class Order extends Component {
                 <Row className="justify-content-center">
                   <Col
                     className="col-auto"
-                    style={{ padding: 0, width: "70px" }}
+                    style={{ marginTop: '4px', marginRight: '1px', 
+                    padding: 0, width: "70px" }}
                   >
                     <input
                       className="inputNumber"
@@ -1005,9 +1006,10 @@ class Order extends Component {
                       id={key}
                       name={key}
                       style={{
-                        height: "38px",
+                        height: "43px",
                         width: "29px",
                         float: "left",
+                        marginTop: '5px',
                         flex: 1,
                         borderRadius: "5px",
                         padding: "4px",
@@ -1027,8 +1029,10 @@ class Order extends Component {
                       <Button
                         style={{
                           border: "none",
-                          width: "23px",
-                          height: "20px",
+                          width: "26px",
+                          height: "26px",
+                          borderRadius: "3px",
+                          marginBottom: '2px',
                           backgroundColor: "darkseagreen",
                           padding: "0rem 0rem 0rem 0rem",
                         }}
@@ -1049,8 +1053,9 @@ class Order extends Component {
                         style={{
                           fontSize: "small",
                           border: "none",
-                          width: "23px",
-                          height: "20px",
+                          width: "26px",
+                          height: "26px",
+                          borderRadius: "3px",
                           backgroundColor: "darkseagreen",
                           padding: "0rem 0rem 0rem 0rem",
                         }}
@@ -1071,7 +1076,7 @@ class Order extends Component {
                   </Col>
                 </Row>
                 <Row>
-                  <p>{(item.costPerOunce * 100).toFixed()}¢/oz.</p>
+                  <p style={{fontSize: "15px"}}>{(item.costPerOunce * 100).toFixed()}¢/oz.</p>
                 </Row>
               </Col>
             </Row>
